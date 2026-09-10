@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
       - name: Check XcodeGen
@@ -16,7 +16,5 @@ jobs:
       - name: Generate Xcode project
         working-directory: iosApp
         run: xcodegen generate --spec project.yml
-      - name: Normalize project format for runner Xcode
-        run: perl -0pi -e 's/objectVersion = 77;/objectVersion = 60;/g; s/Xcode 16\.0/Xcode 15.0/g' iosApp/MachadoBiblioteca.xcodeproj/project.pbxproj
       - name: Build simulator target
         run: xcodebuild -project iosApp/MachadoBiblioteca.xcodeproj -scheme MachadoBiblioteca -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build

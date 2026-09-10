@@ -104,8 +104,11 @@ private struct FeaturedWorkCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(work.title).font(.title.bold())
-            Text(work.description).lineLimit(3).foregroundStyle(.secondary)
+                    Text(work.title).font(.title.bold())
+                    Text(work.description).lineLimit(3).foregroundStyle(.secondary)
+                    Text("\(work.chapters) capítulos · \(work.words.formatted()) palavras")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
             Label("Ler offline", systemImage: "arrow.down.circle").font(.subheadline.weight(.semibold))
         }
         .padding(20)
@@ -129,15 +132,30 @@ private struct WorkRow: View {
 private struct ReaderView: View {
     let work: WorkSummary
     @StateObject private var speech = SpeechReader()
+    @State private var paragraphs: [String] = []
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 Text(work.title).font(.largeTitle.bold())
                 Text(work.description).foregroundStyle(.secondary)
-                Text("O conteúdo integral será carregado do bundle offline compartilhado.")
+                Text("\(work.chapters) capítulos · \(work.words.formatted()) palavras")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                Text("Fonte: Wikisource PT")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                if paragraphs.isEmpty {
+                    ProgressView("Carregando capítulo offline…")
+                } else {
+                    ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
+                        Text(paragraph)
+                            .font(.body)
+                            .textSelection(.enabled)
+                    }
+                }
                 Button(speech.isSpeaking ? "Pausar narração" : "Ouvir capítulo") {
-                    speech.isSpeaking ? speech.pause() : speech.speak("Narração local disponível em português do Brasil.")
+                    speech.isSpeaking ? speech.pause() : speech.speak(paragraphs.joined(separator: " "))
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -145,5 +163,23 @@ private struct ReaderView: View {
         }
         .navigationTitle(work.title)
         .navigationBarTitleDisplayMode(.inline)
+        .task { paragraphs = loadFirstChapter(for: work.id) }
     }
+
+    private func loadFirstChapter(for id: String) -> [String] {
+        guard let url = Bundle.main.url(forResource: id, withExtension: "json", subdirectory: "Texts"),
+              let data = try? Data(contentsOf: url),
+              let document = try? JSONDecoder().decode(WorkDocument.self, from: data) else {
+            return []
+        }
+        return document.chapters.first?.paragraphs ?? []
+    }
+}
+
+private struct WorkDocument: Decodable {
+    let chapters: [DocumentChapter]
+}
+
+private struct DocumentChapter: Decodable {
+    let paragraphs: [String]
 }

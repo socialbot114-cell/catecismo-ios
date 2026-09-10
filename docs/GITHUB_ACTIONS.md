@@ -8,4 +8,6 @@ The release workflow is manual. Configure these encrypted repository secrets bef
 - `ANDROID_KEYSTORE_PASSWORD`: current PKCS12 password
 - `ANDROID_KEY_PASSWORD`: current PKCS12 key password
 
-The iOS workflow is also manual. It currently builds an unsigned simulator target after generating the project with XcodeGen. The Apple Team ID is `SRN7AW424S`. Distribution signing and TestFlight upload still require certificates or automatic signing, and App Store Connect credentials.
+The iOS workflow is manual and uses the `macos-26` runner with Xcode 26. The Apple Team ID is `SRN7AW424S`. The `iOS TestFlight` workflow uses automatic signing through the App Store Connect API key and uploads the exported IPA after archiving.
+
+The first app record still must exist in App Store Connect. Create it with bundle ID `br.com.machadodeassis.biblioteca`, name `Biblioteca Machado de Assis`, SKU `machado-biblioteca-ios-001`, and primary language `Portuguese (Brazil)`. App Store Connect does not permit creating the app record through its public API.
