@@ -1,0 +1,1 @@
+# MVP sem regras adicionais.
