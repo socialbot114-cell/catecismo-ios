@@ -1,6 +1,6 @@
 # iOS App
 
-The iOS target is SwiftUI with bundle identifier `br.com.machadodeassis.biblioteca`.
+The iOS target is SwiftUI with bundle identifier `br.com.machadodeassis.biblioteca.ios`. The original universal identifier is retained for compatibility with the existing registration; the dedicated iOS identifier is used for App Store distribution.
 
 The Xcode project is generated from `project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen):
 

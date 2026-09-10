@@ -7,7 +7,7 @@ options:
     iPad: "17.0"
 settings:
   base:
-    PRODUCT_BUNDLE_IDENTIFIER: br.com.machadodeassis.biblioteca
+    PRODUCT_BUNDLE_IDENTIFIER: br.com.machadodeassis.biblioteca.ios
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.4.0"
     CURRENT_PROJECT_VERSION: "1"
