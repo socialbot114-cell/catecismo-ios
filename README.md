@@ -43,6 +43,12 @@ Fontes, licença (CC BY-SA das transcrições) e política de modernização ort
 - `data/LibraryRepository.kt` — única camada de acesso da UI (obras, capítulos, parágrafos, busca FTS com escape de operadores, progresso).
 - `MainActivity.kt` — máquina de estados de seed (`Loading/Progress/Ready/Error` com retry) e navegação por telas (home, biblioteca, busca, favoritos, perfil, detalhe, leitor).
 - `Preferences.kt` — tema, fonte, favoritos e citações estruturadas em DataStore (com migração do formato antigo).
+- `shared/` — núcleo KMP inicial com modelos de obras, capítulos, parágrafos, progresso, citações e personagens; a integração gradual com as implementações de plataforma começa nesta base.
+- `iosApp/` — shell SwiftUI reproduzível por XcodeGen, com as quatro abas do produto e narração local inicial.
+
+## iOS
+
+O bundle identifier planejado é `br.com.machadodeassis.biblioteca`. O projeto Xcode é gerado em macOS a partir de `iosApp/project.yml`. O build local Linux não valida Xcode, SwiftUI ou assinatura Apple; o workflow manual `.github/workflows/ios.yml` faz essa validação em um runner macOS quando o XcodeGen e as credenciais estiverem disponíveis.
 
 ## Testes
 

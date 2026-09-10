@@ -1,0 +1,38 @@
+name: Android Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Restore signing files
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > machado-release.keystore
+          chmod 600 machado-release.keystore
+          printf 'storeFile=machado-release.keystore\nstorePassword=%s\nkeyAlias=machado\nkeyPassword=%s\n' "$ANDROID_KEYSTORE_PASSWORD" "$ANDROID_KEY_PASSWORD" > keystore.properties
+          chmod 600 keystore.properties
+      - name: Validate and build release
+        run: |
+          python3 tools/validate_assets.py
+          ./gradlew :shared:jvmTest testDebugUnitTest lintDebug bundleRelease
+      - name: Upload signed AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: machado-release-aab
+          path: app/build/outputs/bundle/release/*.aab

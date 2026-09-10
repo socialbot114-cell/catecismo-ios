@@ -19,6 +19,9 @@ keystore.properties
 *.apk
 *.ipa
 *.xcarchive
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+Pods/
 tools/cache/
 __pycache__/
 *.py[cod]

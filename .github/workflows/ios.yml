@@ -1,0 +1,19 @@
+name: iOS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        run: xcodegen generate --spec iosApp/project.yml
+      - name: Build simulator target
+        run: xcodebuild -project MachadoBiblioteca.xcodeproj -scheme MachadoBiblioteca -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build

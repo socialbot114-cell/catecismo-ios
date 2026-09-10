@@ -1,0 +1,28 @@
+name: MachadoBiblioteca
+options:
+  bundleIdPrefix: br.com.machadodeassis
+  deploymentTarget:
+    iPhone: "16.0"
+    iPad: "16.0"
+settings:
+  base:
+    PRODUCT_BUNDLE_IDENTIFIER: br.com.machadodeassis.biblioteca
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "1.4.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: "$(APPLE_TEAM_ID)"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  MachadoBiblioteca:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    settings:
+      base:
+        INFOPLIST_KEY_CFBundleDisplayName: Machado de Assis
+        INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: A narração usa a voz local do sistema.
+        INFOPLIST_KEY_UIBackgroundModes:
+          - audio
+        SUPPORTS_MACCATALYST: false
+        TARGETED_DEVICE_FAMILY: "1,2"
