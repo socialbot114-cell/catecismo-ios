@@ -23,7 +23,15 @@ targets:
     sources:
       - path: Sources
     resources:
-      - path: Resources
+      - path: Resources/Assets.xcassets
+      - path: Resources/catalog.json
+      - path: Resources/PrivacyInfo.xcprivacy
+      - path: Resources/AppIcon-120.png
+      - path: Resources/AppIcon-152.png
+      - path: Resources/Images
+      - path: Resources/Texts
+    info:
+      path: Info.plist
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: Machado de Assis
