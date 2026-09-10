@@ -43,6 +43,12 @@ targets:
           /usr/libexec/PlistBuddy -c 'Delete :CFBundleIconFiles' "$app_bundle/Info.plist" || true
           /usr/libexec/PlistBuddy -c 'Add :CFBundleIconFiles array' "$app_bundle/Info.plist"
           /usr/libexec/PlistBuddy -c 'Add :CFBundleIconFiles:0 string AppIcon-120' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Delete :CFBundleIcons' "$app_bundle/Info.plist" || true
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIcons dict' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIcons:CFBundlePrimaryIcon dict' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles array' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconFiles:0 string AppIcon-120' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconName string AppIcon' "$app_bundle/Info.plist"
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: Machado de Assis
