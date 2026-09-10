@@ -12,8 +12,8 @@
 	<string>Apple Distribution</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>br.com.machadodeassis.biblioteca.ios</key>
-		<string>Machado Biblioteca App Store 2026</string>
+		<key>br.com.machadodeassis.biblioteca</key>
+		<string>Machado Biblioteca Original App Store 2026</string>
 	</dict>
 	<key>teamID</key>
 	<string>SRN7AW424S</string>

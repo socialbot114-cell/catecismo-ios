@@ -58,7 +58,7 @@ jobs:
           security default-keychain -s "$KEYCHAIN_PATH"
           mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
           cp "$RUNNER_TEMP/MachadoBiblioteca.mobileprovision" \
-            "$HOME/Library/MobileDevice/Provisioning Profiles/58bd6b96-dfde-4d4b-9807-9a4d35a45eeb.mobileprovision"
+            "$HOME/Library/MobileDevice/Provisioning Profiles/a2dc14b5-6c9b-43e2-aacd-5aafc341cc22.mobileprovision"
       - name: Generate Xcode project
         working-directory: iosApp
         run: xcodegen generate --spec project.yml
@@ -75,7 +75,7 @@ jobs:
             -archivePath "$RUNNER_TEMP/MachadoBiblioteca.xcarchive" \
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="Machado Biblioteca App Store 2026" \
+            PROVISIONING_PROFILE_SPECIFIER="Machado Biblioteca Original App Store 2026" \
             DEVELOPMENT_TEAM=SRN7AW424S \
             TARGETED_DEVICE_FAMILY=1 \
             GENERATE_INFOPLIST_FILE=YES \
