@@ -26,6 +26,16 @@ targets:
       - path: Resources
     info:
       path: Info.plist
+    postCompileScripts:
+      - name: Prepare App Store icon metadata
+        script: |
+          app_bundle="$TARGET_BUILD_DIR/$WRAPPER_NAME"
+          cp "$SRCROOT/Resources/AppIcon-120.png" "$app_bundle/AppIcon-120.png"
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleIconName AppIcon' "$app_bundle/Info.plist" || \
+            /usr/libexec/PlistBuddy -c 'Add :CFBundleIconName string AppIcon' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Delete :CFBundleIconFiles' "$app_bundle/Info.plist" || true
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIconFiles array' "$app_bundle/Info.plist"
+          /usr/libexec/PlistBuddy -c 'Add :CFBundleIconFiles:0 string AppIcon-120' "$app_bundle/Info.plist"
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: Machado de Assis
