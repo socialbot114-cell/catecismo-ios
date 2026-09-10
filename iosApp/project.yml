@@ -23,13 +23,7 @@ targets:
     sources:
       - path: Sources
     resources:
-      - path: Resources/Assets.xcassets
-      - path: Resources/catalog.json
-      - path: Resources/PrivacyInfo.xcprivacy
-      - path: Resources/AppIcon-120.png
-      - path: Resources/AppIcon-152.png
-      - path: Resources/Images
-      - path: Resources/Texts
+      - path: Resources
     info:
       path: Info.plist
     settings:
