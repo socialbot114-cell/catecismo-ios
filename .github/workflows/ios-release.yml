@@ -78,6 +78,7 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER="Machado Biblioteca App Store 2026" \
             DEVELOPMENT_TEAM=SRN7AW424S \
             TARGETED_DEVICE_FAMILY=1 \
+            GENERATE_INFOPLIST_FILE=YES \
             ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon \
             INFOPLIST_KEY_CFBundleIconName=AppIcon \
             INFOPLIST_KEY_UILaunchScreen_Generation=YES \
