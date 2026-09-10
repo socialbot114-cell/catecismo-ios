@@ -11,7 +11,7 @@ settings:
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.4.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: "$(APPLE_TEAM_ID)"
+    DEVELOPMENT_TEAM: SRN7AW424S
     CODE_SIGN_STYLE: Automatic
 targets:
   MachadoBiblioteca:

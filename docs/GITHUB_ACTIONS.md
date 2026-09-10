@@ -8,4 +8,4 @@ The release workflow is manual. Configure these encrypted repository secrets bef
 - `ANDROID_KEYSTORE_PASSWORD`: current PKCS12 password
 - `ANDROID_KEY_PASSWORD`: current PKCS12 key password
 
-The iOS workflow is also manual. It currently builds an unsigned simulator target after generating the project with XcodeGen. Distribution signing and TestFlight upload require Apple Team ID, certificates or automatic signing, and App Store Connect credentials.
+The iOS workflow is also manual. It currently builds an unsigned simulator target after generating the project with XcodeGen. The Apple Team ID is `SRN7AW424S`. Distribution signing and TestFlight upload still require certificates or automatic signing, and App Store Connect credentials.
