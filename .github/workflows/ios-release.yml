@@ -35,6 +35,7 @@ jobs:
           security import "$RUNNER_TEMP/distribution.key" \
             -k "$HOME/Library/Keychains/login.keychain-db" \
             -P "" \
+            -A \
             -T /usr/bin/codesign
           security import "$RUNNER_TEMP/distribution.cer" \
             -k "$HOME/Library/Keychains/login.keychain-db" \
