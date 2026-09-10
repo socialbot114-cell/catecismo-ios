@@ -32,15 +32,27 @@ jobs:
           printf '%s' "$APPLE_DISTRIBUTION_CERT" | base64 --decode > "$RUNNER_TEMP/distribution.cer"
           printf '%s' "$APPLE_DISTRIBUTION_KEY" | base64 --decode > "$RUNNER_TEMP/distribution.key"
           printf '%s' "$APPLE_PROVISIONING_PROFILE" | base64 --decode > "$RUNNER_TEMP/MachadoBiblioteca.mobileprovision"
+          KEYCHAIN_PATH="$RUNNER_TEMP/signing.keychain-db"
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 32)
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security import "$RUNNER_TEMP/distribution.key" \
-            -k "$HOME/Library/Keychains/login.keychain-db" \
+            -k "$KEYCHAIN_PATH" \
             -P "" \
             -A \
             -T /usr/bin/codesign
           security import "$RUNNER_TEMP/distribution.cer" \
-            -k "$HOME/Library/Keychains/login.keychain-db" \
+            -k "$KEYCHAIN_PATH" \
             -P "" \
             -T /usr/bin/codesign
+          security set-key-partition-list \
+            -S apple-tool:,apple: \
+            -s \
+            -k "$KEYCHAIN_PASSWORD" \
+            "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH"
+          security default-keychain -s "$KEYCHAIN_PATH"
           mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
           cp "$RUNNER_TEMP/MachadoBiblioteca.mobileprovision" \
             "$HOME/Library/MobileDevice/Provisioning Profiles/58bd6b96-dfde-4d4b-9807-9a4d35a45eeb.mobileprovision"
