@@ -1,6 +1,7 @@
 name: MachadoBiblioteca
 options:
   bundleIdPrefix: br.com.machadodeassis
+  xcodeVersion: "15.4"
   deploymentTarget:
     iPhone: "16.0"
     iPad: "16.0"
