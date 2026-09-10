@@ -89,6 +89,14 @@ jobs:
         with:
           name: machado-ios-ipa
           path: ${{ runner.temp }}/export/*.ipa
+      - name: Inspect exported bundle
+        run: |
+          ipa=($(printf '%s\n' "$RUNNER_TEMP"/export/*.ipa))
+          mkdir -p "$RUNNER_TEMP/ipa-inspect"
+          unzip -q "${ipa[0]}" -d "$RUNNER_TEMP/ipa-inspect"
+          app=($(printf '%s\n' "$RUNNER_TEMP"/ipa-inspect/Payload/*.app))
+          /usr/libexec/PlistBuddy -c 'Print' "${app[0]}/Info.plist"
+          find "${app[0]}" -maxdepth 1 -type f -print
       - name: Upload to TestFlight
         env:
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
