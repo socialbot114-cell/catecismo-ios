@@ -33,7 +33,7 @@ Existe uma segunda app incorreta, criada durante os testes:
 
 - Workflow final aprovado: `34540409036`
 - URL: https://github.com/socialbot114-cell/machado-biblioteca/actions/runs/34540409036
-- Build correto processado como `VALID` na app `6810760794`.
+- Próximo build correto: `1.0 (2)` na app `6810760794`.
 - Build ID: `12324d89-89e4-4025-9596-4c6de3b0b8da`
 - O build foi associado a `App Store version 1.0`.
 - O workflow gera archive assinado, exporta IPA e envia ao TestFlight.
