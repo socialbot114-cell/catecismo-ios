@@ -11,6 +11,8 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
+      - name: Validate iOS resources before archive
+        run: python3 tools/validate_ios_assets.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Restore App Store Connect key
@@ -94,6 +96,27 @@ jobs:
         with:
           name: machado-ios-ipa
           path: ${{ runner.temp }}/export/*.ipa
+      - name: Verify IPA resources
+        run: |
+          ipa=("$RUNNER_TEMP"/export/*.ipa)
+          test -f "${ipa[0]}"
+          unzip -l "${ipa[0]}" | grep -q '/catalog.json$'
+          test "$(unzip -l "${ipa[0]}" | grep -E -c '/Texts/[^/]+\.json$')" -eq 31
+          unzip -p "${ipa[0]}" "Payload/*.app/catalog.json" > "$RUNNER_TEMP/ipa-catalog.json"
+          python3 - "$RUNNER_TEMP/ipa-catalog.json" "${ipa[0]}" <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          catalog = json.load(open(sys.argv[1], encoding="utf-8"))
+          assert len(catalog) == 30
+          listing = subprocess.check_output(["unzip", "-Z1", sys.argv[2]], text=True)
+          for entry in catalog:
+              path = next(line for line in listing.splitlines() if line.endswith(f"/Texts/{entry['id']}.json"))
+              document = json.loads(subprocess.check_output(["unzip", "-p", sys.argv[2], path], text=True))
+              assert len(document["chapters"]) == entry["chapters"]
+          print("IPA resources OK: catalog and 30 texts")
+          PY
       - name: Upload to TestFlight
         env:
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}

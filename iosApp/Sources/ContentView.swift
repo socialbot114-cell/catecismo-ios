@@ -26,9 +26,11 @@ private struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Biblioteca Machado de Assis").font(.largeTitle.bold())
-                    Text("Leia offline. Ouça com a tela bloqueada. Descubra um clássico por vez.")
+                    Text("Leia offline. Descubra um clássico por vez.")
                         .foregroundStyle(.secondary)
-                    if let work = library.works.first {
+                    if let error = library.loadError {
+                        ResourceErrorView(message: error)
+                    } else if let work = library.works.first {
                         NavigationLink(value: work) { FeaturedWorkCard(work: work) }
                             .buttonStyle(.plain)
                     }
@@ -60,6 +62,7 @@ private struct LibraryView: View {
             .searchable(text: $query, prompt: "Buscar obra")
             .navigationTitle("Biblioteca")
             .navigationDestination(for: WorkSummary.self) { work in ReaderView(work: work) }
+            .overlay { if let error = library.loadError { ResourceErrorView(message: error) } }
         }
     }
 }
@@ -132,7 +135,9 @@ private struct WorkRow: View {
 private struct ReaderView: View {
     let work: WorkSummary
     @StateObject private var speech = SpeechReader()
-    @State private var paragraphs: [String] = []
+    @State private var document: WorkDocument?
+    @State private var chapterIndex = 0
+    @State private var loadError: String?
 
     var body: some View {
         ScrollView {
@@ -145,35 +150,80 @@ private struct ReaderView: View {
                 Text("Fonte: Wikisource PT")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                if paragraphs.isEmpty {
-                    ProgressView("Carregando capítulo offline…")
-                } else {
-                    ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
+                if let loadError {
+                    ResourceErrorView(message: loadError)
+                } else if let document {
+                    let chapter = document.chapters[chapterIndex]
+                    Text(chapter.title).font(.title2.bold())
+                    ForEach(Array(chapter.paragraphs.enumerated()), id: \.offset) { _, paragraph in
                         Text(paragraph)
                             .font(.body)
                             .textSelection(.enabled)
                     }
+                    HStack {
+                        Button("Anterior") { moveChapter(-1) }
+                            .disabled(chapterIndex == 0)
+                        Spacer()
+                        Text("Capítulo \(chapterIndex + 1) de \(document.chapters.count)")
+                            .font(.footnote)
+                        Spacer()
+                        Button("Próximo") { moveChapter(1) }
+                            .disabled(chapterIndex == document.chapters.count - 1)
+                    }
+                    .buttonStyle(.bordered)
+                } else {
+                    ProgressView("Carregando capítulo offline…")
                 }
                 Button(speech.isSpeaking ? "Pausar narração" : "Ouvir capítulo") {
-                    speech.isSpeaking ? speech.pause() : speech.speak(paragraphs.joined(separator: " "))
+                    speech.isSpeaking ? speech.pause() : speech.speak(currentParagraphs.joined(separator: " "))
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(document == nil || loadError != nil)
             }
             .padding()
         }
         .navigationTitle(work.title)
         .navigationBarTitleDisplayMode(.inline)
-        .task { paragraphs = loadFirstChapter(for: work.id) }
+        .task { loadDocument(for: work.id) }
     }
 
-    private func loadFirstChapter(for id: String) -> [String] {
-        guard let url = Bundle.main.url(forResource: id, withExtension: "json", subdirectory: "Texts"),
-              let data = try? Data(contentsOf: url),
-              let document = try? JSONDecoder().decode(WorkDocument.self, from: data) else {
-            return []
-        }
-        return document.chapters.first?.paragraphs ?? []
+    private var currentParagraphs: [String] {
+        document?.chapters[safe: chapterIndex]?.paragraphs ?? []
     }
+
+    private func loadDocument(for id: String) {
+        do {
+            let data = try BundleResource.data(named: id, fileExtension: "json", subdirectory: "Texts")
+            let loaded = try JSONDecoder().decode(WorkDocument.self, from: data)
+            guard !loaded.chapters.isEmpty else { throw BundleResourceError.invalid("O texto de \(work.title) não contém capítulos") }
+            document = loaded
+        } catch { loadError = error.localizedDescription }
+    }
+
+    private func moveChapter(_ offset: Int) {
+        guard let document else { return }
+        let next = chapterIndex + offset
+        guard document.chapters.indices.contains(next) else { return }
+        speech.stop()
+        chapterIndex = next
+    }
+}
+
+private struct ResourceErrorView: View {
+    let message: String
+
+    var body: some View {
+        VStack(spacing: 8) {
+            Label("Não foi possível carregar a biblioteca", systemImage: "exclamationmark.triangle")
+                .font(.headline)
+            Text(message).font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+        }
+        .padding()
+    }
+}
+
+private extension Array {
+    subscript(safe index: Index) -> Element? { indices.contains(index) ? self[index] : nil }
 }
 
 private struct WorkDocument: Decodable {
@@ -181,5 +231,6 @@ private struct WorkDocument: Decodable {
 }
 
 private struct DocumentChapter: Decodable {
+    let title: String
     let paragraphs: [String]
 }
