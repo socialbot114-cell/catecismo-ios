@@ -19,7 +19,17 @@ targets:
     type: application
     platform: iOS
     sources: [Sources]
-    resources: [Resources/Texts, Resources/catalog.json, Resources/PrivacyInfo.xcprivacy]
+    resources:
+      - Resources/Texts/o-dom-da-fe.json
+      - Resources/Texts/credo-em-caminho.json
+      - Resources/Texts/sinais-da-graca.json
+      - Resources/Texts/liberdade-e-amor.json
+      - Resources/Texts/escola-da-oracao.json
+      - Resources/Texts/a-igreja-viva.json
+      - Resources/Texts/maria-e-o-sim.json
+      - Resources/Texts/conversao-diaria.json
+      - Resources/catalog.json
+      - Resources/PrivacyInfo.xcprivacy
     info: { path: Info.plist }
     settings:
       base:
