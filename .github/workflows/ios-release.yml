@@ -8,124 +8,138 @@ permissions:
 
 jobs:
   release:
-    runs-on: macos-15
+    runs-on: macos-14
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v5
-      - name: Validate iOS resources before archive
-        run: python3 tools/validate_ios_assets.py
-      - name: Install XcodeGen
-        run: brew install xcodegen
-      - name: Restore App Store Connect key
+      - uses: actions/checkout@v4
+
+      - name: Validate content
+        run: |
+          python3 - <<'PY'
+          import json
+          import plistlib
+          from pathlib import Path
+          root = Path('iosApp')
+          plistlib.load((root / 'Info.plist').open('rb'))
+          plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
+          texts = list((root / 'Resources/Texts').glob('*.json'))
+          assert len(texts) == 8
+          forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
+          for path in root.rglob('*'):
+              if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
+                  assert not any(item in path.read_text(errors='ignore').lower() for item in forbidden), path
+          print('Catecismo release content passed')
+          PY
+
+      - name: Validate required secrets
         env:
           APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+          APPLE_DISTRIBUTION_CERT: ${{ secrets.APPLE_DISTRIBUTION_CERT }}
+          APPLE_DISTRIBUTION_KEY: ${{ secrets.APPLE_DISTRIBUTION_KEY }}
+          APPLE_PROVISIONING_PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
         run: |
-          test -n "$APPLE_API_KEY_P8"
-          printf '%s' "$APPLE_API_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
-          chmod 600 "$RUNNER_TEMP/AuthKey.p8"
-          mkdir -p "$HOME/private_keys"
-          cp "$RUNNER_TEMP/AuthKey.p8" "$HOME/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
-      - name: Install distribution signing assets
+          set -euo pipefail
+          for name in APPLE_API_KEY_P8 APPLE_API_KEY_ID APPLE_API_ISSUER_ID APPLE_DISTRIBUTION_CERT APPLE_DISTRIBUTION_KEY APPLE_PROVISIONING_PROFILE; do
+            test -n "${!name:-}" || { echo "Missing secret: $name" >&2; exit 1; }
+          done
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate project
+        working-directory: iosApp
+        run: xcodegen generate --spec project.yml
+
+      - name: Run XCTest
+        working-directory: iosApp
+        run: |
+          xcodebuild test \
+            -project Catecismo.xcodeproj \
+            -scheme Catecismo \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Install signing assets
         env:
           APPLE_DISTRIBUTION_CERT: ${{ secrets.APPLE_DISTRIBUTION_CERT }}
           APPLE_DISTRIBUTION_KEY: ${{ secrets.APPLE_DISTRIBUTION_KEY }}
           APPLE_PROVISIONING_PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
         run: |
-          test -n "$APPLE_DISTRIBUTION_CERT"
-          test -n "$APPLE_DISTRIBUTION_KEY"
-          test -n "$APPLE_PROVISIONING_PROFILE"
+          set -euo pipefail
           printf '%s' "$APPLE_DISTRIBUTION_CERT" | base64 --decode > "$RUNNER_TEMP/distribution.cer"
           printf '%s' "$APPLE_DISTRIBUTION_KEY" | base64 --decode > "$RUNNER_TEMP/distribution.key"
-           printf '%s' "$APPLE_PROVISIONING_PROFILE" | base64 --decode > "$RUNNER_TEMP/Catecismo.mobileprovision"
-          KEYCHAIN_PATH="$RUNNER_TEMP/signing.keychain-db"
-          KEYCHAIN_PASSWORD=$(openssl rand -hex 32)
-          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
-          security import "$RUNNER_TEMP/distribution.key" \
-            -k "$KEYCHAIN_PATH" \
-            -P "" \
-            -A \
-            -T /usr/bin/codesign
-          security import "$RUNNER_TEMP/distribution.cer" \
-            -k "$KEYCHAIN_PATH" \
-            -P "" \
-            -T /usr/bin/codesign
-          security set-key-partition-list \
-            -S apple-tool:,apple: \
-            -s \
-            -k "$KEYCHAIN_PASSWORD" \
-            "$KEYCHAIN_PATH"
-          security list-keychains -d user -s "$KEYCHAIN_PATH"
-          security default-keychain -s "$KEYCHAIN_PATH"
+          printf '%s' "$APPLE_PROVISIONING_PROFILE" | base64 --decode > "$RUNNER_TEMP/distribution.mobileprovision"
+          security cms -D -i "$RUNNER_TEMP/distribution.mobileprovision" > "$RUNNER_TEMP/profile.plist"
+          profile_uuid=$(/usr/libexec/PlistBuddy -c 'Print :UUID' "$RUNNER_TEMP/profile.plist")
+          profile_name=$(/usr/libexec/PlistBuddy -c 'Print :Name' "$RUNNER_TEMP/profile.plist")
+          team_id=$(/usr/libexec/PlistBuddy -c 'Print :TeamIdentifier:0' "$RUNNER_TEMP/profile.plist")
+          app_identifier=$(/usr/libexec/PlistBuddy -c 'Print :Entitlements:application-identifier' "$RUNNER_TEMP/profile.plist")
+          test "$app_identifier" = "$team_id.br.com.CATECISMO.DAIGREJACAToLICA"
+          printf 'PROFILE_NAME=%s\nTEAM_ID=%s\n' "$profile_name" "$team_id" >> "$GITHUB_ENV"
           mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-           cp "$RUNNER_TEMP/Catecismo.mobileprovision" \
-            "$HOME/Library/MobileDevice/Provisioning Profiles/a2dc14b5-6c9b-43e2-aacd-5aafc341cc22.mobileprovision"
-      - name: Generate Xcode project
+          cp "$RUNNER_TEMP/distribution.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/${profile_uuid}.mobileprovision"
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          password="$(openssl rand -hex 32)"
+          security create-keychain -p "$password" "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
+          security import "$RUNNER_TEMP/distribution.key" -k "$keychain" -P '' -A -T /usr/bin/codesign
+          security import "$RUNNER_TEMP/distribution.cer" -k "$keychain" -P '' -T /usr/bin/codesign
+          security list-keychains -d user -s "$keychain"
+          security default-keychain -s "$keychain"
+
+      - name: Archive
         working-directory: iosApp
-        run: xcodegen generate --spec project.yml
-      - name: Archive signed app
-        env:
-          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
-          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
         run: |
-          xcodebuild \
-             -project iosApp/Catecismo.xcodeproj \
-             -scheme Catecismo \
+          xcodebuild archive \
+            -project Catecismo.xcodeproj \
+            -scheme Catecismo \
             -destination 'generic/platform=iOS' \
-            -configuration Release \
-             -archivePath "$RUNNER_TEMP/Catecismo.xcarchive" \
+            -archivePath "$RUNNER_TEMP/Catecismo.xcarchive" \
             CODE_SIGN_STYLE=Manual \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
-             PROVISIONING_PROFILE_SPECIFIER="Catecismo App Store" \
-            DEVELOPMENT_TEAM=SRN7AW424S \
-            TARGETED_DEVICE_FAMILY=1 \
-            GENERATE_INFOPLIST_FILE=YES \
-            ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon \
-            INFOPLIST_KEY_CFBundleIconName=AppIcon \
-            INFOPLIST_KEY_UILaunchScreen_Generation=YES \
-            archive
+            CODE_SIGN_IDENTITY='Apple Distribution' \
+            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
+            DEVELOPMENT_TEAM="$TEAM_ID"
+
       - name: Export IPA
         run: |
+          python3 - <<'PY'
+          import os
+          import plistlib
+          from pathlib import Path
+          with (Path(os.environ['RUNNER_TEMP']) / 'ExportOptions.plist').open('wb') as file:
+              plistlib.dump({'method': 'app-store', 'signingStyle': 'manual', 'teamID': os.environ['TEAM_ID'], 'provisioningProfiles': {'br.com.CATECISMO.DAIGREJACAToLICA': os.environ['PROFILE_NAME']}}, file)
+          PY
           xcodebuild -exportArchive \
-             -archivePath "$RUNNER_TEMP/Catecismo.xcarchive" \
-            -exportOptionsPlist iosApp/ExportOptions.plist \
-            -exportPath "$RUNNER_TEMP/export"
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v4
-        with:
-           name: catecismo-ios-ipa
-          path: ${{ runner.temp }}/export/*.ipa
-      - name: Verify IPA resources
+            -archivePath "$RUNNER_TEMP/Catecismo.xcarchive" \
+            -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist"
+
+      - name: Validate and upload artifact
         run: |
+          set -euo pipefail
           ipa=("$RUNNER_TEMP"/export/*.ipa)
           test -f "${ipa[0]}"
-          unzip -l "${ipa[0]}" | grep -q '/catalog.json$'
-          test "$(unzip -l "${ipa[0]}" | grep -E -c '/Texts/[^/]+\.json$')" -eq 31
-          unzip -p "${ipa[0]}" "Payload/*.app/catalog.json" > "$RUNNER_TEMP/ipa-catalog.json"
-          python3 - "$RUNNER_TEMP/ipa-catalog.json" "${ipa[0]}" <<'PY'
-          import json
-          import subprocess
-          import sys
+          unzip -q "${ipa[0]}" -d "$RUNNER_TEMP/ipa"
+          app=("$RUNNER_TEMP"/ipa/Payload/*.app)
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.CATECISMO.DAIGREJACAToLICA'
+          test -f "${app[0]}/PrivacyInfo.xcprivacy"
+          test "$(find "${app[0]}" -path '*/Texts/*.json' | wc -l | tr -d ' ')" -eq 8
 
-          catalog = json.load(open(sys.argv[1], encoding="utf-8"))
-          assert len(catalog) == 30
-          listing = subprocess.check_output(["unzip", "-Z1", sys.argv[2]], text=True)
-          for entry in catalog:
-              path = next(line for line in listing.splitlines() if line.endswith(f"/Texts/{entry['id']}.json"))
-              document = json.loads(subprocess.check_output(["unzip", "-p", sys.argv[2], path], text=True))
-              assert len(document["chapters"]) == entry["chapters"]
-          print("IPA resources OK: catalog and 30 texts")
-          PY
-      - name: Upload to TestFlight
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catecismo-ios-ipa
+          path: ${{ runner.temp }}/export/*.ipa
+
+      - name: Upload TestFlight
         env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
         run: |
+          mkdir -p "$HOME/private_keys"
+          printf '%s' "$APPLE_API_KEY_P8" > "$HOME/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
           ipa=("$RUNNER_TEMP"/export/*.ipa)
-          test -f "${ipa[0]}"
-          xcrun altool --upload-app \
-            --type ios \
-            --file "${ipa[0]}" \
-            --apiKey "$APPLE_API_KEY_ID" \
-            --apiIssuer "$APPLE_API_ISSUER_ID"
+          xcrun altool --upload-app --type ios --file "${ipa[0]}" --apiKey "$APPLE_API_KEY_ID" --apiIssuer "$APPLE_API_ISSUER_ID"
