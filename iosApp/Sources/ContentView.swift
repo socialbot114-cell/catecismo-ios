@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 private enum AppSection: String, CaseIterable, Identifiable {
     case home = "Início"
@@ -100,7 +101,8 @@ private struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     ZStack(alignment: .bottomLeading) {
-                        LinearGradient(colors: [.indigo, .purple.opacity(0.72)], startPoint: .topLeading, endPoint: .bottomTrailing)
+                        GuideBundleImage(name: "catecismo-start")
+                            .overlay(LinearGradient(colors: [.indigo.opacity(0.86), .purple.opacity(0.48)], startPoint: .topLeading, endPoint: .bottomTrailing))
                         Image(systemName: "book.pages.fill")
                             .font(.system(size: 88, weight: .light)).foregroundStyle(.white.opacity(0.16))
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing).padding(24)
@@ -127,6 +129,22 @@ private struct HomeView: View {
                 .frame(maxWidth: 760, alignment: .leading).padding()
             }
             .navigationTitle("Início")
+        }
+    }
+}
+
+private struct GuideBundleImage: View {
+    let name: String
+
+    var body: some View {
+        Group {
+            if let image = UIImage(named: name, in: .main, compatibleWith: nil) {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else if let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Images"), let image = UIImage(contentsOfFile: url.path) {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else {
+                Color.indigo
+            }
         }
     }
 }

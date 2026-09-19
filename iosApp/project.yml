@@ -22,6 +22,9 @@ targets:
       - path: Sources
       - path: Resources/Assets.xcassets
         buildPhase: resources
+      - path: Resources/Images
+        type: folder
+        buildPhase: resources
       - path: Resources/catalog.json
         buildPhase: resources
       - path: Resources/PrivacyInfo.xcprivacy
