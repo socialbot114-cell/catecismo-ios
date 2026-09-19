@@ -67,8 +67,10 @@ struct ContentView: View {
 
     private var splitView: some View {
         NavigationSplitView {
-            List(AppSection.allCases, selection: $selectedSection) { section in
-                Label(section.rawValue, systemImage: section.icon).tag(section)
+            List(selection: $selectedSection) {
+                ForEach(AppSection.allCases) { section in
+                    Label(section.rawValue, systemImage: section.icon).tag(section)
+                }
             }
             .navigationTitle("Catecismo")
         } detail: {
