@@ -84,9 +84,9 @@ jobs:
           password="$(openssl rand -hex 32)"
           security create-keychain -p "$password" "$keychain"
           security unlock-keychain -p "$password" "$keychain"
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
           security import "$RUNNER_TEMP/distribution.key" -k "$keychain" -P '' -A -T /usr/bin/codesign
           security import "$RUNNER_TEMP/distribution.cer" -k "$keychain" -P '' -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
           security list-keychains -d user -s "$keychain"
           security default-keychain -s "$keychain"
 
