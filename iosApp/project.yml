@@ -18,18 +18,30 @@ targets:
   Catecismo:
     type: application
     platform: iOS
-    sources: [Sources]
-    resources:
-      - Resources/Texts/o-dom-da-fe.json
-      - Resources/Texts/credo-em-caminho.json
-      - Resources/Texts/sinais-da-graca.json
-      - Resources/Texts/liberdade-e-amor.json
-      - Resources/Texts/escola-da-oracao.json
-      - Resources/Texts/a-igreja-viva.json
-      - Resources/Texts/maria-e-o-sim.json
-      - Resources/Texts/conversao-diaria.json
-      - Resources/catalog.json
-      - Resources/PrivacyInfo.xcprivacy
+    sources:
+      - path: Sources
+      - path: Resources/Assets.xcassets
+        buildPhase: resources
+      - path: Resources/catalog.json
+        buildPhase: resources
+      - path: Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
+      - path: Resources/Texts/o-dom-da-fe.json
+        buildPhase: resources
+      - path: Resources/Texts/credo-em-caminho.json
+        buildPhase: resources
+      - path: Resources/Texts/sinais-da-graca.json
+        buildPhase: resources
+      - path: Resources/Texts/liberdade-e-amor.json
+        buildPhase: resources
+      - path: Resources/Texts/escola-da-oracao.json
+        buildPhase: resources
+      - path: Resources/Texts/a-igreja-viva.json
+        buildPhase: resources
+      - path: Resources/Texts/maria-e-o-sim.json
+        buildPhase: resources
+      - path: Resources/Texts/conversao-diaria.json
+        buildPhase: resources
     info: { path: Info.plist }
     settings:
       base:
@@ -38,7 +50,7 @@ targets:
         INFOPLIST_KEY_CFBundleIconName: AppIcon
         PRIVACY_MANIFEST_FILE: Resources/PrivacyInfo.xcprivacy
         SUPPORTS_MACCATALYST: false
-        TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
   CatecismoTests:
     type: bundle.unit-test

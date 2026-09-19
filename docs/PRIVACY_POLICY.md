@@ -1,6 +1,6 @@
 # Política de Privacidade
 
-O aplicativo Biblioteca Machado de Assis não exige conta, não exibe anúncios e não envia o progresso de leitura para servidores.
+O aplicativo Catecismo não exige conta, não exibe anúncios e não envia o progresso de leitura para servidores.
 
 O progresso, favoritos, citações, preferências e métricas de leitura permanecem armazenados localmente no dispositivo. A narração usa os recursos de voz instalados no sistema operacional.
 

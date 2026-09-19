@@ -9,7 +9,7 @@
 - [ ] Test Room migration and TTS on a real Android device.
 - [ ] Generate the iOS project with XcodeGen on macOS.
 - [ ] Test VoiceOver, Dynamic Type, Dark Mode, background audio, and locked-screen controls.
-- [ ] Confirm `br.com.machadodeassis.biblioteca` in both stores.
+- [ ] Confirm `br.com.CATECISMO.DAIGREJACAToLICA` in both stores.
 
 ## Android
 

@@ -13,30 +13,60 @@ struct Guide: Codable, Identifiable, Hashable {
 struct Chapter: Codable, Hashable { let title: String; let paragraphs: [String] }
 struct Quote: Codable, Hashable, Identifiable { let id: String; let guideID: String; let text: String; let date: Date }
 
+enum LibraryLoadState: Equatable {
+    case loading
+    case loaded
+    case failed(String)
+}
+
 final class LibraryViewModel: ObservableObject {
     @Published private(set) var guides: [Guide] = []
     @Published private(set) var progress: [String: Double] = [:]
     @Published private(set) var favorites: Set<String> = []
     @Published private(set) var quotes: [Quote] = []
-    @Published private(set) var loadError: String?
-    private let defaults = UserDefaults.standard
-    private let repository = BundleGuideRepository()
+    @Published private(set) var loadState = LibraryLoadState.loading
+    private let defaults: UserDefaults
+    private let repository: BundleGuideRepository
 
-    init() { load() }
+    init(defaults: UserDefaults = .standard, repository: BundleGuideRepository = BundleGuideRepository()) {
+        self.defaults = defaults
+        self.repository = repository
+    }
     var readingMinutes: Int { Int(progress.values.reduce(0, +) * 12) }
+    var startedGuideCount: Int { progress.values.filter { $0 > 0 }.count }
     func isFavorite(_ id: String) -> Bool { favorites.contains(id) }
     func toggleFavorite(_ id: String) { favorites.formSymmetricDifference([id]); save() }
-    func setProgress(_ value: Double, for id: String) { progress[id] = min(max(value, 0), 1); save() }
+    func setProgress(_ value: Double, for id: String) {
+        let normalized = min(max(value, 0), 1)
+        if normalized == 0 { progress.removeValue(forKey: id) } else { progress[id] = normalized }
+        save()
+    }
+    func completeChapter(at index: Int, in guide: Guide) {
+        guard let value = Self.progress(completingChapterAt: index, chapterCount: guide.chapterCount) else { return }
+        setProgress(max(progress[guide.id] ?? 0, value), for: guide.id)
+    }
+    static func progress(completingChapterAt index: Int, chapterCount: Int) -> Double? {
+        guard chapterCount > 0, (0..<chapterCount).contains(index) else { return nil }
+        return Double(index + 1) / Double(chapterCount)
+    }
     func addQuote(guideID: String, text: String) { quotes.append(Quote(id: UUID().uuidString, guideID: guideID, text: text, date: Date())); save() }
     func removeQuote(_ quote: Quote) { quotes.removeAll { $0.id == quote.id }; save() }
 
-    private func load() {
+    func load() {
+        loadState = .loading
         do {
             guides = try repository.loadGuides()
-            progress = (defaults.dictionary(forKey: "catecismo.progress") as? [String: Double]) ?? [:]
+            progress = ((defaults.dictionary(forKey: "catecismo.progress") as? [String: Double]) ?? [:])
+                .compactMapValues { value in value > 0 ? min(value, 1) : nil }
             favorites = Set(defaults.stringArray(forKey: "catecismo.favorites") ?? [])
-            if let data = defaults.data(forKey: "catecismo.quotes") { quotes = try JSONDecoder().decode([Quote].self, from: data) }
-        } catch { loadError = error.localizedDescription }
+            if let data = defaults.data(forKey: "catecismo.quotes") {
+                quotes = (try? JSONDecoder().decode([Quote].self, from: data)) ?? []
+            }
+            loadState = .loaded
+        } catch {
+            guides = []
+            loadState = .failed(error.localizedDescription)
+        }
     }
     private func save() {
         defaults.set(progress, forKey: "catecismo.progress")
