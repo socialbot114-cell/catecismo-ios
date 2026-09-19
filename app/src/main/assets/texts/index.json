@@ -1,10 +1,10 @@
 [
-  {"id":"o-dom-da-fe","title":"O dom da fé","author":"Equipe Catecismo","year":2026,"category":"Fundamentos","chapters":2,"words":118,"status":"guia"},
-  {"id":"credo-em-caminho","title":"O Credo em caminho","author":"Equipe Catecismo","year":2026,"category":"Credo","chapters":2,"words":122,"status":"guia"},
-  {"id":"sinais-da-graca","title":"Sinais da graça","author":"Equipe Catecismo","year":2026,"category":"Sacramentos","chapters":2,"words":116,"status":"guia"},
-  {"id":"liberdade-e-amor","title":"Liberdade e amor","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":119,"status":"guia"},
-  {"id":"escola-da-oracao","title":"Escola da oração","author":"Equipe Catecismo","year":2026,"category":"Oração","chapters":2,"words":119,"status":"guia"},
-  {"id":"a-igreja-viva","title":"A Igreja viva","author":"Equipe Catecismo","year":2026,"category":"Igreja","chapters":2,"words":119,"status":"guia"},
-  {"id":"maria-e-o-sim","title":"Maria e o sim","author":"Equipe Catecismo","year":2026,"category":"Maria","chapters":2,"words":115,"status":"guia"},
-  {"id":"conversao-diaria","title":"Conversão diária","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":118,"status":"guia"}
+  {"id":"o-dom-da-fe","title":"O dom da fé","author":"Equipe Catecismo","year":2026,"category":"Fundamentos","chapters":2,"words":116,"status":"guia"},
+  {"id":"credo-em-caminho","title":"O Credo em caminho","author":"Equipe Catecismo","year":2026,"category":"Credo","chapters":2,"words":118,"status":"guia"},
+  {"id":"sinais-da-graca","title":"Sinais da graça","author":"Equipe Catecismo","year":2026,"category":"Sacramentos","chapters":2,"words":107,"status":"guia"},
+  {"id":"liberdade-e-amor","title":"Liberdade e amor","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":106,"status":"guia"},
+  {"id":"escola-da-oracao","title":"Escola da oração","author":"Equipe Catecismo","year":2026,"category":"Oração","chapters":2,"words":98,"status":"guia"},
+  {"id":"a-igreja-viva","title":"A Igreja viva","author":"Equipe Catecismo","year":2026,"category":"Igreja","chapters":2,"words":100,"status":"guia"},
+  {"id":"maria-e-o-sim","title":"Maria e o sim","author":"Equipe Catecismo","year":2026,"category":"Maria","chapters":2,"words":97,"status":"guia"},
+  {"id":"conversao-diaria","title":"Conversão diária","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":105,"status":"guia"}
 ]

@@ -54,29 +54,11 @@ Foram enviados via App Store Connect API para a app correta, no conjunto `APP_IP
 
 ## Assinatura Apple
 
-- Team ID: `SRN7AW424S`
-- API Key ID: `S96HVY2BYT`
-- Issuer ID: `aa5a3fcd-f139-4b1f-beb2-47fd125148d9`
-- Chave privada local: `/home/richard/Documentos/play store/AuthKey_S96HVY2BYT.p8`
-- Certificado iOS Distribution ID: `69BADS22K3`
-- Certificado valido ate 2027-09-10.
-- Provisioning profile correto ID: `QM8XY8W7QZ`
-- Provisioning UUID correto: `a2dc14b5-6c9b-43e2-aacd-5aafc341cc22`
-- O profile correto foi criado para o bundle ID original.
+Os dados de assinatura Apple ficam somente nos secrets do GitHub Actions e nos
+arquivos locais ignorados pelo Git. Identificadores, caminhos de chaves,
+certificados e UUIDs não devem ser documentados neste arquivo.
 
-Secrets configurados no GitHub:
-
-- `APPLE_API_KEY_P8`
-- `APPLE_API_KEY_ID`
-- `APPLE_API_ISSUER_ID`
-- `APPLE_DISTRIBUTION_CERT`
-- `APPLE_DISTRIBUTION_KEY`
-- `APPLE_PROVISIONING_PROFILE`
-
-Secrets obsoletos PKCS#12 foram removidos:
-
-- `APPLE_DISTRIBUTION_CERT_P12`
-- `APPLE_CERTIFICATE_PASSWORD`
+Consulte `docs/GITHUB_ACTIONS.md` para os nomes dos secrets necessários.
 
 ## Arquivos importantes
 
@@ -95,7 +77,6 @@ Secrets obsoletos PKCS#12 foram removidos:
 - Keychain temporario no runner macOS.
 - Importacao separada de certificado `.cer` e chave privada.
 - Assinatura manual com `Apple Distribution`.
-- Chave App Store Connect copiada para `~/private_keys/AuthKey_<KEY_ID>.p8` para o `altool`.
 - Compilacao explicita do `Assets.xcassets` com `actool`.
 - Script `Prepare App Store icon metadata` para garantir `CFBundleIconName`, `CFBundleIcons` e icon 120x120.
 - Launch screen e orientacoes foram resolvidos para a configuracao iPhone-only.
