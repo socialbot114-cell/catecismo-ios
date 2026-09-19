@@ -19,7 +19,7 @@ targets:
     type: application
     platform: iOS
     sources: [Sources]
-    resources: [Resources]
+    resources: [Resources/Texts, Resources/catalog.json, Resources/PrivacyInfo.xcprivacy]
     info: { path: Info.plist }
     settings:
       base:
