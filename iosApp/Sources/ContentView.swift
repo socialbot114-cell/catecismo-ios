@@ -67,7 +67,10 @@ struct ContentView: View {
 
     private var splitView: some View {
         NavigationSplitView {
-            List(selection: $selectedSection) {
+            List(selection: Binding<AppSection?>(
+                get: { selectedSection },
+                set: { if let section = $0 { selectedSection = section } }
+            )) {
                 ForEach(AppSection.allCases) { section in
                     Label(section.rawValue, systemImage: section.icon).tag(section)
                 }

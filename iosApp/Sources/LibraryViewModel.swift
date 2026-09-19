@@ -85,8 +85,11 @@ final class BundleGuideRepository {
 enum BundleResource {
     static func data(named name: String, fileExtension: String, subdirectory: String? = nil) throws -> Data {
         let bundles = [Bundle.main] + Bundle.allFrameworks + Bundle.allBundles
-        let directories = [subdirectory, "Resources", "Resources/Texts", nil].compactMap { $0 }
-        let urls = bundles.flatMap { bundle in
+        let rootURLs = bundles.compactMap { bundle in
+            bundle.url(forResource: name, withExtension: fileExtension)
+        }
+        let directories = [subdirectory, "Resources", "Resources/Texts"].compactMap { $0 }
+        let urls = rootURLs + bundles.flatMap { bundle in
             directories.compactMap { directory in
                 bundle.url(forResource: name, withExtension: fileExtension, subdirectory: directory)
             }
