@@ -45,7 +45,13 @@ targets:
         buildPhase: resources
       - path: Resources/Texts/conversao-diaria.json
         buildPhase: resources
-    info: { path: Info.plist }
+    info:
+      path: Info.plist
+      properties:
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        LSRequiresIPhoneOS: true
+        ITSAppUsesNonExemptEncryption: false
     settings:
       base:
         INFOPLIST_KEY_CFBundleDisplayName: Catecismo
