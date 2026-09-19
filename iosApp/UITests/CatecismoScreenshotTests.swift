@@ -10,8 +10,13 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "catecismo-home")
 
         let libraryTab = app.tabBars.buttons["Biblioteca"]
-        XCTAssertTrue(libraryTab.waitForExistence(timeout: 5))
-        libraryTab.tap()
+        if libraryTab.waitForExistence(timeout: 2) {
+            libraryTab.tap()
+        } else {
+            let sidebarItem = app.staticTexts["Biblioteca"].firstMatch
+            XCTAssertTrue(sidebarItem.waitForExistence(timeout: 5))
+            sidebarItem.tap()
+        }
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
 
         let guide = app.staticTexts["O dom da fé"].firstMatch
