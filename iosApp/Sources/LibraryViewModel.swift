@@ -1,40 +1,54 @@
 import Foundation
 import Combine
 
-struct WorkSummary: Identifiable, Hashable {
-    let id: String
-    let title: String
-    let category: String
-    let description: String
-    let year: Int
-    let chapters: Int
-    let words: Int
-    let sourceURL: String
+struct Guide: Codable, Identifiable, Hashable {
+    let id: String; let title: String; let author: String; let year: Int
+    let category: String; let description: String; let context: String
+    let chapters: [Chapter]; let sourceURL: String
+    var chapterCount: Int { chapters.count }
+    var paragraphCount: Int { chapters.reduce(0) { $0 + $1.paragraphs.count } }
+    enum CodingKeys: String, CodingKey { case id, title, author, year, category, description, context, chapters, sourceURL = "sourceUrl" }
 }
 
+struct Chapter: Codable, Hashable { let title: String; let paragraphs: [String] }
+struct Quote: Codable, Hashable, Identifiable { let id: String; let guideID: String; let text: String; let date: Date }
+
 final class LibraryViewModel: ObservableObject {
-    @Published var works: [WorkSummary] = []
-    @Published var progress: [String: Double] = [:]
+    @Published private(set) var guides: [Guide] = []
+    @Published private(set) var progress: [String: Double] = [:]
+    @Published private(set) var favorites: Set<String> = []
+    @Published private(set) var quotes: [Quote] = []
     @Published private(set) var loadError: String?
+    private let defaults = UserDefaults.standard
+    private let repository = BundleGuideRepository()
 
-    init() {
+    init() { load() }
+    var readingMinutes: Int { Int(progress.values.reduce(0, +) * 12) }
+    func isFavorite(_ id: String) -> Bool { favorites.contains(id) }
+    func toggleFavorite(_ id: String) { favorites.formSymmetricDifference([id]); save() }
+    func setProgress(_ value: Double, for id: String) { progress[id] = min(max(value, 0), 1); save() }
+    func addQuote(guideID: String, text: String) { quotes.append(Quote(id: UUID().uuidString, guideID: guideID, text: text, date: Date())); save() }
+    func removeQuote(_ quote: Quote) { quotes.removeAll { $0.id == quote.id }; save() }
+
+    private func load() {
         do {
-            works = try loadCatalog()
-        } catch {
-            loadError = error.localizedDescription
-        }
+            guides = try repository.loadGuides()
+            progress = (defaults.dictionary(forKey: "catecismo.progress") as? [String: Double]) ?? [:]
+            favorites = Set(defaults.stringArray(forKey: "catecismo.favorites") ?? [])
+            if let data = defaults.data(forKey: "catecismo.quotes") { quotes = try JSONDecoder().decode([Quote].self, from: data) }
+        } catch { loadError = error.localizedDescription }
     }
+    private func save() {
+        defaults.set(progress, forKey: "catecismo.progress")
+        defaults.set(Array(favorites), forKey: "catecismo.favorites")
+        if let data = try? JSONEncoder().encode(quotes) { defaults.set(data, forKey: "catecismo.quotes") }
+    }
+}
 
-    var readingMinutes: Int { 0 }
-
-    private func loadCatalog() throws -> [WorkSummary] {
-        let data = try BundleResource.data(named: "catalog", fileExtension: "json")
-        let entries = try JSONDecoder().decode([CatalogEntry].self, from: data)
-        guard !entries.isEmpty else { throw BundleResourceError.invalid("catalog.json não contém obras") }
-        return entries.map {
-            WorkSummary(id: $0.id, title: $0.title, category: $0.category, description: $0.description,
-                        year: $0.year, chapters: $0.chapters, words: $0.words, sourceURL: $0.sourceUrl)
-        }
+final class BundleGuideRepository {
+    private let guideIDs = ["o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
+    func loadGuides() throws -> [Guide] {
+        try guideIDs.map { try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts")) }
     }
 }
 
@@ -65,15 +79,4 @@ enum BundleResourceError: LocalizedError {
         case .invalid(let detail): return detail
         }
     }
-}
-
-private struct CatalogEntry: Decodable {
-    let id: String
-    let title: String
-    let year: Int
-    let category: String
-    let description: String
-    let sourceUrl: String
-    let chapters: Int
-    let words: Int
 }

@@ -1,12 +1,10 @@
-# iOS App
+# Catecismo iOS App
 
-The iOS target is SwiftUI with bundle identifier `br.com.machadodeassis.biblioteca`.
-
-The Xcode project is generated from `project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen):
+Independent and unofficial SwiftUI reader for eight bundled Catecismo introduction guides. Bundle identifier: `br.com.CATECISMO.DAIGREJACAToLICA`.
 
 ```bash
 xcodegen generate --spec iosApp/project.yml
-xcodebuild -project MachadoBiblioteca.xcodeproj -scheme MachadoBiblioteca -sdk iphonesimulator build
+xcodebuild -project iosApp/Catecismo.xcodeproj -scheme Catecismo -sdk iphonesimulator build
 ```
 
-The project targets iOS 17 and is built for App Store submissions with Xcode 26 on the `macos-26` GitHub runner. The source bundles 30 offline catalog entries, full text JSON resources, visual assets, and local Brazilian Portuguese speech. The current iOS target does not persist reading progress or provide lock-screen controls.
+The app does not claim to be the official or complete Catechism and does not replace official sources.

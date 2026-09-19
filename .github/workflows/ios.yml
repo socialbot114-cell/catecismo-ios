@@ -1,22 +1,60 @@
-name: iOS
+name: Catecismo iOS CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: macos-26
+  validate:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - name: Validate iOS resources
-        run: python3 tools/validate_ios_assets.py
-      - name: Check XcodeGen
+      - uses: actions/checkout@v4
+      - name: Validate guide content and identity
+        run: |
+          python3 - <<'PY'
+          import json
+          import plistlib
+          from pathlib import Path
+
+          root = Path('iosApp')
+          with (root / 'Info.plist').open('rb') as f:
+              info = plistlib.load(f)
+          assert info['CFBundleDisplayName'] == 'Catecismo'
+          assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
+          with (root / 'Resources/PrivacyInfo.xcprivacy').open('rb') as f:
+              plistlib.load(f)
+          texts = list((root / 'Resources/Texts').glob('*.json'))
+          assert len(texts) == 8, len(texts)
+          for path in texts:
+              data = json.loads(path.read_text())
+              assert data.get('id') and data.get('chapters')
+          forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
+          for path in root.rglob('*'):
+              if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
+                  text = path.read_text(errors='ignore').lower()
+                  assert not any(item in text for item in forbidden), path
+          print('Catecismo iOS validation passed')
+          PY
+
+  build:
+    runs-on: macos-14
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
         run: brew install xcodegen
-      - name: Generate Xcode project
+      - name: Generate project
         working-directory: iosApp
-        run: xcodegen generate --spec project.yml
-      - name: Build simulator target
-        run: xcodebuild -project iosApp/MachadoBiblioteca.xcodeproj -scheme MachadoBiblioteca -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build
+        run: xcodegen generate
+      - name: Test
+        working-directory: iosApp
+        run: |
+          xcodebuild test \
+            -scheme Catecismo \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO
