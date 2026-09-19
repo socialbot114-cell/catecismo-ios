@@ -58,3 +58,9 @@ targets:
     sources: [Tests]
     dependencies:
       - target: Catecismo
+  CatecismoUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: Catecismo
