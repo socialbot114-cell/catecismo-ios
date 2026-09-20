@@ -18,15 +18,13 @@ final class CatecismoScreenshotTests: XCTestCase {
             sidebarItem.tap()
         }
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-library")
 
         let guide = app.staticTexts["O dom da fé"].firstMatch
         XCTAssertTrue(guide.waitForExistence(timeout: 5))
         guide.tap()
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
         capture(named: "catecismo-reading")
-
-        app.scrollViews.firstMatch.swipeUp()
-        capture(named: "catecismo-reading-scrolled")
     }
 
     private func capture(named name: String) {
