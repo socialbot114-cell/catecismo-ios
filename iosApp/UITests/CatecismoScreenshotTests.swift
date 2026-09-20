@@ -25,10 +25,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
         capture(named: "catecismo-reading")
 
-        let paragraph = app.staticTexts["A fé começa quando a pessoa se abre para uma presença maior que si mesma e acolhe uma palavra de amor."]
-        if paragraph.waitForExistence(timeout: 3) {
-            app.scrollViews.firstMatch.swipeUp()
-        }
+        app.scrollViews.firstMatch.swipeUp()
         capture(named: "catecismo-reading-scrolled")
     }
 
