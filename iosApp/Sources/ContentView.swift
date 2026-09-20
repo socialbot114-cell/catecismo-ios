@@ -51,7 +51,7 @@ struct ContentView: View {
                 }
             }
         }
-        .tint(.indigo)
+        .tint(CatecismoTheme.accent)
         .task {
             if library.loadState == .loading { library.load() }
         }
@@ -102,12 +102,12 @@ private struct HomeView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     ZStack(alignment: .bottomLeading) {
                         GuideBundleImage(name: "catecismo-start")
-                            .overlay(LinearGradient(colors: [.indigo.opacity(0.86), .purple.opacity(0.48)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .overlay(LinearGradient(colors: [CatecismoTheme.wineDeep.opacity(0.88), CatecismoTheme.wine.opacity(0.55)], startPoint: .topLeading, endPoint: .bottomTrailing))
                         Image(systemName: "book.pages.fill")
                             .font(.system(size: 88, weight: .light)).foregroundStyle(.white.opacity(0.16))
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing).padding(24)
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Catecismo").font(.largeTitle.bold())
+                            Text("Catecismo").font(CatecismoTheme.display(34, weight: .bold))
                             Text("Um caminho de leitura e reflexão.").font(.headline).opacity(0.9)
                         }
                         .foregroundStyle(.white).padding(24)
@@ -143,7 +143,7 @@ private struct GuideBundleImage: View {
             } else if let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Images"), let image = UIImage(contentsOfFile: url.path) {
                 Image(uiImage: image).resizable().scaledToFill()
             } else {
-                Color.indigo
+                CatecismoTheme.wine
             }
         }
     }
