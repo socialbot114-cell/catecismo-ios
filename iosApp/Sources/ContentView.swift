@@ -59,16 +59,11 @@ struct ContentView: View {
     }
 
     private var tabView: some View {
-        TabView(selection: $selectedSection) {
-            destination(for: .home).tabItem { Label(AppSection.home.rawValue, systemImage: AppSection.home.icon) }.tag(AppSection.home)
-            destination(for: .library).tabItem { Label(AppSection.library.rawValue, systemImage: AppSection.library.icon) }.tag(AppSection.library)
-            destination(for: .topics).tabItem { Label(AppSection.topics.rawValue, systemImage: AppSection.topics.icon) }.tag(AppSection.topics)
-            destination(for: .saved).tabItem { Label(AppSection.saved.rawValue, systemImage: AppSection.saved.icon) }.tag(AppSection.saved)
-        }
-        .toolbar(.hidden, for: .tabBar)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
+        VStack(spacing: 0) {
+            destination(for: selectedSection)
             bottomNavigation
         }
+        .background(CatecismoTheme.paper.ignoresSafeArea(edges: .bottom))
     }
 
     private var bottomNavigation: some View {
