@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import plistlib
 import struct
 from pathlib import Path
 
@@ -13,11 +14,14 @@ for item in catalog:
     assert all(chapter["title"].strip() and chapter["paragraphs"] for chapter in document["chapters"])
 for path in [root / "Info.plist", root / "ExportOptions.plist", root / "Resources/PrivacyInfo.xcprivacy"]:
     assert path.is_file(), path
+info = plistlib.loads((root / "Info.plist").read_bytes())
+assert info["CFBundleShortVersionString"] == "1.1"
+assert info["CFBundleVersion"] == "17"
 spec = (root / "project.yml").read_text()
 assert "br.com.CATECISMO.DAIGREJACAToLICA" in spec
 assert 'MARKETING_VERSION: "1.1"' in spec
 assert spec.count('MARKETING_VERSION: "1.1"') == 2
-assert spec.count('CURRENT_PROJECT_VERSION: "16"') == 2
+assert spec.count('CURRENT_PROJECT_VERSION: "17"') == 2
 
 icons = root / "Resources/Assets.xcassets/AppIcon.appiconset"
 icon_catalog = json.loads((icons / "Contents.json").read_text(encoding="utf-8"))
@@ -46,4 +50,4 @@ assert set(image_files) == expected_images, set(image_files)
 assert all(path.stat().st_size < 250_000 for path in image_files.values())
 assert sum(path.stat().st_size for path in image_files.values()) < 1_000_000
 
-print(f"iOS resources OK: eight guides, version 1.1 (16), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")
+print(f"iOS resources OK: eight guides, version 1.1 (17), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")

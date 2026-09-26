@@ -53,6 +53,12 @@ jobs:
         working-directory: iosApp
         run: xcodegen generate --spec project.yml
 
+      - name: Set App Store build metadata
+        working-directory: iosApp
+        run: |
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1' Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $GITHUB_RUN_NUMBER" Info.plist
+
       - name: Validate marketing version
         working-directory: iosApp
         run: |

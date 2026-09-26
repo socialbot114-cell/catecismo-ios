@@ -25,9 +25,11 @@ jobs:
           with (root / 'Info.plist').open('rb') as f:
               info = plistlib.load(f)
           assert info['CFBundleDisplayName'] == 'Catecismo'
+          assert info['CFBundleShortVersionString'] == '1.1'
+          assert info['CFBundleVersion'] == '17'
           assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
           assert 'MARKETING_VERSION: "1.1"' in (root / 'project.yml').read_text()
-          assert 'CURRENT_PROJECT_VERSION: "16"' in (root / 'project.yml').read_text()
+          assert 'CURRENT_PROJECT_VERSION: "17"' in (root / 'project.yml').read_text()
           with (root / 'Resources/PrivacyInfo.xcprivacy').open('rb') as f:
               plistlib.load(f)
           texts = list((root / 'Resources/Texts').glob('*.json'))

@@ -9,7 +9,7 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: br.com.CATECISMO.DAIGREJACAToLICA
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.1"
-    CURRENT_PROJECT_VERSION: "16"
+    CURRENT_PROJECT_VERSION: "17"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     GENERATE_INFOPLIST_FILE: NO
     INFOPLIST_FILE: Info.plist
@@ -62,7 +62,7 @@ targets:
     settings:
       base:
         MARKETING_VERSION: "1.1"
-        CURRENT_PROJECT_VERSION: "16"
+        CURRENT_PROJECT_VERSION: "17"
         INFOPLIST_KEY_CFBundleDisplayName: Catecismo
         INFOPLIST_KEY_UIBackgroundModes: [audio]
         INFOPLIST_KEY_CFBundleIconName: AppIcon
