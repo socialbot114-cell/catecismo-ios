@@ -11,6 +11,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("Biblioteca", in: app)
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.textFields["Buscar guia ou tema"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library")
 
         selectSection("Temas", in: app)

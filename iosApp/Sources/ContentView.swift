@@ -298,6 +298,26 @@ private struct LibraryView: View {
                             .accessibilityHidden(true)
                     }
 
+                    HStack(spacing: 12) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(CatecismoTheme.navy)
+                        TextField("Buscar guia ou tema", text: $query)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                        if !query.isEmpty {
+                            Button { query = "" } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(CatecismoTheme.muted)
+                            }
+                            .accessibilityLabel("Limpar busca")
+                        }
+                    }
+                    .font(.body)
+                    .padding(.horizontal, 16)
+                    .frame(height: 52)
+                    .background(CatecismoTheme.paper, in: Capsule())
+                    .overlay(Capsule().stroke(CatecismoTheme.navy.opacity(0.08), lineWidth: 1))
+
                     if filtered.isEmpty {
                         ContentUnavailableView {
                             Label(query.isEmpty ? "Nenhum guia disponível" : "Nenhum resultado", systemImage: query.isEmpty ? "books.vertical" : "magnifyingglass")
@@ -318,7 +338,6 @@ private struct LibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
-            .searchable(text: $query, prompt: "Buscar guia ou tema")
             .navigationTitle("Biblioteca")
             .navigationBarTitleDisplayMode(.inline)
         }
