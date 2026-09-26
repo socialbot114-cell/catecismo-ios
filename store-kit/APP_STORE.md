@@ -86,12 +86,14 @@ Obrigado.
 
 ## Screenshots
 
-Prints para avaliação: `store-kit/review/ios-1.1/iphone/` e `store-kit/review/ios-1.1/ipad/`.
+Prints para avaliação, capturados pelo GitHub Actions run `36253423956`:
+
+- iPhone 17: `store-kit/review/ios-1.1/iphone/` — 5 imagens, 1206×2622.
+- iPad Air 13-inch (M4): `store-kit/review/ios-1.1/ipad/` — 5 imagens, 2048×2732.
 
 Prints anteriores: `store-kit/screenshots/` (manter como referência até aprovar a nova rodada).
 
-- `iphone/` — 3 imagens 1284×2778 (slot 6,7").
-- `ipad/` — 3 imagens 2048×2732 (slot 12,9").
+Arquivos em cada pasta: `01-inicio.png`, `02-biblioteca.png`, `03-temas.png`, `04-minha-biblioteca.png` e `05-leitura.png`. Foram gerados para avaliação visual e ainda não substituem a seleção de prints da App Store Connect.
 
 Ordem recomendada:
 

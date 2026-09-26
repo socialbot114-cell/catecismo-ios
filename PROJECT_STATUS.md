@@ -24,13 +24,14 @@
 - Originais visuais fornecidos para o projeto: `COMPONENTS/`.
 - Ícone iOS: conjunto `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/`.
 - Recursos visuais otimizados usados pelo app: `iosApp/Resources/Images/`.
-- Prints locais para revisão da App Store: `store-kit/screenshots/`.
+- Prints de referência anteriores: `store-kit/screenshots/`.
+- Prints iOS 1.1 do GitHub Actions, prontos para avaliação: `store-kit/review/ios-1.1/`.
 
 ## Validação e capturas
 
 - Workflow de validação iOS: `.github/workflows/ios.yml`.
 - Workflow de capturas iPhone/iPad: `.github/workflows/ios-screenshots.yml`.
-- Último workflow de capturas anterior a esta atualização: run `35483069094`.
+- Workflow final de capturas iPhone/iPad: run `36253423956` (sucesso; cinco telas por dispositivo).
 - O workflow de release TestFlight é manual; nenhum envio para revisão da App Store é automático.
 
 ## Próxima release
