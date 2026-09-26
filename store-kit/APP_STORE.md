@@ -15,6 +15,7 @@ Use este arquivo para preencher o App Store Connect. Os prints gerados pelo work
 - Preço: `Gratuito`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Versão em preparação: `1.1`
+- Build enviado: `1.1 (17)`; workflow `36257985758` aceitou o upload. A disponibilidade após processamento deve ser conferida no App Store Connect.
 - Copyright: `2026 <CONFERIR titular>`
 
 ## Texto promocional
