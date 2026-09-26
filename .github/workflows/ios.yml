@@ -26,6 +26,8 @@ jobs:
               info = plistlib.load(f)
           assert info['CFBundleDisplayName'] == 'Catecismo'
           assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
+          assert 'MARKETING_VERSION: "1.1"' in (root / 'project.yml').read_text()
+          assert 'CURRENT_PROJECT_VERSION: "14"' in (root / 'project.yml').read_text()
           with (root / 'Resources/PrivacyInfo.xcprivacy').open('rb') as f:
               plistlib.load(f)
           texts = list((root / 'Resources/Texts').glob('*.json'))
@@ -40,6 +42,8 @@ jobs:
                   assert not any(item in text for item in forbidden), path
           print('Catecismo iOS validation passed')
           PY
+      - name: Validate iOS assets and image budgets
+        run: python3 tools/validate_ios_assets.py
 
   build:
     runs-on: macos-26

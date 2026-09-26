@@ -18,14 +18,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: Restore signing files
         env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          CATECISMO_ANDROID_KEYSTORE_BASE64: ${{ secrets.CATECISMO_ANDROID_KEYSTORE_BASE64 }}
+          CATECISMO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.CATECISMO_ANDROID_KEYSTORE_PASSWORD }}
+          CATECISMO_ANDROID_KEY_PASSWORD: ${{ secrets.CATECISMO_ANDROID_KEY_PASSWORD }}
+          CATECISMO_ANDROID_KEY_ALIAS: ${{ secrets.CATECISMO_ANDROID_KEY_ALIAS }}
         run: |
-          test -n "$ANDROID_KEYSTORE_BASE64"
-          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > machado-release.keystore
-          chmod 600 machado-release.keystore
-          printf 'storeFile=machado-release.keystore\nstorePassword=%s\nkeyAlias=machado\nkeyPassword=%s\n' "$ANDROID_KEYSTORE_PASSWORD" "$ANDROID_KEY_PASSWORD" > keystore.properties
+          for name in CATECISMO_ANDROID_KEYSTORE_BASE64 CATECISMO_ANDROID_KEYSTORE_PASSWORD CATECISMO_ANDROID_KEY_PASSWORD CATECISMO_ANDROID_KEY_ALIAS; do
+            test -n "${!name:-}" || { echo "Missing Catecismo signing secret: $name" >&2; exit 1; }
+          done
+          printf '%s' "$CATECISMO_ANDROID_KEYSTORE_BASE64" | base64 --decode > catecismo-release.keystore
+          chmod 600 catecismo-release.keystore
+          printf 'storeFile=catecismo-release.keystore\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' "$CATECISMO_ANDROID_KEYSTORE_PASSWORD" "$CATECISMO_ANDROID_KEY_ALIAS" "$CATECISMO_ANDROID_KEY_PASSWORD" > keystore.properties
           chmod 600 keystore.properties
       - name: Validate and build release
         run: |
@@ -34,5 +37,5 @@ jobs:
       - name: Upload signed AAB
         uses: actions/upload-artifact@v4
         with:
-          name: machado-release-aab
+          name: catecismo-release-aab
           path: app/build/outputs/bundle/release/*.aab

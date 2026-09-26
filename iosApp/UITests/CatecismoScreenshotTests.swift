@@ -9,16 +9,19 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Comece a ler"].waitForExistence(timeout: 10))
         capture(named: "catecismo-home")
 
-        let libraryTab = app.tabBars.buttons["Biblioteca"]
-        if libraryTab.waitForExistence(timeout: 2) {
-            libraryTab.tap()
-        } else {
-            let sidebarItem = app.staticTexts["Biblioteca"].firstMatch
-            XCTAssertTrue(sidebarItem.waitForExistence(timeout: 5))
-            sidebarItem.tap()
-        }
+        selectSection("Biblioteca", in: app)
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library")
+
+        selectSection("Temas", in: app)
+        XCTAssertTrue(app.staticTexts["Explore por tema"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-topics")
+
+        selectSection("Minha biblioteca", in: app)
+        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-saved")
+
+        selectSection("Biblioteca", in: app)
 
         let guide = app.staticTexts["O dom da fé"].firstMatch
         XCTAssertTrue(guide.waitForExistence(timeout: 5))
@@ -32,5 +35,16 @@ final class CatecismoScreenshotTests: XCTestCase {
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+
+    private func selectSection(_ name: String, in app: XCUIApplication) {
+        let tab = app.tabBars.buttons[name]
+        if tab.waitForExistence(timeout: 2) {
+            tab.tap()
+        } else {
+            let sidebarItem = app.staticTexts[name].firstMatch
+            XCTAssertTrue(sidebarItem.waitForExistence(timeout: 5), "Missing sidebar item: \(name)")
+            sidebarItem.tap()
+        }
     }
 }

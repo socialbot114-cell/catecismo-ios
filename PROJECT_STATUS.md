@@ -1,106 +1,38 @@
-# Machado Biblioteca - Estado do Projeto
+# Catecismo — Estado do Projeto
 
-Ultima atualizacao: 2026-09-10
+Última atualização: 2026-09-26
 
-## Objetivo
+## Identidade
 
-Publicar a versao iOS do aplicativo Biblioteca Machado de Assis no TestFlight e, depois, na App Store. O Android permanece no mesmo repositorio privado.
+- App Store Connect app ID: `6813681189`
+- SKU: `Catecismo-da-Igreja-Catolica`
+- Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
+- Versão iOS em preparação: `1.1`
+- Próximo build iOS: `14` (run number seguinte ao último workflow de release `13`)
+- Repositório: `socialbot114-cell/catecismo-ios`
 
-## Repositorio e site
+## Aplicativo
 
-- Repositorio: https://github.com/socialbot114-cell/machado-biblioteca
-- Site publico: https://socialbot114-cell.github.io/machado-biblioteca-site/
-- Working tree estava limpo antes desta documentacao.
+- App iOS nativo em SwiftUI, com mínimo iOS 17.
+- App Android nativo em Kotlin/Compose.
+- Oito guias autorais, dezesseis capítulos e leitura offline.
+- Recursos iOS: busca, temas, favoritos, citações, progresso e narração local.
+- Os apps e seus materiais de release são mantidos separados do projeto Biblioteca Machado de Assis.
 
-## App Store Connect correto
+## Arte e recursos
 
-- App correto: `Biblioteca Machado Assis`
-- App ID correto: `6810760794`
-- Bundle ID correto: `br.com.machadodeassis.biblioteca`
-- App Store version ID: `208f4bd0-92bf-4c36-a87a-1b377e4c2446`
-- Versao: `1.0`
-- Estado: `PREPARE_FOR_SUBMISSION`
-- Localizacao: `pt-BR`
-- Localizacao ID: `50053ba3-a928-469d-932b-77cda8f7f1e4`
+- Originais visuais fornecidos para o projeto: `COMPONENTS/`.
+- Ícone iOS: conjunto `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/`.
+- Recursos visuais otimizados usados pelo app: `iosApp/Resources/Images/`.
+- Prints locais para revisão da App Store: `store-kit/screenshots/`.
 
-Existe uma segunda app incorreta, criada durante os testes:
+## Validação e capturas
 
-- App ID: `6810766838`
-- Bundle ID: `br.com.machadodeassis.biblioteca.ios`
-- Nao usar para o envio final.
+- Workflow de validação iOS: `.github/workflows/ios.yml`.
+- Workflow de capturas iPhone/iPad: `.github/workflows/ios-screenshots.yml`.
+- Último workflow de capturas anterior a esta atualização: run `35483069094`.
+- O workflow de release TestFlight é manual; nenhum envio para revisão da App Store é automático.
 
-## Build iOS
+## Próxima release
 
-- Workflow final aprovado: `34540409036`
-- URL: https://github.com/socialbot114-cell/machado-biblioteca/actions/runs/34540409036
-- Próximo build correto: `1.0 (2)` na app `6810760794`.
-- Build ID: `12324d89-89e4-4025-9596-4c6de3b0b8da`
-- O build foi associado a `App Store version 1.0`.
-- O workflow gera archive assinado, exporta IPA e envia ao TestFlight.
-- A versao atual e iPhone-only (`TARGETED_DEVICE_FAMILY=1`).
-
-## Screenshots
-
-Os tres screenshots corrigidos foram gerados em `1242 x 2688 px`:
-
-- `refs/photo_4981107340111188027_y_1242x2688.jpg`
-- `refs/photo_4981107340111188028_y_1242x2688.jpg`
-- `refs/photo_4981107340111188029_y_1242x2688.jpg`
-
-Foram enviados via App Store Connect API para a app correta, no conjunto `APP_IPHONE_65`:
-
-- Screenshot set ID: `ec9a9089-0a01-4b47-bd1d-f6f2b6c8144a`
-- Os tres estados estao `COMPLETE`.
-
-## Assinatura Apple
-
-Os dados de assinatura Apple ficam somente nos secrets do GitHub Actions e nos
-arquivos locais ignorados pelo Git. Identificadores, caminhos de chaves,
-certificados e UUIDs não devem ser documentados neste arquivo.
-
-Consulte `docs/GITHUB_ACTIONS.md` para os nomes dos secrets necessários.
-
-## Arquivos importantes
-
-- `.github/workflows/ios.yml`: build de simulador.
-- `.github/workflows/ios-release.yml`: archive, exportacao e upload TestFlight.
-- `iosApp/project.yml`: XcodeGen, bundle ID, recursos e assinatura.
-- `iosApp/ExportOptions.plist`: exportacao App Store manual.
-- `iosApp/Info.plist`: metadata declarada do app.
-- `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/`: icones do app.
-- `iosApp/Resources/`: catalogo, textos, imagens e PrivacyInfo.
-
-## Solucoes aplicadas no workflow
-
-- Criacao de certificado iOS Distribution via App Store Connect API.
-- Criacao de provisioning profile App Store via API.
-- Keychain temporario no runner macOS.
-- Importacao separada de certificado `.cer` e chave privada.
-- Assinatura manual com `Apple Distribution`.
-- Compilacao explicita do `Assets.xcassets` com `actool`.
-- Script `Prepare App Store icon metadata` para garantir `CFBundleIconName`, `CFBundleIcons` e icon 120x120.
-- Launch screen e orientacoes foram resolvidos para a configuracao iPhone-only.
-
-## Pendencias antes do envio para revisao
-
-1. Classificacao etaria ainda nao foi preenchida. O primeiro PATCH falhou porque `gambling` e `healthOrWellnessTopics` sao booleanos e `kidsAgeBand` aceita apenas faixas infantis.
-2. Categoria primaria ainda nao foi definida. Categoria planejada: `BOOKS`.
-3. A URL da politica de privacidade da localizacao `pt-BR` ainda aparece como nula na API; usar o site publico de privacidade.
-4. Verificar export compliance e demais perguntas finais no App Store Connect.
-5. Depois de corrigir essas pendencias, validar a versao e enviar para revisao.
-
-## Conteudo do app
-
-- Aplicativo offline.
-- 30 obras integrais de Machado de Assis.
-- Busca textual, leitor paginado, favoritos, citacoes, Universo Machado e narracao local em pt-BR.
-- Sem login, anuncios, tracking ou sincronizacao.
-- Fontes documentadas no app: Wikisource PT.
-
-## Historico recente de commits
-
-- `68711c1` Target original App Store Connect bundle
-- `069f31a` Remove temporary bundle inspection step
-- `33ae033` Add universal marketing icon variant
-- `7db9382` Compile app icon asset catalog explicitly
-- `0d1b9db` Add primary app icon plist structure
+Preparar e validar iOS `1.1` antes de qualquer upload. O número de build é definido pelo workflow de release. Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto antes de enviar.

@@ -30,5 +30,5 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: machado-debug-apk
+          name: catecismo-debug-apk
           path: app/build/outputs/apk/debug/*.apk

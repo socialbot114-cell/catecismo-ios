@@ -18,6 +18,8 @@ jobs:
             slug: ipad
     steps:
       - uses: actions/checkout@v4
+      - name: Validate app assets
+        run: python3 tools/validate_ios_assets.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate project
@@ -39,5 +41,5 @@ jobs:
             --output-path "$RUNNER_TEMP/catecismo-screenshots-${{ matrix.device.slug }}"
       - uses: actions/upload-artifact@v4
         with:
-          name: catecismo-ios-screenshots-${{ matrix.device.slug }}
+          name: catecismo-ios-1.1-screenshots-${{ matrix.device.slug }}
           path: ${{ runner.temp }}/catecismo-screenshots-${{ matrix.device.slug }}

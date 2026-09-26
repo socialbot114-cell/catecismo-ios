@@ -1,6 +1,6 @@
 # Catecismo da Igreja Católica
 
-Aplicativo Android offline-first em Kotlin + Jetpack Compose. `applicationId`: `br.com.CATECISMO.DAIGREJACAToLICA`. Versão 1.0.0 (versionCode 1).
+Aplicativo offline-first para Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`. A próxima versão iOS em preparação é `1.1`; o Android permanece em `1.0.0` (versionCode 2) até uma release própria.
 
 ## Conteúdo
 
@@ -16,4 +16,4 @@ Aplicativo Android offline-first em Kotlin + Jetpack Compose. `applicationId`: `
 jarsigner -verify -verbose -certs app/build/outputs/bundle/release/app-release.aab
 ```
 
-O pacote Play Console é `br.com.CATECISMO.DAIGREJACAToLICA`. O release usa a chave local configurada em `keystore.properties`.
+O pacote Play Console e o Bundle ID iOS são `br.com.CATECISMO.DAIGREJACAToLICA`. Releases Android exigem uma assinatura exclusiva do Catecismo em `keystore.properties` e nos secrets `CATECISMO_ANDROID_*`; a release iOS é independente.
