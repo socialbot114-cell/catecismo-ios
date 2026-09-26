@@ -65,8 +65,41 @@ struct ContentView: View {
             destination(for: .topics).tabItem { Label(AppSection.topics.rawValue, systemImage: AppSection.topics.icon) }.tag(AppSection.topics)
             destination(for: .saved).tabItem { Label(AppSection.saved.rawValue, systemImage: AppSection.saved.icon) }.tag(AppSection.saved)
         }
-        .toolbarBackground(CatecismoTheme.canvas, for: .tabBar)
-        .toolbarBackground(.visible, for: .tabBar)
+        .toolbar(.hidden, for: .tabBar)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            bottomNavigation
+        }
+    }
+
+    private var bottomNavigation: some View {
+        HStack(spacing: 6) {
+            ForEach(AppSection.allCases) { section in
+                let isSelected = selectedSection == section
+                Button { selectedSection = section } label: {
+                    VStack(spacing: 5) {
+                        Image(systemName: section.icon)
+                            .font(.system(size: 20, weight: .semibold))
+                        Text(section.rawValue)
+                            .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
+                    .foregroundStyle(isSelected ? CatecismoTheme.navy : CatecismoTheme.muted)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(isSelected ? CatecismoTheme.canvas : Color.clear, in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(section.rawValue)
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.top, 7)
+        .padding(.bottom, 7)
+        .background(CatecismoTheme.paper.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) {
+            Rectangle().fill(CatecismoTheme.navy.opacity(0.06)).frame(height: 1)
+        }
     }
 
     private var splitView: some View {

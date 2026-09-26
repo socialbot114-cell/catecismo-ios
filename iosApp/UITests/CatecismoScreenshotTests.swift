@@ -41,6 +41,8 @@ final class CatecismoScreenshotTests: XCTestCase {
         let tab = app.tabBars.buttons[name]
         if tab.waitForExistence(timeout: 2) {
             tab.tap()
+        } else if app.buttons[name].waitForExistence(timeout: 2) {
+            app.buttons[name].tap()
         } else {
             let sidebarItem = app.staticTexts[name].firstMatch
             XCTAssertTrue(sidebarItem.waitForExistence(timeout: 5), "Missing sidebar item: \(name)")
