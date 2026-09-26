@@ -65,6 +65,8 @@ struct ContentView: View {
             destination(for: .topics).tabItem { Label(AppSection.topics.rawValue, systemImage: AppSection.topics.icon) }.tag(AppSection.topics)
             destination(for: .saved).tabItem { Label(AppSection.saved.rawValue, systemImage: AppSection.saved.icon) }.tag(AppSection.saved)
         }
+        .toolbarBackground(CatecismoTheme.canvas, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
     }
 
     private var splitView: some View {
@@ -256,10 +258,10 @@ private struct LibraryView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     HStack(spacing: 18) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Sua biblioteca")
+                            Text("Encontre seu próximo guia")
                                 .font(CatecismoTheme.display(30))
                                 .foregroundStyle(CatecismoTheme.ink)
-                            Text("Encontre um tema e continue sua caminhada.")
+                            Text("Busque por assunto ou escolha um guia para ler.")
                                 .font(.subheadline).foregroundStyle(CatecismoTheme.muted)
                         }
                         Spacer(minLength: 0)
@@ -324,23 +326,15 @@ private struct TopicsView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     SectionHeading(title: "Explore por tema", subtitle: "Escolha um caminho para aprofundar")
 
-                    ForEach(categories, id: \.self) { category in
-                        let guides = library.guides.filter { $0.category == category }
-                        VStack(alignment: .leading, spacing: 12) {
-                            TopicHeading(category: category, guideCount: guides.count)
-                            if horizontalSizeClass == .regular {
-                                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                                    ForEach(guides) { guide in
-                                        NavigationLink { GuideDetailView(guide: guide) } label: { GuideCard(guide: guide) }
-                                            .buttonStyle(.plain)
-                                    }
-                                }
-                            } else {
-                                ForEach(guides) { guide in
-                                    NavigationLink { GuideDetailView(guide: guide) } label: { GuideCard(guide: guide) }
-                                        .buttonStyle(.plain)
-                                }
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: horizontalSizeClass == .regular ? 3 : 2), spacing: 14) {
+                        ForEach(categories, id: \.self) { category in
+                            let guides = library.guides.filter { $0.category == category }
+                            NavigationLink {
+                                TopicGuidesView(category: category, guides: guides)
+                            } label: {
+                                TopicCategoryCard(category: category, guideCount: guides.count)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
@@ -686,7 +680,7 @@ private struct GuideCard: View {
     }
 }
 
-private struct TopicHeading: View {
+private struct TopicCategoryCard: View {
     let category: String
     let guideCount: Int
 
@@ -701,19 +695,60 @@ private struct TopicHeading: View {
     }
 
     var body: some View {
-        HStack(spacing: 12) {
+        VStack(alignment: .leading, spacing: 10) {
             ComponentArtwork(name: artwork)
-                .frame(width: 58, height: 58)
-                .padding(5)
-                .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .frame(maxWidth: .infinity)
+                .frame(height: 92)
+                .padding(.vertical, 6)
                 .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 4) {
-                Text(category).font(.headline).foregroundStyle(CatecismoTheme.ink)
-                Text("\(guideCount) \(guideCount == 1 ? "guia" : "guias")")
-                    .font(.caption).foregroundStyle(CatecismoTheme.muted)
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(category)
+                    .font(.headline)
+                    .foregroundStyle(CatecismoTheme.ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.82)
+                Spacer(minLength: 0)
+                Image(systemName: "arrow.up.right")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(CatecismoTheme.navy.opacity(0.58))
             }
-            Spacer(minLength: 0)
+            Text("\(guideCount) \(guideCount == 1 ? "guia" : "guias")")
+                .font(.caption)
+                .foregroundStyle(CatecismoTheme.muted)
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .stroke(CatecismoTheme.navy.opacity(0.06), lineWidth: 1)
+        }
+    }
+}
+
+private struct TopicGuidesView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    let category: String
+    let guides: [Guide]
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                SectionHeading(title: category, subtitle: "\(guides.count) \(guides.count == 1 ? "guia" : "guias") para explorar")
+                ForEach(guides) { guide in
+                    NavigationLink { GuideDetailView(guide: guide) } label: { GuideCard(guide: guide, detail: true) }
+                        .buttonStyle(.plain)
+                }
+            }
+            .frame(maxWidth: 820, alignment: .leading)
+            .padding(.horizontal, horizontalSizeClass == .regular ? 28 : 18)
+            .padding(.top, 18)
+            .padding(.bottom, 30)
+            .frame(maxWidth: .infinity)
+        }
+        .background(CatecismoTheme.canvas.ignoresSafeArea())
+        .navigationTitle(category)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
