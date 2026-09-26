@@ -8,7 +8,7 @@
 - SKU: `Catecismo-da-Igreja-Catolica`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Versão iOS em preparação: `1.1`
-- Próximo build iOS: `14` (run number seguinte ao último workflow de release `13`)
+- Próximo build iOS: `16` (builds `14` e `15` não passaram na validação do IPA e não foram enviados)
 - Repositório: `socialbot114-cell/catecismo-ios`
 
 ## Aplicativo
