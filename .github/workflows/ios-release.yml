@@ -131,12 +131,17 @@ jobs:
           test -f "${ipa[0]}"
           unzip -q "${ipa[0]}" -d "$RUNNER_TEMP/ipa"
           app=("$RUNNER_TEMP"/ipa/Payload/*.app)
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.CATECISMO.DAIGREJACAToLICA'
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist" | grep -qx '1.1'
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist" | grep -qx '${{ github.run_number }}'
+          bundle_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist")
+          marketing_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist")
+          build_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist")
+          json_count=$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')
+          printf 'Exported IPA: bundle=%s marketing=%s build=%s json-resources=%s\n' "$bundle_id" "$marketing_version" "$build_version" "$json_count"
+          test "$bundle_id" = 'br.com.CATECISMO.DAIGREJACAToLICA'
+          test "$marketing_version" = '1.1'
+          test "$build_version" = '${{ github.run_number }}'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
-           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 8
-           codesign --verify --deep --strict "${app[0]}"
+          test "$json_count" -ge 8
+          codesign --verify --deep --strict --verbose=2 "${app[0]}"
 
       - uses: actions/upload-artifact@v4
         with:
