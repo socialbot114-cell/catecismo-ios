@@ -7,64 +7,102 @@ final class CatecismoScreenshotTests: XCTestCase {
         app.launch()
 
         selectSection("section-saved", in: app)
-        let languagePicker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        XCTAssertTrue(languagePicker.waitForExistence(timeout: 10))
-        languagePicker.tap()
-        let portugueseOption = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Português (Brasil)")).firstMatch
-        XCTAssertTrue(portugueseOption.waitForExistence(timeout: 5))
-        portugueseOption.tap()
-        let portugueseLibraryTitle = app.navigationBars["Minha biblioteca"]
-        if !portugueseLibraryTitle.waitForExistence(timeout: 5) {
-            print("Accessibility hierarchy after pt-BR selection:\n\(app.debugDescription)")
-        }
-        XCTAssertTrue(portugueseLibraryTitle.exists)
+        selectLanguage("Português (Brasil)", in: app)
+        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-library-pt")
 
         selectSection("section-home", in: app)
         XCTAssertTrue(app.staticTexts["Comece a ler"].waitForExistence(timeout: 10))
-        capture(named: "catecismo-home")
+        capture(named: "catecismo-home-pt")
 
         selectSection("section-library", in: app)
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.textFields["Buscar guia ou tema"].waitForExistence(timeout: 5))
-        capture(named: "catecismo-library")
+        let portugueseGuide = app.staticTexts["O dom da fé"].firstMatch
+        XCTAssertTrue(portugueseGuide.waitForExistence(timeout: 5))
+        capture(named: "catecismo-guides-pt")
 
         selectSection("section-topics", in: app)
         XCTAssertTrue(app.staticTexts["Explore por tema"].waitForExistence(timeout: 5))
-        capture(named: "catecismo-topics")
-
-        selectSection("section-saved", in: app)
-        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
-        capture(named: "catecismo-saved")
+        capture(named: "catecismo-topics-pt")
 
         selectSection("section-pio-x", in: app)
         XCTAssertTrue(app.staticTexts["PORTUGUÊS (BRASIL)"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["ITALIANO"].exists)
         XCTAssertTrue(app.staticTexts["Catecismo de São Pio X"].exists)
-        capture(named: "catecismo-pio-x")
+        capture(named: "catecismo-pio-x-pt")
 
         selectSection("section-library", in: app)
-
-        let guide = app.staticTexts["O dom da fé"].firstMatch
-        XCTAssertTrue(guide.waitForExistence(timeout: 5))
-        guide.tap()
+        portugueseGuide.tap()
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
-        capture(named: "catecismo-reading")
+        capture(named: "catecismo-reading-pt")
 
         selectSection("section-saved", in: app)
-        XCTAssertTrue(languagePicker.waitForExistence(timeout: 5))
-        languagePicker.tap()
-        let englishOption = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "English")).firstMatch
-        XCTAssertTrue(englishOption.waitForExistence(timeout: 5))
-        englishOption.tap()
+        selectLanguage("English", in: app)
         XCTAssertTrue(app.navigationBars["My Library"].waitForExistence(timeout: 5))
-        selectSection("section-library", in: app)
-        XCTAssertTrue(app.staticTexts["The Gift of Faith"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library-en")
 
+        selectSection("section-home", in: app)
+        XCTAssertTrue(app.staticTexts["Start reading"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-home-en")
+
+        selectSection("section-library", in: app)
+        XCTAssertTrue(app.staticTexts["The Gift of Faith"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-guides-en")
+
+        selectSection("section-pio-x", in: app)
+        XCTAssertTrue(app.staticTexts["ENGLISH"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["The Catechism of Pope Saint Pius X · 1911"].exists)
+        capture(named: "catecismo-pio-x-en")
+
         selectSection("section-saved", in: app)
-        languagePicker.tap()
-        portugueseOption.tap()
+        selectLanguage("Español", in: app)
+        XCTAssertTrue(app.navigationBars["Mi biblioteca"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-library-es")
+
+        selectSection("section-home", in: app)
+        XCTAssertTrue(app.staticTexts["Empieza a leer"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-home-es")
+
+        selectSection("section-library", in: app)
+        XCTAssertTrue(app.staticTexts["El don de la fe"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-guides-es")
+
+        selectSection("section-pio-x", in: app)
+        XCTAssertTrue(app.staticTexts["ESPAÑOL"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Catecismo Mayor de San Pío X · 1906"].exists)
+        capture(named: "catecismo-pio-x-es")
+
+        selectSection("section-saved", in: app)
+        selectLanguage("Français", in: app)
+        XCTAssertTrue(app.navigationBars["Ma bibliothèque"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-library-fr")
+
+        selectSection("section-home", in: app)
+        XCTAssertTrue(app.staticTexts["Commencer la lecture"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-home-fr")
+
+        selectSection("section-library", in: app)
+        XCTAssertTrue(app.staticTexts["Le don de la foi"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-guides-fr")
+
+        selectSection("section-pio-x", in: app)
+        XCTAssertTrue(app.staticTexts["FRANÇAIS"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Catéchisme de Rome · édition complète de 1905"].exists)
+        capture(named: "catecismo-pio-x-fr")
+
+        selectSection("section-saved", in: app)
+        selectLanguage("Português (Brasil)", in: app)
         XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
+    }
+
+    private func selectLanguage(_ name: String, in app: XCUIApplication) {
+        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
+        XCTAssertTrue(picker.waitForExistence(timeout: 10))
+        picker.tap()
+        let option = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", name)).firstMatch
+        XCTAssertTrue(option.waitForExistence(timeout: 5))
+        option.tap()
     }
 
     private func capture(named name: String) {
