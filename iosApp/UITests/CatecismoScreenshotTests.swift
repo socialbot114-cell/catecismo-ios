@@ -3,7 +3,7 @@ import XCTest
 final class CatecismoScreenshotTests: XCTestCase {
     func testReadingFlowScreenshots() {
         let app = XCUIApplication()
-        app.launchArguments = ["-ui-testing", "-AppleLanguages", "(pt-BR)", "-AppleLocale", "pt_BR"]
+        app.launchArguments = ["-ui-testing", "-catecismo.language", "pt-BR", "-AppleLanguages", "(pt-BR)", "-AppleLocale", "pt_BR"]
         app.launch()
 
         XCTAssertTrue(app.staticTexts["Comece a ler"].waitForExistence(timeout: 10))
@@ -50,7 +50,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("My Library", in: app)
         app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch.tap()
-        app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Device language")).firstMatch.tap()
+        app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Português (Brasil)")).firstMatch.tap()
         XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
     }
 
@@ -67,6 +67,8 @@ final class CatecismoScreenshotTests: XCTestCase {
             tab.tap()
         } else if app.buttons[name].waitForExistence(timeout: 2) {
             app.buttons[name].tap()
+        } else if app.cells[name].waitForExistence(timeout: 2) {
+            app.cells[name].tap()
         } else {
             let sidebarItem = app.staticTexts[name].firstMatch
             XCTAssertTrue(sidebarItem.waitForExistence(timeout: 5), "Missing sidebar item: \(name)")
