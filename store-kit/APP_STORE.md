@@ -16,7 +16,7 @@ Use este arquivo para preencher o App Store Connect. Os prints gerados pelo work
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Versão em preparação: `1.1.1`
 - Build anterior enviado: `1.1 (17)`; workflow `36257985758` aceitou o upload.
-- Build planejado para `1.1.1`: `20` (o workflow define o build number pela execução do GitHub Actions; os runs `18` e `19` falharam antes do upload).
+- Build planejado para `1.1.1`: `21` (o workflow define o build number pela execução do GitHub Actions; os runs `18`, `19` e `20` falharam antes do upload).
 - Copyright: `2026 <CONFERIR titular>`
 
 ## Texto promocional

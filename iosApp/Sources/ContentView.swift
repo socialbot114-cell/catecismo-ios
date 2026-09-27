@@ -16,6 +16,16 @@ private enum AppSection: CaseIterable, Identifiable {
         }
     }
 
+    var accessibilityID: String {
+        switch self {
+        case .home: "section-home"
+        case .library: "section-library"
+        case .topics: "section-topics"
+        case .pioX: "section-pio-x"
+        case .saved: "section-saved"
+        }
+    }
+
     var icon: String {
         switch self {
         case .home: return "house.fill"
@@ -103,6 +113,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(Text(section.title))
+                .accessibilityIdentifier(section.accessibilityID)
             }
         }
         .padding(.horizontal, 10)
@@ -121,7 +132,9 @@ struct ContentView: View {
                 set: { if let section = $0 { selectedSection = section } }
             )) {
                 ForEach(AppSection.allCases) { section in
-                    Label(section.title, systemImage: section.icon).tag(section)
+                    Label(section.title, systemImage: section.icon)
+                        .tag(section)
+                        .accessibilityIdentifier(section.accessibilityID)
                 }
             }
             .scrollContentBackground(.hidden)

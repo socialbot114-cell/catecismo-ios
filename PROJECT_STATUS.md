@@ -9,7 +9,7 @@
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Última versão enviada: `1.1 (17)` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
 - Versão iOS em preparação: `1.1.1`
-- Build planejado: `20` (o workflow define o build number pelo número da execução)
+- Build planejado: `21` (o workflow define o build number pelo número da execução)
 - Repositório: `socialbot114-cell/catecismo-ios`
 
 ## Aplicativo
@@ -38,4 +38,4 @@
 
 ## Próxima release
 
-Validar e enviar iOS `1.1.1` ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml`. O próximo número de execução esperado é build `20` após as falhas nos runs `18` e `19`. Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto.
+Validar e enviar iOS `1.1.1` ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml`. O próximo número de execução esperado é build `21` após as falhas nos runs `18`, `19` e `20`. Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto.
