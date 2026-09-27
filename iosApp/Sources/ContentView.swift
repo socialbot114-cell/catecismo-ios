@@ -64,7 +64,7 @@ struct ContentView: View {
                     Text(message)
                 } actions: {
                     Button("Tentar novamente") {
-                        library.load(languageCode: AppLanguage.contentTag(for: locale))
+                        library.load(languageCode: AppLanguage.contentTag(for: selectedLocale))
                     }
                     .buttonStyle(.borderedProminent)
                 }
