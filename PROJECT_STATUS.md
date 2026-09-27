@@ -7,9 +7,10 @@
 - App Store Connect app ID: `6813681189`
 - SKU: `Catecismo-da-Igreja-Catolica`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
-- Última versão enviada: `1.1 (17)` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
+- Última versão enviada: `1.1.1 (30)` com o novo ícone (workflow run `36346278924`, Delivery UUID `efba5690-616a-4c3f-a365-b2ac64a04d22`)
+- Versão anterior: `1.1 (17)` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
 - Versão iOS em preparação: `1.1.1`
-- Build planejado: `29` (o workflow define o build number pelo número da execução)
+- Build planejado: `31` (o workflow define o build number pelo número da execução)
 - Repositório: `socialbot114-cell/catecismo-ios`
 
 ## Aplicativo
@@ -38,4 +39,4 @@
 
 ## Próxima release
 
-Validar e enviar iOS `1.1.1` ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml`. O próximo número de execução esperado é build `29` com o novo ícone (`COMPONENTS/novo/novalogo.jpg`). Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto.
+iOS `1.1.1 (30)` com o novo ícone foi enviado ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml` (run `36346278924`). Aguardar o processamento no App Store Connect e conferir que o app ID e o SKU correspondem ao registro correto.
