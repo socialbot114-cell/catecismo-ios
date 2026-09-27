@@ -5,6 +5,7 @@ Aplicativo offline-first para Android (Kotlin + Jetpack Compose) e iOS (SwiftUI)
 ## Conteúdo
 
 - Oito guias autorais sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
+- Seção “São Pio X” com links para edições externas em português e italiano; os textos de terceiros não são empacotados.
 - Leitura paginada por capítulos, busca local, favoritos, citações e progresso.
 - Narração local por TextToSpeech, sem dependência de rede.
 - Textos inspirados na organização do Catecismo e em referências oficiais; não redistribui o texto integral de terceiros.

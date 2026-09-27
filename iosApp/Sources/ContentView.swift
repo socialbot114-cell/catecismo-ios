@@ -5,6 +5,7 @@ private enum AppSection: String, CaseIterable, Identifiable {
     case home = "Início"
     case library = "Biblioteca"
     case topics = "Temas"
+    case pioX = "São Pio X"
     case saved = "Minha biblioteca"
 
     var id: Self { self }
@@ -14,6 +15,7 @@ private enum AppSection: String, CaseIterable, Identifiable {
         case .home: return "house.fill"
         case .library: return "books.vertical.fill"
         case .topics: return "square.grid.2x2.fill"
+        case .pioX: return "book.closed.fill"
         case .saved: return "bookmark.fill"
         }
     }
@@ -121,6 +123,7 @@ struct ContentView: View {
         case .home: HomeView()
         case .library: LibraryView()
         case .topics: TopicsView()
+        case .pioX: SaintPiusXView()
         case .saved: MyLibraryView()
         }
     }

@@ -1,6 +1,6 @@
 # Catecismo iOS App
 
-Independent and unofficial SwiftUI reader for eight bundled Catecismo introduction guides. Bundle identifier: `br.com.CATECISMO.DAIGREJACAToLICA`.
+Independent and unofficial SwiftUI reader for eight bundled Catecismo introduction guides, with a separate São Pio X section linking to external Portuguese and Italian editions. Bundle identifier: `br.com.CATECISMO.DAIGREJACAToLICA`.
 
 ```bash
 xcodegen generate --spec iosApp/project.yml

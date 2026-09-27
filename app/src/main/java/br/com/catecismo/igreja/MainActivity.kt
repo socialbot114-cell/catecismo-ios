@@ -135,12 +135,13 @@ fun CatecismoApp() {
                 }
                 SeedState.Loading -> Box(Modifier.fillMaxSize().background(Color(0xFFF7F2E8)))
                 SeedState.Ready -> Scaffold(bottomBar = {
-                    if (screen in listOf("home", "library", "universe", "my-library")) {
+                    if (screen in listOf("home", "library", "universe", "pio-x", "my-library")) {
                         NavigationBar {
                             listOf(
                                 "home" to (Icons.Filled.Home to "Início"),
                                 "library" to (Icons.AutoMirrored.Filled.MenuBook to "Biblioteca"),
                                 "universe" to (Icons.Filled.AutoAwesome to "Universo"),
+                                "pio-x" to (Icons.AutoMirrored.Filled.MenuBook to "São Pio X"),
                                 "my-library" to (Icons.Filled.Bookmark to "Minha biblioteca")
                             ).forEach { (route, item) ->
                                 NavigationBarItem(
@@ -159,6 +160,7 @@ fun CatecismoApp() {
                             "library" -> LibraryScreen(works, query, { query = it }, ::openWork)
                             "search" -> SearchScreen(repo, ::openWork)
                             "universe" -> UniverseScreen { selectedCharacter = it; screen = "character" }
+                            "pio-x" -> PiusXScreen()
                             "my-library" -> MyLibraryScreen(works, allProgress, favorites, quotes, ::openWork, { screen = "universe" })
                             "character" -> selectedCharacter?.let { c -> CharacterDetailScreen(c, c.id in characterFavorites, { scope.launch { prefs.toggleCharacterFavorite(c.id); characterFavorites = prefs.favoriteCharacters() } }, { screen = "universe" }, { id -> works.firstOrNull { it.id == id }?.let(::openWork) }) }
                             "detail" -> selWork?.let { w ->

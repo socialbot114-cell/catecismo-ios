@@ -22,6 +22,12 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
         capture(named: "catecismo-saved")
 
+        selectSection("São Pio X", in: app)
+        XCTAssertTrue(app.staticTexts["PORTUGUÊS (BRASIL)"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.links["Ler no MONTFORT"].exists)
+        XCTAssertTrue(app.links["Leggi su Wikisource"].exists)
+        capture(named: "catecismo-pio-x")
+
         selectSection("Biblioteca", in: app)
 
         let guide = app.staticTexts["O dom da fé"].firstMatch
