@@ -155,7 +155,7 @@ struct ContentView: View {
         case .library: LibraryView()
         case .topics: TopicsView()
         case .pioX: SaintPiusXView()
-        case .saved: MyLibraryView()
+        case .saved: MyLibraryView(language: $languageSelection)
         }
     }
 }
@@ -436,7 +436,7 @@ private struct TopicsView: View {
 private struct MyLibraryView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @AppStorage(AppLanguage.preferenceKey) private var language = AppLanguageChoice.system.rawValue
+    @Binding var language: String
     private var favoriteGuides: [Guide] { library.guides.filter { library.isFavorite($0.id) } }
 
     var body: some View {
