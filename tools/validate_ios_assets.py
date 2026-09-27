@@ -12,16 +12,38 @@ for item in catalog:
     document = json.loads((root / "Resources/Texts" / f"{item['id']}.json").read_text(encoding="utf-8"))
     assert document["id"] == item["id"] and len(document["chapters"]) == item["chapters"]
     assert all(chapter["title"].strip() and chapter["paragraphs"] for chapter in document["chapters"])
+locale_assets = root.parent / "app/src/main/assets/texts/locales"
+catalog_ids = {item["id"] for item in catalog}
+for language in ("en", "es", "fr"):
+    translated = json.loads((locale_assets / f"{language}.json").read_text(encoding="utf-8"))
+    assert {guide["id"] for guide in translated} == catalog_ids
+    for guide in translated:
+        original = json.loads((root / "Resources/Texts" / f"{guide['id']}.json").read_text(encoding="utf-8"))
+        assert len(guide["chapters"]) == len(original["chapters"])
+        assert all(
+            len(chapter["paragraphs"]) == len(original["chapters"][index]["paragraphs"])
+            and all(paragraph.strip() for paragraph in chapter["paragraphs"])
+            for index, chapter in enumerate(guide["chapters"])
+        )
+strings_catalog = json.loads((root / "Resources/Localizable.xcstrings").read_text(encoding="utf-8"))
+assert strings_catalog["sourceLanguage"] == "pt-BR"
+assert all(
+    all(language in value.get("localizations", {}) for language in ("en", "es", "fr"))
+    for value in strings_catalog["strings"].values()
+)
 for path in [root / "Info.plist", root / "ExportOptions.plist", root / "Resources/PrivacyInfo.xcprivacy"]:
     assert path.is_file(), path
 info = plistlib.loads((root / "Info.plist").read_bytes())
-assert info["CFBundleShortVersionString"] == "1.1"
-assert info["CFBundleVersion"] == "17"
+assert info["CFBundleShortVersionString"] == "1.1.1"
+assert info["CFBundleVersion"] == "18"
 spec = (root / "project.yml").read_text()
 assert "br.com.CATECISMO.DAIGREJACAToLICA" in spec
-assert 'MARKETING_VERSION: "1.1"' in spec
-assert spec.count('MARKETING_VERSION: "1.1"') == 2
-assert spec.count('CURRENT_PROJECT_VERSION: "17"') == 2
+assert "Resources/Localizable.xcstrings" in spec
+for language in ("en", "es", "fr"):
+    assert f"../app/src/main/assets/texts/locales/{language}.json" in spec
+assert 'MARKETING_VERSION: "1.1.1"' in spec
+assert spec.count('MARKETING_VERSION: "1.1.1"') == 2
+assert spec.count('CURRENT_PROJECT_VERSION: "18"') == 2
 
 icons = root / "Resources/Assets.xcassets/AppIcon.appiconset"
 icon_catalog = json.loads((icons / "Contents.json").read_text(encoding="utf-8"))
@@ -50,4 +72,4 @@ assert set(image_files) == expected_images, set(image_files)
 assert all(path.stat().st_size < 250_000 for path in image_files.values())
 assert sum(path.stat().st_size for path in image_files.values()) < 1_000_000
 
-print(f"iOS resources OK: eight guides, version 1.1 (17), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")
+print(f"iOS resources OK: eight guides, version {info['CFBundleShortVersionString']} ({info['CFBundleVersion']}), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")

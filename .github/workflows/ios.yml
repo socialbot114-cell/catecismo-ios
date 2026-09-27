@@ -25,11 +25,11 @@ jobs:
           with (root / 'Info.plist').open('rb') as f:
               info = plistlib.load(f)
           assert info['CFBundleDisplayName'] == 'Catecismo'
-          assert info['CFBundleShortVersionString'] == '1.1'
-          assert info['CFBundleVersion'] == '17'
+          assert info['CFBundleShortVersionString'] == '1.1.1'
+          assert info['CFBundleVersion'] == '18'
           assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
-          assert 'MARKETING_VERSION: "1.1"' in (root / 'project.yml').read_text()
-          assert 'CURRENT_PROJECT_VERSION: "17"' in (root / 'project.yml').read_text()
+          assert 'MARKETING_VERSION: "1.1.1"' in (root / 'project.yml').read_text()
+          assert 'CURRENT_PROJECT_VERSION: "18"' in (root / 'project.yml').read_text()
           with (root / 'Resources/PrivacyInfo.xcprivacy').open('rb') as f:
               plistlib.load(f)
           texts = list((root / 'Resources/Texts').glob('*.json'))
@@ -37,7 +37,7 @@ jobs:
           for path in texts:
               data = json.loads(path.read_text())
               assert data.get('id') and data.get('chapters')
-          forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
+          forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
                   text = path.read_text(errors='ignore').lower()

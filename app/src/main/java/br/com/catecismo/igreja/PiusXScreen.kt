@@ -3,6 +3,7 @@ package br.com.catecismo.igreja
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,10 +32,17 @@ import androidx.compose.ui.unit.sp
 private const val PORTUGUESE_SOURCE = "https://www.montfort.org.br/bra/documentos/catecismo/catecismo_s_pio_x/"
 private const val PORTUGUESE_FACSIMILE = "https://archive.org/details/catecismo-maior-de-sc3a3o-pio-x"
 private const val ITALIAN_SOURCE = "https://it.wikisource.org/wiki/Compendio_della_dottrina_cristiana/Catechismo_maggiore"
+private const val ENGLISH_SOURCE = "https://archive.org/details/catechism-of-pope-saint-pius-x"
+private const val SPANISH_SOURCE = "https://archive.org/details/catecismo-mayor-de-san-pio-x-1906"
+private const val FRENCH_FULL_SOURCE = "https://archive.org/details/catechisme-de-rome-de-st-pie-x-1905"
+private const val FRENCH_ABRIDGED_SOURCE = "https://archive.org/details/catechisme-de-rome-de-saint-pie-x-1912"
 
 @Composable
 fun PiusXScreen() {
     val context = LocalContext.current
+    val selectedLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags().ifBlank { AppLanguage.SYSTEM }
+    val systemLanguage = context.resources.configuration.locales[0]?.toLanguageTag() ?: AppLanguage.PORTUGUESE
+    val contentLanguage = AppLanguage.contentTag(selectedLanguage, systemLanguage)
 
     Column(
         modifier = Modifier
@@ -47,37 +56,73 @@ fun PiusXScreen() {
             shape = RoundedCornerShape(20.dp)
         ) {
             Column(Modifier.padding(18.dp)) {
-                Text("CATECISMO MAIOR · 1905", color = gold, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                Text("Catecismo Maior", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green, modifier = Modifier.padding(top = 7.dp))
+                Text(stringResource(R.string.language_catechism_major), color = gold, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                Text(stringResource(R.string.language_catechism_heading), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green, modifier = Modifier.padding(top = 7.dp))
                 Text(
-                    "Duas edições para consultar: português e italiano.",
+                    stringResource(R.string.language_catechism_intro),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 5.dp)
                 )
             }
         }
 
-        PiusXSourceCard(
-            language = "PORTUGUÊS (BRASIL)",
-            title = "Catecismo de São Pio X",
-            description = "Texto integral disponível na MONTFORT. O Internet Archive também oferece uma cópia digitalizada com OCR.",
-            action = "Ler no MONTFORT",
-            onOpen = { openExternalSource(context, PORTUGUESE_SOURCE) },
-            secondaryAction = "Fac-símile · Internet Archive",
-            onSecondaryOpen = { openExternalSource(context, PORTUGUESE_FACSIMILE) },
-            note = "A cópia do Internet Archive informa tradução não oficial e atualizações de 1976."
-        )
-
-        PiusXSourceCard(
-            language = "ITALIANO",
-            title = "Catechismo maggiore",
-            description = "Edição de Roma, Tipografia Vaticana, 1905, transcrita por partes e capítulos na Wikisource.",
-            action = "Leggi su Wikisource",
-            onOpen = { openExternalSource(context, ITALIAN_SOURCE) }
-        )
+        when (contentLanguage) {
+            AppLanguage.ENGLISH -> PiusXSourceCard(
+                language = stringResource(R.string.piox_english_language),
+                title = stringResource(R.string.piox_english_title),
+                description = stringResource(R.string.piox_english_summary),
+                action = stringResource(R.string.piox_open_archive),
+                onOpen = { openExternalSource(context, ENGLISH_SOURCE) },
+                note = stringResource(R.string.piox_english_note)
+            )
+            AppLanguage.SPANISH -> PiusXSourceCard(
+                language = stringResource(R.string.piox_spanish_language),
+                title = stringResource(R.string.piox_spanish_title),
+                description = stringResource(R.string.piox_spanish_summary),
+                action = stringResource(R.string.piox_open_archive),
+                onOpen = { openExternalSource(context, SPANISH_SOURCE) },
+                note = stringResource(R.string.piox_spanish_note)
+            )
+            AppLanguage.FRENCH -> {
+                PiusXSourceCard(
+                    language = stringResource(R.string.piox_french_language),
+                    title = stringResource(R.string.piox_french_full_title),
+                    description = stringResource(R.string.piox_french_full_summary),
+                    action = stringResource(R.string.piox_open_archive),
+                    onOpen = { openExternalSource(context, FRENCH_FULL_SOURCE) }
+                )
+                PiusXSourceCard(
+                    language = stringResource(R.string.piox_french_1912_language),
+                    title = stringResource(R.string.piox_french_1912_title),
+                    description = stringResource(R.string.piox_french_1912_summary),
+                    action = stringResource(R.string.piox_open_archive),
+                    onOpen = { openExternalSource(context, FRENCH_ABRIDGED_SOURCE) },
+                    note = stringResource(R.string.piox_french_1912_note)
+                )
+            }
+            else -> {
+                PiusXSourceCard(
+                    language = stringResource(R.string.language_piox_portuguese),
+                    title = stringResource(R.string.language_piox_portuguese_title),
+                    description = stringResource(R.string.language_piox_portuguese_summary),
+                    action = stringResource(R.string.language_piox_montfort),
+                    onOpen = { openExternalSource(context, PORTUGUESE_SOURCE) },
+                    secondaryAction = stringResource(R.string.language_piox_facsimile),
+                    onSecondaryOpen = { openExternalSource(context, PORTUGUESE_FACSIMILE) },
+                    note = stringResource(R.string.language_piox_facsimile_note)
+                )
+                PiusXSourceCard(
+                    language = stringResource(R.string.language_piox_italian),
+                    title = stringResource(R.string.language_piox_italian_title),
+                    description = stringResource(R.string.language_piox_italian_summary),
+                    action = stringResource(R.string.language_piox_wikisource),
+                    onOpen = { openExternalSource(context, ITALIAN_SOURCE) }
+                )
+            }
+        }
 
         Text(
-            "As fontes abrem no navegador e precisam de conexão. O original de 1905 está em domínio público; os direitos de traduções e transcrições devem ser avaliados conforme cada edição.",
+            stringResource(R.string.language_piox_offline_status),
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 4.dp)

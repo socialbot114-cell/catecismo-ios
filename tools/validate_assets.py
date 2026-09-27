@@ -69,6 +69,46 @@ def main():
     for extra in sorted(assets - indexed):
         errors.append(f"asset não listado no index: {extra}")
 
+    base_works = {}
+    for work_id in sorted(indexed):
+        path = OUT / f"{work_id}.json"
+        if path.is_file():
+            try:
+                base_works[work_id] = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as error:
+                errors.append(f"{work_id}: asset-base inválido: {error}")
+
+    locale_dir = OUT / "locales"
+    for locale in ("en", "es", "fr"):
+        path = locale_dir / f"{locale}.json"
+        try:
+            translated = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(translated, list):
+                fail(f"{locale}: pacote de tradução deve ser uma lista")
+            translated_ids = [work.get("id") for work in translated if isinstance(work, dict)]
+            if set(translated_ids) != indexed or len(translated_ids) != len(set(translated_ids)):
+                fail(f"{locale}: ids dos guias não correspondem ao catálogo original")
+            for work in translated:
+                work_id = work["id"]
+                source = base_works.get(work_id)
+                if source is None:
+                    continue
+                chapters = work.get("chapters", [])
+                source_chapters = source.get("chapters", [])
+                if work.get("title") == source.get("title") or chapters and chapters[0].get("title") == source_chapters[0].get("title"):
+                    fail(f"{locale}/{work_id}: título parece não traduzido")
+                if len(chapters) != len(source_chapters):
+                    fail(f"{locale}/{work_id}: quantidade de capítulos divergente")
+                if not all(work.get(field) for field in ("title", "author", "category", "description", "context")):
+                    fail(f"{locale}/{work_id}: metadado traduzido vazio")
+                for chapter_index, chapter in enumerate(chapters):
+                    paragraphs = chapter.get("paragraphs", [])
+                    expected = source_chapters[chapter_index].get("paragraphs", [])
+                    if not chapter.get("title") or len(paragraphs) != len(expected) or any(not p.strip() for p in paragraphs):
+                        fail(f"{locale}/{work_id}: estrutura de capítulo/parágrafos divergente")
+        except (OSError, KeyError, AssertionError, json.JSONDecodeError) as error:
+            errors.append(f"{locale}: {error}")
+
     rows.sort(key=lambda row: (row[0], row[1]))
     report = [
         "# Relatório de Conteúdo — Catecismo",

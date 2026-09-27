@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,30 +45,30 @@ fun HomeScreen(works: List<WorkEntity>, progress: List<ChapterProgressEntity>, o
         Row(verticalAlignment = Alignment.CenterVertically) {
             androidx.compose.foundation.Image(painterResource(R.drawable.logo_catecismo), "Símbolo do catecismo", Modifier.size(48.dp), contentScale = ContentScale.Crop)
             Spacer(Modifier.width(12.dp))
-            Column { Text("Catecismo", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green); Text("Fé, oração e vida cristã", fontSize = 13.sp, color = Color(0xFF5a544a)) }
+            Column { Text(stringResource(R.string.app_name), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green); Text(stringResource(R.string.home_tagline), fontSize = 13.sp, color = Color(0xFF5a544a)) }
         }
         Spacer(Modifier.height(16.dp))
         HeroCarousel(works, open)
         Spacer(Modifier.height(18.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            HomeAction("Universo", "Personagens e histórias", onUniverse, Modifier.weight(1f))
-            HomeAction("Minha biblioteca", "Seu percurso", onMyLibrary, Modifier.weight(1f))
+            HomeAction(stringResource(R.string.home_universe), stringResource(R.string.home_characters_stories), onUniverse, Modifier.weight(1f))
+            HomeAction(stringResource(R.string.home_my_library), stringResource(R.string.home_journey), onMyLibrary, Modifier.weight(1f))
         }
         Spacer(Modifier.height(20.dp))
-        OutlinedTextField(query, setQuery, Modifier.fillMaxWidth(), placeholder = { Text("Buscar tema ou reflexão…") }, leadingIcon = { Icon(Icons.Filled.Search, null) }, singleLine = true, trailingIcon = {
-            IconButton(onSearch) { Icon(Icons.AutoMirrored.Filled.ArrowForward, "Ir para busca") }
+        OutlinedTextField(query, setQuery, Modifier.fillMaxWidth(), placeholder = { Text(stringResource(R.string.home_search_hint)) }, leadingIcon = { Icon(Icons.Filled.Search, null) }, singleLine = true, trailingIcon = {
+            IconButton(onSearch) { Icon(Icons.AutoMirrored.Filled.ArrowForward, stringResource(R.string.search_title)) }
         }, shape = RoundedCornerShape(16.dp))
         Spacer(Modifier.height(20.dp))
-        if (active.isNotEmpty()) HomeBookSection("Continue lendo", active, open, showAll = onMyLibrary)
-        SectionTitle("EXPLORE POR CATEGORIA")
-        Text("${works.size} guias autorais para ler offline", fontSize = 13.sp, color = Color(0xFF5a544a))
+        if (active.isNotEmpty()) HomeBookSection(stringResource(R.string.continue_reading), active, open, showAll = onMyLibrary)
+        SectionTitle(stringResource(R.string.explore_by_category))
+        Text(stringResource(R.string.guides_offline_count, works.size), fontSize = 13.sp, color = Color(0xFF5a544a))
         categories.forEach { category ->
             HomeBookSection(category, works.filter { it.category == category }.take(6), open, showAll = onLibrary)
         }
         Surface(Modifier.fillMaxWidth().padding(top = 16.dp).clickable { onLibrary() }, RoundedCornerShape(18.dp), color = green) {
             Row(Modifier.padding(horizontal = 18.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) { Text("Ver todos os guias", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 17.sp); Text("Filtre por tema e encontre seu próximo estudo", color = Color.White.copy(alpha = .8f), fontSize = 12.sp) }
-                Icon(Icons.AutoMirrored.Filled.ArrowForward, "Abrir biblioteca", tint = Color.White)
+                Column(Modifier.weight(1f)) { Text(stringResource(R.string.home_view_all_guides), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 17.sp); Text(stringResource(R.string.home_filter_prompt), color = Color.White.copy(alpha = .8f), fontSize = 12.sp) }
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, stringResource(R.string.nav_library), tint = Color.White)
             }
         }
         Spacer(Modifier.height(24.dp))
@@ -79,7 +80,7 @@ private fun HomeBookSection(title: String, works: List<WorkEntity>, open: (WorkE
     if (works.isEmpty()) return
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(top = 18.dp, bottom = 8.dp)) {
         Text(title, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp, modifier = Modifier.weight(1f))
-        TextButton(showAll) { Text("Ver todos", color = green, fontSize = 12.sp) }
+        TextButton(showAll) { Text(stringResource(R.string.view_all), color = green, fontSize = 12.sp) }
     }
     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 4.dp)) {
         items(works, key = { it.id }) { work ->
@@ -96,10 +97,10 @@ private fun HomeBookSection(title: String, works: List<WorkEntity>, open: (WorkE
 @Composable
 private fun HeroCarousel(works: List<WorkEntity>, open: (WorkEntity) -> Unit) {
     val heroes = listOf(
-        Triple(R.drawable.bg_church_path, "o-dom-da-fe", "A fé ilumina o caminho"),
-        Triple(R.drawable.bg_church_bible, "credo-em-caminho", "Conhecer para viver"),
-        Triple(R.drawable.bg_church_community, "a-igreja-viva", "Uma fé compartilhada"),
-        Triple(R.drawable.bg_church_sunset, "escola-da-oracao", "Um momento para rezar")
+        Triple(R.drawable.bg_church_path, "o-dom-da-fe", stringResource(R.string.hero_faith)),
+        Triple(R.drawable.bg_church_bible, "credo-em-caminho", stringResource(R.string.hero_know)),
+        Triple(R.drawable.bg_church_community, "a-igreja-viva", stringResource(R.string.hero_shared_faith)),
+        Triple(R.drawable.bg_church_sunset, "escola-da-oracao", stringResource(R.string.hero_prayer))
     )
     val pager = rememberPagerState(pageCount = { heroes.size })
     Column {
@@ -139,11 +140,11 @@ fun LibraryScreen(works: List<WorkEntity>, query: String, setQuery: (String) -> 
     LaunchedEffect(category, query) { visibleCount = 8 }
     Column(Modifier.fillMaxSize().padding(horizontal = 22.dp)) {
         Spacer(Modifier.height(20.dp))
-        Text("Biblioteca", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
-        OutlinedTextField(query, setQuery, Modifier.fillMaxWidth().padding(top = 10.dp), placeholder = { Text("Filtrar guias") }, singleLine = true, shape = RoundedCornerShape(14.dp))
+        Text(stringResource(R.string.library_title), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+        OutlinedTextField(query, setQuery, Modifier.fillMaxWidth().padding(top = 10.dp), placeholder = { Text(stringResource(R.string.filter_guides)) }, singleLine = true, shape = RoundedCornerShape(14.dp))
         Spacer(Modifier.height(8.dp))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            items(cats) { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(c) }) }
+            items(cats) { c -> FilterChip(selected = category == c, onClick = { category = c }, label = { Text(if (c == "Todos") stringResource(R.string.category_all) else c) }) }
         }
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp), contentPadding = PaddingValues(bottom = 24.dp, top = 6.dp)) {
             items(filtered.take(visibleCount), key = { it.id }) { w ->
@@ -158,7 +159,7 @@ fun LibraryScreen(works: List<WorkEntity>, query: String, setQuery: (String) -> 
             if (visibleCount < filtered.size) {
                 item {
                     OutlinedButton({ visibleCount += 8 }, Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                        Text("Mostrar mais guias (${filtered.size - visibleCount} restantes)")
+                        Text(stringResource(R.string.show_more_guides, filtered.size - visibleCount))
                     }
                 }
             }
@@ -186,15 +187,15 @@ fun SearchScreen(repo: LibraryRepository, open: (WorkEntity) -> Unit) {
     }
     Column(Modifier.fillMaxSize().padding(horizontal = 22.dp)) {
         Spacer(Modifier.height(20.dp))
-        Text("Busca no texto integral", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 26.sp)
-        OutlinedTextField(q, { q = it }, Modifier.fillMaxWidth().padding(top = 10.dp), placeholder = { Text("Buscar palavra ou trecho…") }, singleLine = true, shape = RoundedCornerShape(14.dp))
+        Text(stringResource(R.string.search_title), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 26.sp)
+        OutlinedTextField(q, { q = it }, Modifier.fillMaxWidth().padding(top = 10.dp), placeholder = { Text(stringResource(R.string.search_hint)) }, singleLine = true, shape = RoundedCornerShape(14.dp))
         Spacer(Modifier.height(8.dp))
         when {
-            q.trim().length < 3 -> Text("Digite ao menos 3 letras para pesquisar em todos os guias.", color = Color(0xFF5a544a))
+            q.trim().length < 3 -> Text(stringResource(R.string.search_min_chars), color = Color(0xFF5a544a))
             searching -> LinearProgressIndicator(Modifier.fillMaxWidth())
-            hits.isEmpty() -> Text("Nenhum trecho encontrado.")
+            hits.isEmpty() -> Text(stringResource(R.string.no_results))
             else -> {
-                Text("${hits.size} ocorrências")
+                Text(stringResource(R.string.search_occurrences, hits.size))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
                     items(hits) { h ->
                         Surface(Modifier.fillMaxWidth().clickable { scope.launch { repo.work(h.workId)?.let(open) } }, RoundedCornerShape(12.dp), color = paper) {
@@ -216,8 +217,8 @@ fun FavoritesScreen(works: List<WorkEntity>, favorites: List<String>, open: (Wor
     val fav = works.filter { it.id in favorites }
     Column(Modifier.fillMaxSize().padding(horizontal = 22.dp)) {
         Spacer(Modifier.height(20.dp))
-        Text("Favoritos", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
-        if (fav.isEmpty()) Text("Marque guias como favoritos durante a leitura.", color = Color(0xFF5a544a))
+        Text(stringResource(R.string.favorites_title), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+        if (fav.isEmpty()) Text(stringResource(R.string.empty_favorites), color = Color(0xFF5a544a))
         LazyColumn { items(fav) { w -> Surface(Modifier.fillMaxWidth().padding(vertical = 4.dp).clickable { open(w) }, RoundedCornerShape(14.dp), color = paper) { Row(Modifier.padding(12.dp)) { Cover(w, Modifier.size(46.dp, 66.dp)); Spacer(Modifier.width(12.dp)); Column { Text(w.title, fontWeight = FontWeight.Bold, fontSize = 18.sp); Text(w.category) } } } } }
     }
 }
@@ -226,18 +227,21 @@ fun FavoritesScreen(works: List<WorkEntity>, favorites: List<String>, open: (Wor
 fun ProfileScreen(quotes: List<Quote>, favoriteCount: Int, theme: String, setTheme: (String) -> Unit, onRemoveQuote: (String) -> Unit) {
     Column(Modifier.fillMaxSize().padding(22.dp).verticalScroll(rememberScrollState())) {
         Spacer(Modifier.height(20.dp))
-        Text("Seu perfil", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+        Text(stringResource(R.string.profile_title), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 28.sp)
         Spacer(Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) { StatCard("$favoriteCount", "favoritos"); StatCard("${quotes.size}", "citações"); StatCard("3", "temas") }
+        Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) { StatCard("$favoriteCount", stringResource(R.string.favorite_count)); StatCard("${quotes.size}", stringResource(R.string.quote_count)); StatCard("3", stringResource(R.string.theme_count)) }
         Spacer(Modifier.height(24.dp))
-        Text("Tema do leitor", fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.reader_theme), fontWeight = FontWeight.Bold)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            listOf("Claro", "Sépia", "Escuro").forEach { t -> FilterChip(selected = theme == t, onClick = { setTheme(t) }, label = { Text(t) }) }
+            listOf("Claro", "Sépia", "Escuro").forEach { t ->
+                val label = when (t) { "Claro" -> R.string.theme_light; "Sépia" -> R.string.theme_sepia; else -> R.string.theme_dark }
+                FilterChip(selected = theme == t, onClick = { setTheme(t) }, label = { Text(stringResource(label)) })
+            }
         }
         Spacer(Modifier.height(24.dp))
-        Text("Citações", fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.quotes_title), fontWeight = FontWeight.Bold)
         if (quotes.isEmpty()) {
-            Text("Toque e segure um parágrafo no leitor para salvar uma citação.", fontSize = 13.sp, color = Color(0xFF5a544a))
+            Text(stringResource(R.string.quote_hint), fontSize = 13.sp, color = Color(0xFF5a544a))
         } else {
             quotes.forEach { quote ->
                 Surface(Modifier.fillMaxWidth().padding(vertical = 5.dp), RoundedCornerShape(12.dp), color = paper) {
@@ -246,11 +250,11 @@ fun ProfileScreen(quotes: List<Quote>, favoriteCount: Int, theme: String, setThe
                         Spacer(Modifier.height(6.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f)) {
-                                Text(quote.workTitle.ifBlank { "Origem não registrada" }, fontSize = 12.sp, color = green, fontWeight = FontWeight.Bold)
+                                Text(quote.workTitle.ifBlank { stringResource(R.string.quote_origin_missing) }, fontSize = 12.sp, color = green, fontWeight = FontWeight.Bold)
                                 if (quote.chapterTitle.isNotBlank()) Text(quote.chapterTitle, fontSize = 11.sp, color = Color(0xFF5a544a))
                             }
-                            IconButton({ onRemoveQuote(quote.id) }) {
-                                Icon(Icons.Filled.Delete, "Remover citação", tint = Color(0xFF5a544a))
+                                IconButton({ onRemoveQuote(quote.id) }) {
+                                    Icon(Icons.Filled.Delete, stringResource(R.string.remove_quote), tint = Color(0xFF5a544a))
                             }
                         }
                     }
@@ -258,10 +262,10 @@ fun ProfileScreen(quotes: List<Quote>, favoriteCount: Int, theme: String, setThe
             }
         }
         Spacer(Modifier.height(24.dp))
-        Text("Sobre", fontWeight = FontWeight.Bold)
-        Text("Guias autorais de formação cristã, inspirados na estrutura do Catecismo e em fontes oficiais. App offline, sem anúncios.", fontSize = 14.sp, color = Color(0xFF5a544a))
+        Text(stringResource(R.string.about_title), fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.about_guides), fontSize = 14.sp, color = Color(0xFF5a544a))
         Spacer(Modifier.height(16.dp))
-        Text("Referências e créditos: consulte a tela de detalhes e a documentação do projeto.", fontSize = 12.sp, color = Color(0xFF5a544a))
+        Text(stringResource(R.string.references_credits), fontSize = 12.sp, color = Color(0xFF5a544a))
         Spacer(Modifier.height(24.dp))
     }
 }
@@ -291,7 +295,7 @@ fun Cover(work: WorkEntity, modifier: Modifier) {
     }
     Box(modifier.background(Brush.verticalGradient(palette), RoundedCornerShape(8.dp)).padding(10.dp), contentAlignment = Alignment.BottomStart) {
         Column {
-            Text("CATECISMO", color = Color(0xFFDCC79A), fontSize = 7.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+            Text(stringResource(R.string.app_name).uppercase(), color = Color(0xFFDCC79A), fontSize = 7.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
             Spacer(Modifier.height(4.dp))
             Text(work.title, color = Color(0xFFF7F2E8), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 16.sp, lineHeight = 18.sp, maxLines = 4)
             Spacer(Modifier.height(4.dp))

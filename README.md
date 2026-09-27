@@ -1,11 +1,12 @@
 # Catecismo da Igreja Católica
 
-Aplicativo offline-first para Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`. A próxima versão iOS em preparação é `1.1`; o Android permanece em `1.0.0` (versionCode 2) até uma release própria.
+Aplicativo offline-first para Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`. A próxima versão iOS em preparação é `1.1.1`; o Android permanece em `1.0.0` (versionCode 2) até uma release própria.
 
 ## Conteúdo
 
 - Oito guias autorais sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
-- Seção “São Pio X” com links para edições externas em português e italiano; os textos de terceiros não são empacotados.
+- Interface e guias em português do Brasil, inglês, espanhol e francês; o idioma acompanha o aparelho por padrão e pode ser alterado em Minha biblioteca.
+- Seção “São Pio X” com fontes externas identificadas por idioma; textos de terceiros não são empacotados sem direitos de redistribuição confirmados.
 - Leitura paginada por capítulos, busca local, favoritos, citações e progresso.
 - Narração local por TextToSpeech, sem dependência de rede.
 - Textos inspirados na organização do Catecismo e em referências oficiais; não redistribui o texto integral de terceiros.

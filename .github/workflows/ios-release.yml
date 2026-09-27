@@ -25,7 +25,7 @@ jobs:
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
           assert len(texts) == 8
-          forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
+          forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
                   assert not any(item in path.read_text(errors='ignore').lower() for item in forbidden), path
@@ -56,13 +56,13 @@ jobs:
       - name: Set App Store build metadata
         working-directory: iosApp
         run: |
-          /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1' Info.plist
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.1.1' Info.plist
           /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $GITHUB_RUN_NUMBER" Info.plist
 
       - name: Validate marketing version
         working-directory: iosApp
         run: |
-          grep -qx '    MARKETING_VERSION: "1.1"' project.yml
+          grep -qx '    MARKETING_VERSION: "1.1.1"' project.yml
 
       - name: Run XCTest
         working-directory: iosApp
@@ -114,8 +114,8 @@ jobs:
             CODE_SIGN_IDENTITY='Apple Distribution' \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
             DEVELOPMENT_TEAM="$TEAM_ID" \
-            MARKETING_VERSION=1.1 \
-            INFOPLIST_KEY_CFBundleShortVersionString=1.1 \
+            MARKETING_VERSION=1.1.1 \
+            INFOPLIST_KEY_CFBundleShortVersionString=1.1.1 \
             INFOPLIST_KEY_CFBundleVersion=${{ github.run_number }} \
             CURRENT_PROJECT_VERSION=${{ github.run_number }}
 
@@ -146,7 +146,7 @@ jobs:
           json_count=$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')
           printf 'Exported IPA: bundle=%s marketing=%s build=%s json-resources=%s\n' "$bundle_id" "$marketing_version" "$build_version" "$json_count"
           test "$bundle_id" = 'br.com.CATECISMO.DAIGREJACAToLICA'
-          test "$marketing_version" = '1.1'
+          test "$marketing_version" = '1.1.1'
           test "$build_version" = '${{ github.run_number }}'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
           test "$json_count" -ge 8

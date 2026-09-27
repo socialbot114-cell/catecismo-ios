@@ -3,5 +3,13 @@ import SwiftUI
 @main
 struct CatecismoApp: App {
     @StateObject private var library = LibraryViewModel()
-    var body: some Scene { WindowGroup { ContentView().environmentObject(library) } }
+    @AppStorage(AppLanguage.preferenceKey) private var language = AppLanguageChoice.system.rawValue
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(library)
+                .environment(\.locale, AppLanguage.locale(for: language))
+        }
+    }
 }

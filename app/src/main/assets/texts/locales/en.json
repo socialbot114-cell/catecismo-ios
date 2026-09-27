@@ -1,0 +1,82 @@
+[
+  {
+    "id": "o-dom-da-fe", "title": "The Gift of Faith", "author": "Catechism Team", "year": 2026, "category": "Foundations",
+    "description": "A simple introduction to the human response to God, who reveals himself.",
+    "context": "An original reading and reflection guide inspired by the structure of the Catechism of the Catholic Church.",
+    "characters": ["God", "the human person"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Listening and responding", "paragraphs": ["Faith begins when a person opens up to a presence greater than oneself and welcomes a word of love.", "Believing does not mean abandoning reason. It means trusting freely, seeking understanding, and allowing truth to transform one's life.", "Faith is a gift received and a response offered. It grows when celebrated, studied, and lived each day."]},
+      {"title": "A journey shared", "paragraphs": ["No one needs to walk alone. The community preserves the memory of faith and helps each person discern the next step.", "Prayer, listening to the Word, and serving those in need make visible a faith that does not close in on ideas.", "Sincere questions are part of the journey too. God accompanies the search and patiently forms the heart."]}
+    ]
+  },
+  {
+    "id": "credo-em-caminho", "title": "The Creed as a Journey", "author": "Catechism Team", "year": 2026, "category": "Creed",
+    "description": "A meditative journey through the central words of the profession of faith.",
+    "context": "An original introductory summary arranged in short steps.",
+    "characters": ["Father", "Son", "Holy Spirit"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "The God who calls", "paragraphs": ["To say that we believe in God is to recognize a loving origin and to trust that creation is not a meaningless accident.", "The Father sustains life and calls each person to care responsibly for the world, for others, and for oneself.", "The language of faith is humble: it points to a mystery we can welcome but never reduce to our own measure."]},
+      {"title": "Christ and the Spirit", "paragraphs": ["In Jesus Christ, Christian faith sees God drawing near, sharing in human life, and committed to its fullness.", "The Holy Spirit awakens, gathers, and strengthens. The Spirit inspires courage to do what is good when the way is difficult.", "To profess the faith is to let these truths become concrete choices for justice, hope, and reconciliation."]}
+    ]
+  },
+  {
+    "id": "sinais-da-graca", "title": "Signs of Grace", "author": "Catechism Team", "year": 2026, "category": "Sacraments",
+    "description": "How the Church's celebrated signs make God's presence and action visible.",
+    "context": "An original introduction to the sacraments as encounters that nourish Christian life.",
+    "characters": ["community", "disciple"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "God draws near", "paragraphs": ["Grace is not a prize for perfect people. It is God's free help, healing and sustaining us while inviting us to begin again.", "The sacraments use visible signs to make an action perceptible, an action that reaches the whole person.", "Celebration calls for presence: an outward gesture becomes true when it meets a faith ready to welcome and respond."]},
+      {"title": "Celebrating and living", "paragraphs": ["Baptism begins a belonging; the Eucharist gathers and nourishes; Reconciliation opens a way to mercy.", "Each celebration sends the community outward, where faith must become care and commitment.", "Sacramental life does not end in church: it continues in relationships, work, family, and daily decisions."]}
+    ]
+  },
+  {
+    "id": "liberdade-e-amor", "title": "Freedom and Love", "author": "Catechism Team", "year": 2026, "category": "Christian Life",
+    "description": "Freedom as the ability to choose the good and grow in love.",
+    "context": "An original reflection on conscience, responsibility, and human dignity.",
+    "characters": ["conscience", "neighbor"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Choosing with conscience", "paragraphs": ["Being free does not mean doing everything one feels like doing. It means being able to direct one's life toward what is true and good.", "Conscience needs to be formed by truth, experience, and conversation with wise and trustworthy people.", "Every choice leaves a mark. Responsibility recognizes those marks and seeks to repair harm when needed."]},
+      {"title": "Love that serves", "paragraphs": ["Christian love is more than a feeling: it becomes attention, time freely given, and care for those in need.", "Respecting every person's dignity is a concrete way to honor the Creator.", "Small, faithful acts repeated with perseverance can renew a family, a community, and the person who acts."]}
+    ]
+  },
+  {
+    "id": "escola-da-oracao", "title": "A School of Prayer", "author": "Catechism Team", "year": 2026, "category": "Prayer",
+    "description": "Simple practices for making room for silence, gratitude, and conversation with God.",
+    "context": "An original guide inspired by the great forms of Christian prayer.",
+    "characters": ["heart", "community"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Making room", "paragraphs": ["Prayer is turning toward God with all that we are: our joys, fears, questions, and hope.", "A minute of attentive silence can already be a doorway. Consistency matters more than length or an appearance of perfection.", "Gratitude trains our eyes to notice signs of care that haste often hides."]},
+      {"title": "Asking and listening", "paragraphs": ["In prayer of petition, we learn to bring our needs to God without turning God into an instrument of our plans.", "Listening takes patience. An answer may emerge as peace, clarity, courage, or a call to serve.", "When words fail, calm breathing and a sincere presence can also become prayer."]}
+    ]
+  },
+  {
+    "id": "a-igreja-viva", "title": "The Living Church", "author": "Catechism Team", "year": 2026, "category": "Church",
+    "description": "The Christian community as a people gathered, diverse, and sent into the world.",
+    "context": "An original summary for understanding belonging, mission, and communion.",
+    "characters": ["People of God", "servant"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Belonging and communion", "paragraphs": ["The Church is a community of people on a journey, not a club of people who have already reached the destination.", "Different gifts are not a threat. Put at the service of others, they make communion richer and more truthful.", "Listening to one another helps a community recognize wounds, correct its course, and welcome new people."]},
+      {"title": "A mission in the world", "paragraphs": ["The community also exists to proclaim hope and to support whatever promotes life and justice.", "Serving the poor, protecting the vulnerable, and caring for creation are public expressions of faith.", "Every baptized person can be a presence of reconciliation where they live, work, and build relationships."]}
+    ]
+  },
+  {
+    "id": "maria-e-o-sim", "title": "Mary's Yes", "author": "Catechism Team", "year": 2026, "category": "Mary",
+    "description": "A meditation on openness, trust, and care, inspired by Mary.",
+    "context": "An original reflection on Mary in the mystery of Christ and the Church.",
+    "characters": ["Mary", "Jesus"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Openness", "paragraphs": ["Mary's yes can be seen as a free, courageous response, open to a future she could not control.", "Openness does not mean passivity. She asks, discerns, and responsibly embraces what she understands.", "Today too, faith grows when we make room to serve beyond our immediate plans."]},
+      {"title": "Caring for life", "paragraphs": ["Mary accompanies Jesus with a faithful presence, including in moments of pain and uncertainty.", "Her care reminds us that spiritual greatness can appear in quiet, attentive, and persevering gestures.", "To contemplate Mary is to learn to keep hope and offer it tenderly to those who are discouraged."]}
+    ]
+  },
+  {
+    "id": "conversao-diaria", "title": "Daily Conversion", "author": "Catechism Team", "year": 2026, "category": "Christian Life",
+    "description": "Beginning again each day: acknowledging limits, asking forgiveness, and doing good.",
+    "context": "Original reflections on inner change and mercy in our relationships.",
+    "characters": ["disciple", "sibling"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/ENG0015/_INDEX.HTM",
+    "chapters": [
+      {"title": "Recognizing and beginning again", "paragraphs": ["Conversion is a change of direction that begins with the courage to face the truth about ourselves.", "Acknowledging a mistake diminishes no one. It opens the possibility of learning, making amends, and growing.", "Mercy offers a future without denying the past, inviting us to rise again."]},
+      {"title": "Forgiving and acting", "paragraphs": ["Forgiveness does not call evil good. It stops the desire to return an injury and makes room for justice and healing.", "Inner change is confirmed through actions: speaking honestly, keeping promises, and protecting those who are vulnerable.", "Everyday goodness rarely makes noise, but it builds a coherent life and a shared hope."]}
+    ]
+  }
+]

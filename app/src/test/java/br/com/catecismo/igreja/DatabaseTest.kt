@@ -101,6 +101,25 @@ class DatabaseTest {
         assertEquals(2, db.dao().paragraphCount("o-dom-da-fe"))
     }
 
+    @Test fun `trocar idioma atualiza guias e preserva progresso`() = runBlocking {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val seeder = br.com.catecismo.igreja.db.Seeder(context, db)
+        val workId = "o-dom-da-fe"
+
+        assertTrue(seeder.seedIfNeeded("pt-BR"))
+        val portugueseChapter = db.dao().chapters(workId).first()
+        db.dao().upsertProgress(ChapterProgressEntity(portugueseChapter.id, workId, 42, 1000L))
+
+        assertTrue(seeder.seedIfNeeded("en"))
+        assertEquals("The Gift of Faith", db.dao().work(workId)?.title)
+        assertEquals(portugueseChapter.id, db.dao().chapters(workId).first().id)
+        assertEquals(42, db.dao().progress(portugueseChapter.id)?.progress)
+
+        assertTrue(seeder.seedIfNeeded("pt-BR"))
+        assertEquals("O dom da fé", db.dao().work(workId)?.title)
+        assertEquals(42, db.dao().progress(portugueseChapter.id)?.progress)
+    }
+
     @Test fun `guia inexistente retorna nulo`() = runBlocking {
         assertNull(db.dao().work("fantasma"))
         assertTrue(db.dao().chapters("fantasma").isEmpty())

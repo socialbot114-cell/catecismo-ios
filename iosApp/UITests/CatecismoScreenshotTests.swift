@@ -35,6 +35,23 @@ final class CatecismoScreenshotTests: XCTestCase {
         guide.tap()
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
         capture(named: "catecismo-reading")
+
+        selectSection("Minha biblioteca", in: app)
+        let languagePicker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
+        XCTAssertTrue(languagePicker.waitForExistence(timeout: 5))
+        languagePicker.tap()
+        let englishOption = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "English")).firstMatch
+        XCTAssertTrue(englishOption.waitForExistence(timeout: 5))
+        englishOption.tap()
+        XCTAssertTrue(app.navigationBars["My Library"].waitForExistence(timeout: 5))
+        selectSection("Library", in: app)
+        XCTAssertTrue(app.staticTexts["The Gift of Faith"].waitForExistence(timeout: 5))
+        capture(named: "catecismo-library-en")
+
+        selectSection("My Library", in: app)
+        app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch.tap()
+        app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Device language")).firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
     }
 
     private func capture(named name: String) {

@@ -2,7 +2,7 @@
 
 App: **Catecismo**
 
-Use este arquivo para preencher o App Store Connect. Os prints gerados pelo workflow para avaliação ficam em `store-kit/review/ios-1.1/`; só devem substituir os prints de submissão após aprovação visual.
+Use este arquivo para preencher o App Store Connect. Os prints gerados pelo workflow para avaliação ficam em `store-kit/review/ios-1.1/`; são da versão anterior e servem apenas como referência até a captura visual da 1.1.1.
 
 ## Informações do App
 
@@ -14,19 +14,20 @@ Use este arquivo para preencher o App Store Connect. Os prints gerados pelo work
 - Categoria secundária: `Books`
 - Preço: `Gratuito`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
-- Versão em preparação: `1.1`
-- Build enviado: `1.1 (17)`; workflow `36257985758` aceitou o upload. A disponibilidade após processamento deve ser conferida no App Store Connect.
+- Versão em preparação: `1.1.1`
+- Build anterior enviado: `1.1 (17)`; workflow `36257985758` aceitou o upload.
+- Build planejado para `1.1.1`: `18` (o workflow define o build number pela execução do GitHub Actions).
 - Copyright: `2026 <CONFERIR titular>`
 
 ## Texto promocional
 
-Guias autorais de fé, oração e reflexão para ler offline, com narração e progresso.
+Guias de fé em português, inglês, espanhol e francês para ler offline, com narração e progresso.
 
 ## Descrição
 
-Catecismo reúne guias autorais de fé e reflexão para leitura offline, com narração por voz, favoritos e progresso de leitura.
+Catecismo reúne oito guias autorais de fé e reflexão para leitura offline, com narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
 
-É um aplicativo independente e não oficial: apresenta conteúdos introdutórios inspirados na organização do Catecismo, sem redistribuir textos integrais de terceiros.
+É um aplicativo independente e não oficial. A seção de São Pio X apresenta links para edições externas; abrir essas fontes requer conexão com a internet.
 
 Recursos:
 
@@ -35,9 +36,10 @@ Recursos:
 - Narração local por voz.
 - Favoritos e citações salvos no aparelho.
 - Busca por guia ou tema.
+- Idioma selecionável nas preferências, além do idioma do dispositivo.
 - Layout próprio para iPad com barra lateral.
 
-Não é necessário criar uma conta. O aplicativo não exibe anúncios, não exige internet e não coleta dados pessoais.
+Não é necessário criar uma conta. O aplicativo não exibe anúncios nem coleta dados pessoais. Os guias funcionam offline; somente os links para edições externas precisam de internet.
 
 ## Palavras-chave
 
@@ -45,9 +47,9 @@ catecismo,fe,igreja,oracao,catolico,reflexao,leitura,espiritualidade
 
 ## Novidades desta versão
 
-- Ícone atualizado com a arte completa escolhida para o Catecismo.
-- Navegação e telas de leitura renovadas em azul-marinho e dourado.
-- Biblioteca reorganizada e melhor adaptada a iPhone e iPad.
+- Idioma selecionável entre português, inglês, espanhol e francês, com guias localizados para leitura offline.
+- Narração e leitor adaptados ao idioma selecionado, conforme as vozes instaladas no aparelho.
+- Seção de São Pio X com fontes históricas apresentadas por idioma.
 
 ## URLs
 
@@ -70,18 +72,19 @@ Conteúdo religioso/educacional, sem material sensível. Classificação esperad
 
 Olá,
 
-O Catecismo é um aplicativo de leitura e reflexão totalmente offline para iPhone e iPad.
+O Catecismo é um aplicativo de leitura e reflexão offline para iPhone e iPad. A seção São Pio X contém links externos que precisam de internet.
 
 Para testar:
 
-1. Abra o app.
+1. Abra o app. O idioma inicial acompanha o dispositivo; a troca manual fica em “Minha biblioteca”.
 2. Na aba Início, veja os guias disponíveis.
 3. Abra a aba Biblioteca e toque em "O dom da fé".
 4. Leia o capítulo, salve uma citação e use o botão "Ouvir" para narração.
 5. Abra a aba Temas para navegar por categoria.
-6. Abra "Minha biblioteca" para ver progresso e favoritos.
+6. Abra "Minha biblioteca" para ver progresso e favoritos e altere o idioma do app.
+7. Abra "São Pio X" para consultar as edições disponíveis; os links externos precisam de internet.
 
-Não é necessário criar uma conta, conceder permissões ou conectar-se à internet. Não há compras, anúncios, rastreamento ou conteúdo que exija autenticação. O app é independente e não oficial.
+Não é necessário criar uma conta, conceder permissões ou conectar-se à internet para ler os guias. Os links externos da seção São Pio X precisam de conexão. Não há compras, anúncios, rastreamento ou conteúdo que exija autenticação. O app é independente e não oficial.
 
 Obrigado.
 

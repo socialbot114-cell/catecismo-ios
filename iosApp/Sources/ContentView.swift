@@ -1,14 +1,20 @@
 import SwiftUI
 import UIKit
 
-private enum AppSection: String, CaseIterable, Identifiable {
-    case home = "Início"
-    case library = "Biblioteca"
-    case topics = "Temas"
-    case pioX = "São Pio X"
-    case saved = "Minha biblioteca"
+private enum AppSection: CaseIterable, Identifiable {
+    case home, library, topics, pioX, saved
 
     var id: Self { self }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .home: "Início"
+        case .library: "Biblioteca"
+        case .topics: "Temas"
+        case .pioX: "São Pio X"
+        case .saved: "Minha biblioteca"
+        }
+    }
 
     var icon: String {
         switch self {
@@ -23,6 +29,7 @@ private enum AppSection: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var selectedSection = AppSection.home
 
@@ -56,7 +63,12 @@ struct ContentView: View {
         }
         .tint(CatecismoTheme.accent)
         .task {
-            if library.loadState == .loading { library.load() }
+            if library.loadState == .loading {
+                library.load(languageCode: AppLanguage.contentTag(for: locale))
+            }
+        }
+        .onChange(of: locale.identifier) { _, identifier in
+            library.load(languageCode: AppLanguage.contentTag(for: Locale(identifier: identifier)))
         }
     }
 
@@ -76,7 +88,7 @@ struct ContentView: View {
                     VStack(spacing: 5) {
                         Image(systemName: section.icon)
                             .font(.system(size: 20, weight: .semibold))
-                        Text(section.rawValue)
+                        Text(section.title)
                             .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
                             .lineLimit(1)
                             .minimumScaleFactor(0.8)
@@ -87,7 +99,7 @@ struct ContentView: View {
                     .background(isSelected ? CatecismoTheme.canvas : Color.clear, in: Capsule())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(section.rawValue)
+                .accessibilityLabel(Text(section.title))
             }
         }
         .padding(.horizontal, 10)
@@ -106,7 +118,7 @@ struct ContentView: View {
                 set: { if let section = $0 { selectedSection = section } }
             )) {
                 ForEach(AppSection.allCases) { section in
-                    Label(section.rawValue, systemImage: section.icon).tag(section)
+                    Label(section.title, systemImage: section.icon).tag(section)
                 }
             }
             .scrollContentBackground(.hidden)
@@ -405,6 +417,7 @@ private struct TopicsView: View {
 private struct MyLibraryView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @AppStorage(AppLanguage.preferenceKey) private var language = AppLanguageChoice.system.rawValue
     private var favoriteGuides: [Guide] { library.guides.filter { library.isFavorite($0.id) } }
 
     var body: some View {
@@ -417,6 +430,22 @@ private struct MyLibraryView: View {
                         StatCard(value: "\(library.startedGuideCount)", label: "Guias iniciados", symbol: "book.pages.fill")
                         StatCard(value: "\(library.readingMinutes) min", label: "Tempo de leitura", symbol: "clock.fill")
                     }
+
+                    HStack {
+                        Label("Idioma do app", systemImage: "globe")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(CatecismoTheme.navy)
+                        Spacer()
+                        Picker("Idioma do app", selection: $language) {
+                            ForEach(AppLanguageChoice.allCases) { choice in
+                                Text(choice.title).tag(choice.rawValue)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .accessibilityIdentifier("app-language-picker")
+                    }
+                    .padding(16)
+                    .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
 
                     VStack(alignment: .leading, spacing: 12) {
                         SectionHeading(title: "Favoritos", subtitle: "Guias que você marcou")
@@ -471,6 +500,7 @@ private struct MyLibraryView: View {
 
 private struct GuideDetailView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @StateObject private var speech = SpeechReader()
     @State private var selectedChapter = 0
@@ -522,6 +552,8 @@ private struct GuideDetailView: View {
         .safeAreaPadding(.bottom, 16)
         .navigationTitle("Leitura")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { speech.setLanguage(locale.identifier) }
+        .onChange(of: locale.identifier) { _, identifier in speech.setLanguage(identifier) }
     }
 
     private var guideHeader: some View {
@@ -649,8 +681,8 @@ private struct GuideDetailView: View {
 }
 
 private struct SectionHeading: View {
-    let title: String
-    var subtitle: String? = nil
+    let title: LocalizedStringKey
+    var subtitle: LocalizedStringKey? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -670,7 +702,7 @@ private struct GuideCard: View {
     @EnvironmentObject private var library: LibraryViewModel
     let guide: Guide
     var detail = false
-    var actionTitle: String? = nil
+    var actionTitle: LocalizedStringKey? = nil
 
     private var progress: Double { library.progress[guide.id] ?? 0 }
 
@@ -762,7 +794,8 @@ private struct TopicCategoryCard: View {
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(CatecismoTheme.navy.opacity(0.58))
             }
-            Text("\(guideCount) \(guideCount == 1 ? "guia" : "guias")")
+            let guideCountLabel: LocalizedStringKey = guideCount == 1 ? "1 guia" : "\(guideCount) guias"
+            Text(guideCountLabel)
                 .font(.caption)
                 .foregroundStyle(CatecismoTheme.muted)
         }
@@ -784,7 +817,8 @@ private struct TopicGuidesView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                SectionHeading(title: category, subtitle: "\(guides.count) \(guides.count == 1 ? "guia" : "guias") para explorar")
+                let guideCountLabel: LocalizedStringKey = guides.count == 1 ? "1 guia para explorar" : "\(guides.count) guias para explorar"
+                SectionHeading(title: LocalizedStringKey(category), subtitle: guideCountLabel)
                 ForEach(guides) { guide in
                     NavigationLink { GuideDetailView(guide: guide) } label: { GuideCard(guide: guide, detail: true) }
                         .buttonStyle(.plain)
@@ -804,7 +838,7 @@ private struct TopicGuidesView: View {
 
 private struct StatCard: View {
     let value: String
-    let label: String
+    let label: LocalizedStringKey
     let symbol: String
 
     var body: some View {
@@ -827,8 +861,8 @@ private struct StatCard: View {
 
 private struct EmptyStateCard: View {
     let symbol: String
-    let title: String
-    let message: String
+    let title: LocalizedStringKey
+    let message: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 14) {

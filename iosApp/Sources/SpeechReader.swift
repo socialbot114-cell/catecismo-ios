@@ -11,6 +11,7 @@ final class SpeechReader: NSObject, ObservableObject {
     @Published private(set) var selectedVoiceName = ""
     @Published var rate = AVSpeechUtteranceDefaultSpeechRate
     private let synthesizer = AVSpeechSynthesizer()
+    private var languageTag = "pt-BR"
     private var paragraphs: [String] = []
     private var nextParagraphIndex = 0
     private var currentUtterance: AVSpeechUtterance?
@@ -19,8 +20,28 @@ final class SpeechReader: NSObject, ObservableObject {
         super.init()
         synthesizer.delegate = self
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [.allowBluetooth, .duckOthers])
-        voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix("pt-BR") }
-        selectedVoiceName = UserDefaults.standard.string(forKey: "catecismo.voice") ?? voices.first?.name ?? "Voz padrão"
+        refreshVoices()
+    }
+
+    func setLanguage(_ identifier: String) {
+        let language = AppLanguage.contentTag(for: Locale(identifier: identifier))
+        guard language != languageTag else { return }
+        stop()
+        languageTag = language
+        refreshVoices()
+    }
+
+    private var voicePreferenceKey: String { "catecismo.voice.\(languageTag)" }
+
+    private func refreshVoices() {
+        voices = AVSpeechSynthesisVoice.speechVoices().filter {
+            $0.language.lowercased().hasPrefix(languageTag.lowercased())
+        }
+        let defaults = UserDefaults.standard
+        selectedVoiceName = defaults.string(forKey: voicePreferenceKey)
+            ?? (languageTag == "pt-BR" ? defaults.string(forKey: "catecismo.voice") : nil)
+            ?? voices.first?.name
+            ?? "Voz padrão"
     }
 
     func speak(_ paragraphs: [String], startAt: Int = 0) {
@@ -55,7 +76,8 @@ final class SpeechReader: NSObject, ObservableObject {
 
     func chooseVoice(_ voice: AVSpeechSynthesisVoice) {
         selectedVoiceName = voice.name
-        UserDefaults.standard.set(voice.name, forKey: "catecismo.voice")
+        UserDefaults.standard.set(voice.name, forKey: voicePreferenceKey)
+        if languageTag == "pt-BR" { UserDefaults.standard.set(voice.name, forKey: "catecismo.voice") }
         if isSpeaking || isPaused {
             let index = max(currentParagraphIndex, 0)
             speak(paragraphs, startAt: index)
@@ -85,7 +107,7 @@ final class SpeechReader: NSObject, ObservableObject {
         }
         let text = paragraphs[nextParagraphIndex]
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = voices.first { $0.name == selectedVoiceName } ?? AVSpeechSynthesisVoice(language: "pt-BR")
+        utterance.voice = voices.first { $0.name == selectedVoiceName } ?? AVSpeechSynthesisVoice(language: languageTag)
         utterance.rate = rate
         currentUtterance = utterance
         try? AVAudioSession.sharedInstance().setActive(true)

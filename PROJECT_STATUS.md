@@ -1,15 +1,15 @@
 # Catecismo — Estado do Projeto
 
-Última atualização: 2026-09-26
+Última atualização: 2026-09-27
 
 ## Identidade
 
 - App Store Connect app ID: `6813681189`
 - SKU: `Catecismo-da-Igreja-Catolica`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
-- Versão iOS: `1.1`
-- Build enviado ao TestFlight: `17` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
-- Próximo build number: `18`
+- Última versão enviada: `1.1 (17)` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
+- Versão iOS em preparação: `1.1.1`
+- Build planejado: `18` (o workflow define o build number pelo número da execução)
 - Repositório: `socialbot114-cell/catecismo-ios`
 
 ## Aplicativo
@@ -38,4 +38,4 @@
 
 ## Próxima release
 
-Preparar e validar iOS `1.1` antes de qualquer upload. O número de build é definido pelo workflow de release. Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto antes de enviar.
+Validar e enviar iOS `1.1.1` ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml`. O próximo número de execução esperado é build `18`. Confirmar no App Store Connect que o app ID e o SKU acima correspondem ao registro correto.
