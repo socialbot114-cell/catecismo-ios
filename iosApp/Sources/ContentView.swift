@@ -135,10 +135,11 @@ struct ContentView: View {
                 set: { if let section = $0 { selectedSection = section } }
             )) {
                 ForEach(AppSection.allCases) { section in
-                    Label(section.title, systemImage: section.icon)
-                        .tag(section)
-                        .accessibilityElement(children: .combine)
-                        .accessibilityIdentifier(section.accessibilityID)
+                    Button { selectedSection = section } label: {
+                        Label(section.title, systemImage: section.icon)
+                            .tag(section)
+                    }
+                    .accessibilityIdentifier(section.accessibilityID)
                 }
             }
             .scrollContentBackground(.hidden)

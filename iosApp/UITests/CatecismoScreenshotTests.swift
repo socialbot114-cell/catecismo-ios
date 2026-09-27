@@ -8,7 +8,8 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-saved", in: app)
         selectLanguage("Português (Brasil)", in: app)
-        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Minha biblioteca"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Seu caminho de leitura, salvo neste aparelho"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library-pt")
 
         selectSection("section-home", in: app)
@@ -39,7 +40,8 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-saved", in: app)
         selectLanguage("English", in: app)
-        XCTAssertTrue(app.navigationBars["My Library"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["My Library"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Your reading journey, saved on this device"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library-en")
 
         selectSection("section-home", in: app)
@@ -57,7 +59,8 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-saved", in: app)
         selectLanguage("Español", in: app)
-        XCTAssertTrue(app.navigationBars["Mi biblioteca"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Mi biblioteca"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Tu recorrido de lectura, guardado en este dispositivo"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library-es")
 
         selectSection("section-home", in: app)
@@ -75,7 +78,8 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-saved", in: app)
         selectLanguage("Français", in: app)
-        XCTAssertTrue(app.navigationBars["Ma bibliothèque"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Ma bibliothèque"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Votre parcours de lecture, enregistré sur cet appareil"].waitForExistence(timeout: 5))
         capture(named: "catecismo-library-fr")
 
         selectSection("section-home", in: app)
@@ -93,7 +97,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-saved", in: app)
         selectLanguage("Português (Brasil)", in: app)
-        XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Minha biblioteca"].waitForExistence(timeout: 10))
     }
 
     private func selectLanguage(_ name: String, in app: XCUIApplication) {

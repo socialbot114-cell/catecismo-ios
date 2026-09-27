@@ -26,13 +26,13 @@ jobs:
               info = plistlib.load(f)
           assert info['CFBundleDisplayName'] == 'Catecismo'
           assert info['CFBundleShortVersionString'] == '1.1.1'
-          assert info['CFBundleVersion'] == '27'
+          assert info['CFBundleVersion'] == '28'
           assert info['CFBundleDevelopmentRegion'] == 'pt-BR'
           assert set(info['CFBundleLocalizations']) == {'pt-BR', 'en', 'es', 'fr'}
           assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
           assert 'developmentLanguage: pt-BR' in (root / 'project.yml').read_text()
           assert 'MARKETING_VERSION: "1.1.1"' in (root / 'project.yml').read_text()
-          assert 'CURRENT_PROJECT_VERSION: "27"' in (root / 'project.yml').read_text()
+          assert 'CURRENT_PROJECT_VERSION: "28"' in (root / 'project.yml').read_text()
           with (root / 'Resources/PrivacyInfo.xcprivacy').open('rb') as f:
               plistlib.load(f)
           texts = list((root / 'Resources/Texts').glob('*.json'))
