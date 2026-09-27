@@ -4,7 +4,8 @@ Esta pasta guarda as artes-fonte originais. Mantenha esses arquivos intactos; as
 
 ## Arte do ícone
 
-- `CATECISMO IGREJA CATOLICA LOGO.png` é a arte completa escolhida para o ícone iOS. As cópias em `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/` usam a imagem inteira, redimensionada para os tamanhos exigidos.
+- `novo/novalogo.jpg` (1254×1254) é a arte atual do ícone do app (rosário/livro/bandeiras PT-BR·EN·FR·ES). As cópias em `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/` e `app/src/main/res/drawable-nodpi/logo_catecismo.png` são geradas a partir dela, usando a imagem inteira redimensionada.
+- `CATECISMO IGREJA CATOLICA LOGO.png` permanece como arte anterior, apenas para referência.
 
 ## Ilustrações usadas pelo iOS
 

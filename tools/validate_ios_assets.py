@@ -35,7 +35,7 @@ for path in [root / "Info.plist", root / "ExportOptions.plist", root / "Resource
     assert path.is_file(), path
 info = plistlib.loads((root / "Info.plist").read_bytes())
 assert info["CFBundleShortVersionString"] == "1.1.1"
-assert info["CFBundleVersion"] == "28"
+assert info["CFBundleVersion"] == "29"
 assert info["CFBundleDevelopmentRegion"] == "pt-BR"
 assert set(info["CFBundleLocalizations"]) == {"pt-BR", "en", "es", "fr"}
 spec = (root / "project.yml").read_text()
@@ -47,7 +47,7 @@ for language in ("en", "es", "fr"):
     assert f"../app/src/main/assets/texts/locales/{language}.json" in spec
 assert 'MARKETING_VERSION: "1.1.1"' in spec
 assert spec.count('MARKETING_VERSION: "1.1.1"') == 2
-assert spec.count('CURRENT_PROJECT_VERSION: "28"') == 2
+assert spec.count('CURRENT_PROJECT_VERSION: "29"') == 2
 
 icons = root / "Resources/Assets.xcassets/AppIcon.appiconset"
 icon_catalog = json.loads((icons / "Contents.json").read_text(encoding="utf-8"))
