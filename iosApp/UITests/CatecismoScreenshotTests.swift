@@ -13,7 +13,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         let portugueseOption = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Português (Brasil)")).firstMatch
         XCTAssertTrue(portugueseOption.waitForExistence(timeout: 5))
         portugueseOption.tap()
-        print("Accessibility hierarchy after pt-BR selection:\n\(app.debugDescription)")
         XCTAssertTrue(app.navigationBars["Minha biblioteca"].waitForExistence(timeout: 5))
 
         selectSection("section-home", in: app)

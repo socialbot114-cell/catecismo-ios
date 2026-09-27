@@ -39,9 +39,11 @@ private enum AppSection: CaseIterable, Identifiable {
 
 struct ContentView: View {
     @EnvironmentObject private var library: LibraryViewModel
-    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @AppStorage(AppLanguage.preferenceKey) private var languageSelection = AppLanguageChoice.system.rawValue
     @State private var selectedSection = AppSection.home
+
+    private var selectedLocale: Locale { AppLanguage.locale(for: languageSelection) }
 
     var body: some View {
         Group {
@@ -74,14 +76,15 @@ struct ContentView: View {
                 }
             }
         }
+        .environment(\.locale, selectedLocale)
         .tint(CatecismoTheme.accent)
         .task {
             if library.loadState == .loading {
-                library.load(languageCode: AppLanguage.contentTag(for: locale))
+                library.load(languageCode: AppLanguage.contentTag(for: selectedLocale))
             }
         }
-        .onChange(of: locale.identifier) { _, identifier in
-            library.load(languageCode: AppLanguage.contentTag(for: Locale(identifier: identifier)))
+        .onChange(of: languageSelection) { _, selection in
+            library.load(languageCode: AppLanguage.contentTag(for: AppLanguage.locale(for: selection)))
         }
     }
 
