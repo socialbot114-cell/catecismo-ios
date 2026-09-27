@@ -24,8 +24,8 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("São Pio X", in: app)
         XCTAssertTrue(app.staticTexts["PORTUGUÊS (BRASIL)"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.links["Ler no MONTFORT"].exists)
-        XCTAssertTrue(app.links["Leggi su Wikisource"].exists)
+        XCTAssertTrue(app.staticTexts["ITALIANO"].exists)
+        XCTAssertTrue(app.staticTexts["Catecismo de São Pio X"].exists)
         capture(named: "catecismo-pio-x")
 
         selectSection("Biblioteca", in: app)
