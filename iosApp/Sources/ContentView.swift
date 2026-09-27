@@ -51,7 +51,10 @@ struct ContentView: View {
                 } description: {
                     Text(message)
                 } actions: {
-                    Button("Tentar novamente", action: library.load).buttonStyle(.borderedProminent)
+                    Button("Tentar novamente") {
+                        library.load(languageCode: AppLanguage.contentTag(for: locale))
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
             case .loaded:
                 if horizontalSizeClass == .regular {
