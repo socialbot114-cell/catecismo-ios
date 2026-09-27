@@ -31,22 +31,28 @@ assert all(
     all(language in value.get("localizations", {}) for language in ("en", "es", "fr"))
     for value in strings_catalog["strings"].values()
 )
+portuguese_strings_path = root / "Resources/pt-BR.lproj/Localizable.strings"
+portuguese_strings = portuguese_strings_path.read_text(encoding="utf-8")
+for key in strings_catalog["strings"]:
+    source_entry = json.dumps(key, ensure_ascii=False) + " = " + json.dumps(key, ensure_ascii=False) + ";"
+    assert source_entry in portuguese_strings, f"Missing pt-BR localization: {key}"
 for path in [root / "Info.plist", root / "ExportOptions.plist", root / "Resources/PrivacyInfo.xcprivacy"]:
     assert path.is_file(), path
 info = plistlib.loads((root / "Info.plist").read_bytes())
 assert info["CFBundleShortVersionString"] == "1.1.1"
-assert info["CFBundleVersion"] == "26"
+assert info["CFBundleVersion"] == "27"
 assert info["CFBundleDevelopmentRegion"] == "pt-BR"
 assert set(info["CFBundleLocalizations"]) == {"pt-BR", "en", "es", "fr"}
 spec = (root / "project.yml").read_text()
 assert "br.com.CATECISMO.DAIGREJACAToLICA" in spec
 assert "developmentLanguage: pt-BR" in spec
 assert "Resources/Localizable.xcstrings" in spec
+assert "Resources/pt-BR.lproj/Localizable.strings" in spec
 for language in ("en", "es", "fr"):
     assert f"../app/src/main/assets/texts/locales/{language}.json" in spec
 assert 'MARKETING_VERSION: "1.1.1"' in spec
 assert spec.count('MARKETING_VERSION: "1.1.1"') == 2
-assert spec.count('CURRENT_PROJECT_VERSION: "26"') == 2
+assert spec.count('CURRENT_PROJECT_VERSION: "27"') == 2
 
 icons = root / "Resources/Assets.xcassets/AppIcon.appiconset"
 icon_catalog = json.loads((icons / "Contents.json").read_text(encoding="utf-8"))

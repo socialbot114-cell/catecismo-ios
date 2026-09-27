@@ -137,12 +137,13 @@ struct ContentView: View {
                 ForEach(AppSection.allCases) { section in
                     Label(section.title, systemImage: section.icon)
                         .tag(section)
+                        .accessibilityElement(children: .combine)
                         .accessibilityIdentifier(section.accessibilityID)
                 }
             }
             .scrollContentBackground(.hidden)
             .background(CatecismoTheme.canvas)
-            .navigationTitle("Catecismo")
+            .navigationTitle(String(localized: "Catecismo", locale: selectedLocale))
         } detail: {
             destination(for: selectedSection)
         }
@@ -162,6 +163,7 @@ struct ContentView: View {
 
 private struct HomeView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var featuredGuide: Guide? { library.guides.first }
@@ -226,7 +228,7 @@ private struct HomeView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 14)
-            .navigationTitle("Início")
+            .navigationTitle(String(localized: "Início", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -305,6 +307,7 @@ private struct HomeView: View {
 
 private struct LibraryView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var query = ""
 
@@ -372,7 +375,7 @@ private struct LibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
-            .navigationTitle("Biblioteca")
+            .navigationTitle(String(localized: "Biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -398,6 +401,7 @@ private struct LibraryView: View {
 
 private struct TopicsView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     private var categories: [String] { Array(Set(library.guides.map(\.category))).sorted() }
 
@@ -427,7 +431,7 @@ private struct TopicsView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
-            .navigationTitle("Temas")
+            .navigationTitle(String(localized: "Temas", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -435,6 +439,7 @@ private struct TopicsView: View {
 
 private struct MyLibraryView: View {
     @EnvironmentObject private var library: LibraryViewModel
+    @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Binding var language: String
     private var favoriteGuides: [Guide] { library.guides.filter { library.isFavorite($0.id) } }
@@ -511,7 +516,7 @@ private struct MyLibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
-            .navigationTitle("Minha biblioteca")
+            .navigationTitle(String(localized: "Minha biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
     }
@@ -569,7 +574,7 @@ private struct GuideDetailView: View {
         }
         .background(CatecismoTheme.canvas.ignoresSafeArea())
         .safeAreaPadding(.bottom, 16)
-        .navigationTitle("Leitura")
+        .navigationTitle(String(localized: "Leitura", locale: locale))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { speech.setLanguage(locale.identifier) }
         .onChange(of: locale.identifier) { _, identifier in speech.setLanguage(identifier) }

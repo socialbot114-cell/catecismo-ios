@@ -97,10 +97,10 @@ final class CatecismoScreenshotTests: XCTestCase {
     }
 
     private func selectLanguage(_ name: String, in app: XCUIApplication) {
-        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
+        let picker = app.buttons.matching(identifier: "app-language-picker").firstMatch
         XCTAssertTrue(picker.waitForExistence(timeout: 10))
         picker.tap()
-        let option = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", name)).firstMatch
+        let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
         XCTAssertTrue(option.waitForExistence(timeout: 5))
         option.tap()
     }
@@ -113,7 +113,22 @@ final class CatecismoScreenshotTests: XCTestCase {
     }
 
     private func selectSection(_ identifier: String, in app: XCUIApplication) {
-        let section = app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+        let button = app.buttons.matching(identifier: identifier).firstMatch
+        if button.waitForExistence(timeout: 2) {
+            button.tap()
+            return
+        }
+
+        let cell = app.cells.matching(identifier: identifier).firstMatch
+        if cell.waitForExistence(timeout: 2) {
+            cell.tap()
+            return
+        }
+
+        let section = app.descendants(matching: .any)
+            .matching(identifier: identifier)
+            .matching(NSPredicate(format: "isHittable == true"))
+            .firstMatch
         XCTAssertTrue(section.waitForExistence(timeout: 10), "Missing section: \(identifier)")
         section.tap()
     }

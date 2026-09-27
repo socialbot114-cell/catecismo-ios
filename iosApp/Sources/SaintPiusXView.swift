@@ -46,7 +46,7 @@ struct SaintPiusXView: View {
                 .frame(maxWidth: .infinity)
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
-            .navigationTitle("São Pio X")
+            .navigationTitle(String(localized: "São Pio X", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
     }

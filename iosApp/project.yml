@@ -10,7 +10,7 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: br.com.CATECISMO.DAIGREJACAToLICA
     SWIFT_VERSION: "5.9"
     MARKETING_VERSION: "1.1.1"
-    CURRENT_PROJECT_VERSION: "26"
+    CURRENT_PROJECT_VERSION: "27"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     GENERATE_INFOPLIST_FILE: NO
     INFOPLIST_FILE: Info.plist
@@ -29,6 +29,8 @@ targets:
       - path: Resources/catalog.json
         buildPhase: resources
       - path: Resources/Localizable.xcstrings
+        buildPhase: resources
+      - path: Resources/pt-BR.lproj/Localizable.strings
         buildPhase: resources
       - path: Resources/PrivacyInfo.xcprivacy
         buildPhase: resources
@@ -71,7 +73,7 @@ targets:
     settings:
       base:
         MARKETING_VERSION: "1.1.1"
-        CURRENT_PROJECT_VERSION: "26"
+        CURRENT_PROJECT_VERSION: "27"
         INFOPLIST_KEY_CFBundleDisplayName: Catecismo
         INFOPLIST_KEY_UIBackgroundModes: [audio]
         INFOPLIST_KEY_CFBundleIconName: AppIcon
