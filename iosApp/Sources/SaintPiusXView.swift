@@ -16,10 +16,10 @@ struct SaintPiusXView: View {
                             .font(.caption.weight(.bold))
                             .tracking(1)
                             .foregroundStyle(CatecismoTheme.gold)
-                        Text("São Pio X")
+                        Text("Catecismo Maior")
                             .font(CatecismoTheme.display(32))
                             .foregroundStyle(CatecismoTheme.ink)
-                        Text("Encontre edições em português e italiano do clássico catecismo em perguntas e respostas.")
+                        Text("Duas edições para consultar: português e italiano.")
                             .font(.subheadline)
                             .foregroundStyle(CatecismoTheme.muted)
                     }
@@ -30,17 +30,18 @@ struct SaintPiusXView: View {
                     EditionSourceCard(
                         language: "PORTUGUÊS (BRASIL)",
                         title: "Catecismo de São Pio X",
-                        summary: "Texto integral publicado on-line pela Associação Cultural MONTFORT. O Internet Archive também disponibiliza uma edição digital com OCR; o próprio arquivo informa tradução não oficial e atualizações da edição de 1976.",
+                        summary: "Texto integral disponível na MONTFORT. O Internet Archive também oferece uma cópia digitalizada com OCR.",
                         linkTitle: "Ler no MONTFORT",
                         url: portugueseSource,
-                        secondaryLinkTitle: "Consultar edição digital no Internet Archive",
-                        secondaryURL: portugueseFacsimile
+                        secondaryLinkTitle: "Fac-símile · Internet Archive",
+                        secondaryURL: portugueseFacsimile,
+                        note: "A cópia do Internet Archive informa tradução não oficial e atualizações de 1976."
                     )
 
                     EditionSourceCard(
                         language: "ITALIANO",
-                        title: "Compendio della dottrina cristiana · Catechismo maggiore",
-                        summary: "Transcrição italiana da edição de Roma, Tipografia Vaticana, 1905, organizada por partes e capítulos na Wikisource.",
+                        title: "Catechismo maggiore",
+                        summary: "Edição de Roma, Tipografia Vaticana, 1905, transcrita por partes e capítulos na Wikisource.",
                         linkTitle: "Leggi su Wikisource",
                         url: italianSource
                     )
@@ -71,15 +72,16 @@ private struct EditionSourceCard: View {
     let url: URL
     var secondaryLinkTitle: String? = nil
     var secondaryURL: URL? = nil
+    var note: String? = nil
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 9) {
             Text(language)
                 .font(.caption.weight(.bold))
                 .tracking(1)
                 .foregroundStyle(CatecismoTheme.gold)
             Text(title)
-                .font(CatecismoTheme.display(23))
+                .font(CatecismoTheme.display(21))
                 .foregroundStyle(CatecismoTheme.ink)
                 .fixedSize(horizontal: false, vertical: true)
             Text(summary)
@@ -98,8 +100,14 @@ private struct EditionSourceCard: View {
                     .font(.footnote.weight(.medium))
                     .foregroundStyle(CatecismoTheme.navy)
             }
+
+            if let note {
+                Text(note)
+                    .font(.caption)
+                    .foregroundStyle(CatecismoTheme.muted)
+            }
         }
-        .padding(20)
+        .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay {

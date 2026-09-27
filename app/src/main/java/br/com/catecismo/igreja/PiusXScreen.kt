@@ -48,9 +48,9 @@ fun PiusXScreen() {
         ) {
             Column(Modifier.padding(18.dp)) {
                 Text("CATECISMO MAIOR · 1905", color = gold, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                Text("São Pio X", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green, modifier = Modifier.padding(top = 7.dp))
+                Text("Catecismo Maior", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 29.sp, color = green, modifier = Modifier.padding(top = 7.dp))
                 Text(
-                    "Encontre edições em português e italiano do clássico catecismo em perguntas e respostas.",
+                    "Duas edições para consultar: português e italiano.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 5.dp)
                 )
@@ -60,17 +60,18 @@ fun PiusXScreen() {
         PiusXSourceCard(
             language = "PORTUGUÊS (BRASIL)",
             title = "Catecismo de São Pio X",
-            description = "Texto integral publicado on-line pela Associação Cultural MONTFORT. O Internet Archive também disponibiliza uma edição digital com OCR; o próprio arquivo informa tradução não oficial e atualizações da edição de 1976.",
+            description = "Texto integral disponível na MONTFORT. O Internet Archive também oferece uma cópia digitalizada com OCR.",
             action = "Ler no MONTFORT",
             onOpen = { openExternalSource(context, PORTUGUESE_SOURCE) },
-            secondaryAction = "Consultar edição digital no Internet Archive",
-            onSecondaryOpen = { openExternalSource(context, PORTUGUESE_FACSIMILE) }
+            secondaryAction = "Fac-símile · Internet Archive",
+            onSecondaryOpen = { openExternalSource(context, PORTUGUESE_FACSIMILE) },
+            note = "A cópia do Internet Archive informa tradução não oficial e atualizações de 1976."
         )
 
         PiusXSourceCard(
             language = "ITALIANO",
-            title = "Compendio della dottrina cristiana · Catechismo maggiore",
-            description = "Transcrição italiana da edição de Roma, Tipografia Vaticana, 1905, organizada por partes e capítulos na Wikisource.",
+            title = "Catechismo maggiore",
+            description = "Edição de Roma, Tipografia Vaticana, 1905, transcrita por partes e capítulos na Wikisource.",
             action = "Leggi su Wikisource",
             onOpen = { openExternalSource(context, ITALIAN_SOURCE) }
         )
@@ -93,20 +94,24 @@ private fun PiusXSourceCard(
     action: String,
     onOpen: () -> Unit,
     secondaryAction: String? = null,
-    onSecondaryOpen: (() -> Unit)? = null
+    onSecondaryOpen: (() -> Unit)? = null,
+    note: String? = null
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = paper),
         shape = RoundedCornerShape(20.dp)
     ) {
-        Column(Modifier.padding(18.dp)) {
+        Column(Modifier.padding(16.dp)) {
             Text(language, color = gold, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, fontSize = 12.sp)
-            Text(title, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 21.sp, color = green, modifier = Modifier.padding(top = 8.dp))
-            Text(description, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp, lineHeight = 20.sp, modifier = Modifier.padding(top = 8.dp, bottom = 12.dp))
+            Text(title, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 19.sp, color = green, modifier = Modifier.padding(top = 7.dp))
+            Text(description, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp, lineHeight = 18.sp, modifier = Modifier.padding(top = 7.dp, bottom = 10.dp))
             Button(onClick = onOpen, modifier = Modifier.fillMaxWidth()) { Text(action) }
             if (secondaryAction != null && onSecondaryOpen != null) {
                 OutlinedButton(onClick = onSecondaryOpen, modifier = Modifier.fillMaxWidth()) { Text(secondaryAction) }
+            }
+            if (note != null) {
+                Text(note, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 11.sp, lineHeight = 15.sp)
             }
         }
     }
