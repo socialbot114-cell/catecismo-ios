@@ -55,11 +55,6 @@ jobs:
         working-directory: iosApp
         run: xcodegen generate --spec project.yml
 
-      - name: Install iOS Simulator runtime
-        run: |
-          xcodebuild -downloadPlatform iOS
-          xcrun simctl list runtimes
-
       - name: Run XCTest
         working-directory: iosApp
         run: |
