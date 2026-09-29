@@ -137,7 +137,7 @@ jobs:
           import plistlib
           from pathlib import Path
           with (Path(os.environ['RUNNER_TEMP']) / 'ExportOptions.plist').open('wb') as file:
-              plistlib.dump({'method': 'app-store', 'signingStyle': 'manual', 'teamID': os.environ['TEAM_ID'], 'provisioningProfiles': {'br.com.CATECISMO.DAIGREJACAToLICA': os.environ['PROFILE_NAME']}}, file)
+              plistlib.dump({'method': 'app-store', 'signingStyle': 'manual', 'teamID': os.environ['TEAM_ID'], 'manageAppVersionAndBuildNumber': False, 'provisioningProfiles': {'br.com.CATECISMO.DAIGREJACAToLICA': os.environ['PROFILE_NAME']}}, file)
           PY
           xcodebuild -exportArchive \
             -archivePath "$RUNNER_TEMP/Catecismo.xcarchive" \
