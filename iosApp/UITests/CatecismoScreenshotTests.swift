@@ -18,7 +18,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
         selectSection("section-library", in: app)
         XCTAssertTrue(app.navigationBars["Biblioteca"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.textFields["Buscar palavra, tema ou parágrafo"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.textFields["library-search-field"].waitForExistence(timeout: 5))
         let portugueseGuide = app.staticTexts["O dom da fé"].firstMatch
         XCTAssertTrue(portugueseGuide.waitForExistence(timeout: 5))
         capture(named: "catecismo-guides-pt")
@@ -39,7 +39,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "catecismo-reading-pt")
 
         app.navigationBars.buttons.firstMatch.tap()
-        let search = app.textFields["Buscar palavra, tema ou parágrafo"]
+        let search = app.textFields["library-search-field"]
         XCTAssertTrue(search.waitForExistence(timeout: 5))
         search.tap()
         search.typeText("Parte I\n")

@@ -366,6 +366,7 @@ private struct LibraryView: View {
                             .onSubmit { searchFocused = false }
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
+                            .accessibilityIdentifier("library-search-field")
                         if !query.isEmpty {
                             Button { query = "" } label: {
                                 Image(systemName: "xmark.circle.fill")
