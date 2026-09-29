@@ -10,6 +10,8 @@ The release workflow is manual. Configure these encrypted repository secrets bef
 
 The iOS App Store workflow is manual and uses the `macos-15` runner with Xcode 26. The Apple Team ID is `SRN7AW424S`. It builds and signs an IPA, updates the Portuguese-Brazil App Store URLs from `store-kit/metadata`, and uploads the binary through Fastlane Deliver. Select `confirm_app_store_submission` when dispatching it to submit to App Review and release automatically after approval; otherwise it uploads the build without submitting it.
 
+The manual `Update App Store listing URLs` workflow updates only the live privacy and support URLs from `store-kit/metadata/pt-BR/`; it does not upload a build or change screenshots.
+
 The `Publish project website` workflow deploys `site/` to GitHub Pages when those files change on `main` or `socialbot114-cell/pufferfish`.
 
 The first app record still must exist in App Store Connect. Create it with bundle ID `br.com.CATECISMO.DAIGREJACAToLICA`, name `Catecismo`, a unique SKU, and primary language `Portuguese (Brazil)`. App Store Connect does not permit creating the app record through its public API.

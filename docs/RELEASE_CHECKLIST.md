@@ -26,7 +26,7 @@
 
 ## Store listing
 
-- [ ] Publish privacy policy and support pages at GitHub Pages.
+- [x] Publish privacy policy and support pages at GitHub Pages.
 - [ ] Update App Store Connect with the published privacy and support URLs.
 - [x] Document that no account, tracking, ads, or server sync are used.
 - [x] Add source and attribution notes.

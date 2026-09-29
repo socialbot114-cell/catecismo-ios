@@ -1,0 +1,57 @@
+name: Update App Store listing URLs
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_store_url_update:
+        description: Update the live App Store Connect privacy and support URLs
+        type: boolean
+        required: true
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  update-live-urls:
+    if: ${{ inputs.confirm_store_url_update }}
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install Fastlane
+        run: gem install fastlane --no-document
+
+      - name: Prepare App Store Connect API key
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'app-store-connect-api-key.json'
+          path.write_text(json.dumps({
+              'key_id': os.environ['APPLE_API_KEY_ID'],
+              'issuer_id': os.environ['APPLE_API_ISSUER_ID'],
+              'key': os.environ['APPLE_API_KEY_P8'],
+              'in_house': False,
+          }))
+          PY
+
+      - name: Update live listing URLs only
+        run: >-
+          fastlane deliver
+          --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
+          --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
+          --metadata_path 'store-kit/metadata'
+          --edit_live
+          --skip_binary_upload
+          --skip_screenshots
+          --force
