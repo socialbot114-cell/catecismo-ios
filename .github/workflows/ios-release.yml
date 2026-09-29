@@ -196,6 +196,7 @@ jobs:
             --app_version '1.2.1'
             --metadata_path 'store-kit/metadata'
             --skip_screenshots
+            --precheck_include_in_app_purchases false
             --force
           )
           if [[ "$SUBMIT_FOR_REVIEW" == 'true' ]]; then

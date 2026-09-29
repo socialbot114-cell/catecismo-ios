@@ -27,6 +27,6 @@
 ## Store listing
 
 - [x] Publish privacy policy and support pages at GitHub Pages.
-- [ ] Update App Store Connect with the published privacy and support URLs.
+- [x] Update the 1.2.1 App Store Connect metadata with the published privacy and support URLs.
 - [x] Document that no account, tracking, ads, or server sync are used.
 - [x] Add source and attribution notes.
