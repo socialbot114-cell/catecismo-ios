@@ -38,7 +38,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
         capture(named: "catecismo-reading-pt")
 
-        app.navigationBars.buttons.firstMatch.tap()
+        selectSection("section-library", in: app)
         let search = app.textFields["library-search-field"]
         XCTAssertTrue(search.waitForExistence(timeout: 5))
         search.tap()
@@ -50,9 +50,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         firstPart.tap()
         XCTAssertTrue(app.staticTexts["Prólogo: a vida do homem é conhecer e amar a Deus"].waitForExistence(timeout: 5))
         capture(named: "catecismo-vatican-reading-pt")
-        app.navigationBars.buttons.firstMatch.tap()
-        if !search.exists { selectSection("section-library", in: app) }
-
         selectSection("section-saved", in: app)
         selectLanguage("English", in: app)
         XCTAssertTrue(app.staticTexts["My Library"].waitForExistence(timeout: 10))
