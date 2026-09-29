@@ -127,6 +127,7 @@ jobs:
             CODE_SIGN_IDENTITY='Apple Distribution' \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
             DEVELOPMENT_TEAM="$TEAM_ID" \
+            MARKETING_VERSION=1.2.1 \
             CURRENT_PROJECT_VERSION=31
 
       - name: Export IPA
@@ -150,9 +151,13 @@ jobs:
           test -f "${ipa[0]}"
           unzip -q "${ipa[0]}" -d "$RUNNER_TEMP/ipa"
           app=("$RUNNER_TEMP"/ipa/Payload/*.app)
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.CATECISMO.DAIGREJACAToLICA'
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist" | grep -qx '1.2.1'
-          /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist" | grep -qx '31'
+          bundle_id=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist")
+          short_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist")
+          build_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist")
+          printf 'Exported bundle=%s version=%s build=%s\n' "$bundle_id" "$short_version" "$build_version"
+          test "$bundle_id" = 'br.com.CATECISMO.DAIGREJACAToLICA'
+          test "$short_version" = '1.2.1'
+          test "$build_version" = '31'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
           codesign --verify --deep --strict --verbose=4 "${app[0]}" || {
