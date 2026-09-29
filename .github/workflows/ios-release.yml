@@ -62,13 +62,22 @@ jobs:
         working-directory: iosApp
         run: xcodegen generate --spec project.yml
 
+      - name: Select available iPhone simulator
+        id: simulator
+        env:
+          SIMULATOR_FAMILY: iPhone
+          PREFERRED_SIMULATOR: iPhone 16
+        run: python3 tools/select_ios_simulator.py
+
       - name: Run XCTest
         working-directory: iosApp
+        env:
+          SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
         run: |
           xcodebuild test \
             -project Catecismo.xcodeproj \
             -scheme Catecismo \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Install signing assets
