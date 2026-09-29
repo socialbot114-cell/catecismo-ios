@@ -103,6 +103,8 @@ jobs:
           for test in manifest:
               for attachment in test.get("attachments", []):
                   source = root / attachment["exportedFileName"]
+                  if source.suffix.lower() != ".png":
+                      continue
                   suggested = attachment.get("suggestedHumanReadableName", source.name)
                   stem = Path(suggested).stem
                   stem = re.sub(r"_\d+_[0-9A-Fa-f-]+$", "", stem)

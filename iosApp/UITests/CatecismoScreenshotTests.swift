@@ -148,7 +148,7 @@ final class CatecismoScreenshotTests: XCTestCase {
     }
 
     private func returnToPreviousScreen(_ label: String, in app: XCUIApplication) {
-        let back = app.navigationBars.buttons[label].firstMatch
+        let back = app.navigationBars.buttons.matching(NSPredicate(format: "label == %@", label)).firstMatch
         XCTAssertTrue(back.waitForExistence(timeout: 5), "Expected the navigation back button")
         back.tap()
     }
