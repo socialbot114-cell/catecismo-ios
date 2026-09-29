@@ -115,6 +115,9 @@ final class CatecismoScreenshotTests: XCTestCase {
         scrollUpUntilHittable(chapterPicker, in: app)
         chapterPicker.tap()
         selectChapter("O sétimo mandamento", in: app)
+        XCTAssertTrue(app.staticTexts["O sétimo mandamento"].firstMatch.waitForExistence(timeout: 5))
+        capture(named: "\(locale.slug)-reader-seventh-commandment")
+        scrollUpUntilHittable(chapterPicker, in: app)
         captureParagraph("2439.", named: "\(locale.slug)-paragraph-2439", in: app)
     }
 

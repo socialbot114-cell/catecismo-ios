@@ -119,5 +119,5 @@ jobs:
         if: always()
         with:
           name: catecismo-ios-screenshots-${{ matrix.device.slug }}
-          path: ${{ runner.temp }}/catecismo-screenshots-${{ matrix.device.slug }}
+          path: ${{ runner.temp }}/catecismo-screenshots-${{ matrix.device.slug }}/named
           retention-days: 30
