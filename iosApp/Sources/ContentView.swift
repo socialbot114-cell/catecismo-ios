@@ -709,7 +709,7 @@ private struct GuideDetailView: View {
                 ContentUnavailableView("Capítulo vazio", systemImage: "doc")
             } else {
                 LazyVStack(alignment: .leading, spacing: 20) {
-                    ForEach(Array(chapter.paragraphs.enumerated()), id: \.offset) { _, paragraph in
+                    ForEach(Array(chapter.paragraphs.enumerated()), id: \.offset) { paragraphOffset, paragraph in
                         HStack(alignment: .top, spacing: 12) {
                             Text(paragraph)
                                 .font(.system(.body, design: .serif))
@@ -717,6 +717,7 @@ private struct GuideDetailView: View {
                                 .lineSpacing(7)
                                 .textSelection(.enabled)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .accessibilityIdentifier(paragraphAccessibilityIdentifier(paragraph, offset: paragraphOffset))
                             Button { library.addQuote(guideID: guide.id, text: paragraph) } label: {
                                 Image(systemName: "quote.opening")
                                     .font(.subheadline.weight(.semibold))
@@ -746,6 +747,15 @@ private struct GuideDetailView: View {
         }
         .padding(20)
         .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+    }
+
+    private func paragraphAccessibilityIdentifier(_ paragraph: String, offset: Int) -> String {
+        guard guide.category == "Catecismo",
+              let number = paragraph.split(separator: ".", maxSplits: 1).first,
+              Int(number) != nil else {
+            return "reader-paragraph-\(selectedChapter)-\(offset)"
+        }
+        return "catechism-paragraph-\(number)"
     }
 }
 

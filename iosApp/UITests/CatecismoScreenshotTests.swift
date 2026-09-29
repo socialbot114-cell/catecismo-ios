@@ -101,7 +101,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         chapterPicker.tap()
         capture(named: "\(locale.slug)-chapter-picker")
         selectChapter("O quarto mandamento", in: app)
-        captureParagraph("2217.", named: "\(locale.slug)-paragraph-2217", in: app)
+        captureParagraph(2217, named: "\(locale.slug)-paragraph-2217", in: app)
 
         scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
         chapterPicker.tap()
@@ -109,7 +109,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["O sétimo mandamento"].firstMatch.waitForExistence(timeout: 5))
         scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
         capture(named: "\(locale.slug)-reader-seventh-commandment")
-        captureParagraph("2439.", named: "\(locale.slug)-paragraph-2439", in: app)
+        captureParagraph(2439, named: "\(locale.slug)-paragraph-2439", in: app)
     }
 
     private func seedSavedContent(in app: XCUIApplication) {
@@ -154,8 +154,8 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(screen.waitForExistence(timeout: 10), "Missing screen: \(identifier)")
     }
 
-    private func captureParagraph(_ marker: String, named name: String, in app: XCUIApplication) {
-        let paragraph = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", marker)).firstMatch
+    private func captureParagraph(_ number: Int, named name: String, in app: XCUIApplication) {
+        let paragraph = app.staticTexts["catechism-paragraph-\(number)"].firstMatch
         scrollDownUntilHittable(paragraph, in: app, scrollViewIdentifier: "screen-reader")
         capture(named: name)
     }
@@ -183,9 +183,11 @@ final class CatecismoScreenshotTests: XCTestCase {
     private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication, scrollViewIdentifier: String) {
         let scrollView = app.scrollViews.matching(identifier: scrollViewIdentifier).firstMatch
         XCTAssertTrue(scrollView.waitForExistence(timeout: 5), "Missing scroll view: \(scrollViewIdentifier)")
-        for _ in 0..<24 {
+        for _ in 0..<48 {
             if element.isHittable { return }
-            scrollView.swipeUp()
+            let start = scrollView.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.8))
+            let end = scrollView.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.48))
+            start.press(forDuration: 0.05, thenDragTo: end)
         }
         XCTAssertTrue(element.isHittable, "Could not scroll to \(element.identifier)")
     }
