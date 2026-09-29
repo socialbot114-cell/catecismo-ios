@@ -15,7 +15,7 @@ Use este arquivo para preparar a submissão iOS 1.2.1. As capturas aprovadas par
 - Preço: `Gratuito`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Versão em preparação: `1.2.1`
-- Último build enviado: `1.1.1 (30)`; o próximo build deve usar número superior a 30.
+- Último build enviado: `1.1.1 (30)`; o próximo build planejado é `1.2.1 (31)`.
 - Build anterior: `1.1 (17)`; workflow `36257985758` aceitou o upload.
 - Copyright: `2026 <CONFERIR titular>`
 
@@ -42,7 +42,7 @@ Recursos:
 
 Não é necessário criar uma conta nem conexão com a internet para consultar os textos embarcados. O aplicativo não exibe anúncios nem coleta dados pessoais.
 
-**Nota de submissão:** o texto do Catecismo foi transcrito da edição em português no PDF da Diocese de Miracema e tem origem na publicação da Libreria Editrice Vaticana. A atribuição está no app; confirme e arquive a autorização para redistribuição integral antes de enviar a versão às lojas.
+**Nota de submissão:** o texto do Catecismo foi transcrito da edição em português no PDF da Diocese de Miracema e é atribuído à Libreria Editrice Vaticana. O responsável pelo projeto confirmou que a autorização formal para redistribuição integral está obtida.
 
 ## Palavras-chave
 
@@ -57,8 +57,8 @@ catecismo,fe,igreja,oracao,catolico,reflexao,leitura,espiritualidade
 
 ## URLs
 
-- Suporte: `<CONFERIR — ex.: https://socialbot114-cell.github.io/catecismo-site/>`
-- Política de privacidade: `<CONFERIR — precisa estar publicada antes da revisão>`
+- Suporte: `https://socialbot114-cell.github.io/catecismo-ios/support.html`
+- Política de privacidade: `https://socialbot114-cell.github.io/catecismo-ios/privacy.html`
 
 ## Privacidade
 

@@ -1,7 +1,13 @@
-name: Catecismo iOS TestFlight
+name: Catecismo iOS App Store
 
 on:
   workflow_dispatch:
+    inputs:
+      confirm_app_store_submission:
+        description: Submit this build to App Review and release automatically after approval
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: read
@@ -27,6 +33,7 @@ jobs:
           assert len(texts) == 12
           project = (root / 'project.yml').read_text()
           assert 'MARKETING_VERSION: "1.2.1"' in project
+          assert 'CURRENT_PROJECT_VERSION: "31"' in project
           forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
@@ -132,21 +139,57 @@ jobs:
           /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist" | grep -qx '1.2.1'
           /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist" | grep -qx '${{ github.run_number }}'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
-           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
-           codesign --verify --deep --strict "${app[0]}"
+          test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
+          codesign --verify --deep --strict "${app[0]}"
 
       - uses: actions/upload-artifact@v4
         with:
           name: catecismo-ios-ipa
           path: ${{ runner.temp }}/export/*.ipa
 
-      - name: Upload TestFlight
+      - name: Prepare App Store Connect API key
         env:
           APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
         run: |
-          mkdir -p "$HOME/private_keys"
-          printf '%s' "$APPLE_API_KEY_P8" > "$HOME/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'app-store-connect-api-key.json'
+          path.write_text(json.dumps({
+              'key_id': os.environ['APPLE_API_KEY_ID'],
+              'issuer_id': os.environ['APPLE_API_ISSUER_ID'],
+              'key': os.environ['APPLE_API_KEY_P8'],
+              'in_house': False,
+          }))
+          PY
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install Fastlane
+        run: gem install fastlane --no-document
+
+      - name: Upload build, metadata, and submit for App Review
+        env:
+          SUBMIT_FOR_REVIEW: ${{ inputs.confirm_app_store_submission }}
+        run: |
+          set -euo pipefail
           ipa=("$RUNNER_TEMP"/export/*.ipa)
-          xcrun altool --upload-app --type ios --file "${ipa[0]}" --apiKey "$APPLE_API_KEY_ID" --apiIssuer "$APPLE_API_ISSUER_ID"
+          args=(
+            deliver
+            --ipa "${ipa[0]}"
+            --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
+            --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
+            --app_version '1.2.1'
+            --metadata_path 'store-kit/metadata'
+            --skip_screenshots
+            --force
+          )
+          if [[ "$SUBMIT_FOR_REVIEW" == 'true' ]]; then
+            args+=(--submit_for_review --automatic_release)
+          fi
+          fastlane "${args[@]}"

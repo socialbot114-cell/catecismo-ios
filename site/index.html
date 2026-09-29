@@ -3,16 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Informações, suporte e privacidade do aplicativo Catecismo.">
   <title>Catecismo da Igreja Católica</title>
-  <style>body{font:18px system-ui,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;color:#30231d;line-height:1.6}a{color:#7a3f25}header{border-bottom:1px solid #dbc9bb;margin-bottom:28px}h1{font-size:2.3rem;line-height:1.15}nav{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 30px}section{background:#f7f0e9;padding:20px;border-radius:14px;margin:18px 0}</style>
+  <style>
+    :root { color-scheme: light; font: 18px/1.65 system-ui, sans-serif; color: #30231d; background: #fcfaf7; }
+    body { max-width: 760px; margin: 40px auto; padding: 0 22px 48px; }
+    a { color: #7a3f25; }
+    header { border-bottom: 1px solid #dbc9bb; margin-bottom: 28px; padding-bottom: 18px; }
+    nav { display: flex; flex-wrap: wrap; gap: 18px; margin: 20px 0 8px; }
+    h1, h2 { line-height: 1.2; }
+    h1 { font-size: clamp(2rem, 7vw, 3rem); }
+    section { background: #f7f0e9; padding: 20px; border-radius: 14px; margin: 18px 0; }
+  </style>
 </head>
 <body>
-  <header><h1>Catecismo da Igreja Católica</h1><p>Leitura offline do texto integral e guias de formação cristã.</p></header>
-  <nav><a href="index.html">Inicio</a><a href="support.html">Suporte</a><a href="privacy.html">Privacidade</a></nav>
+  <header>
+    <h1>Catecismo da Igreja Católica</h1>
+    <p>Leitura offline do texto em português e guias de formação cristã.</p>
+    <nav aria-label="Navegação principal">
+      <a href="index.html" aria-current="page">Início</a>
+      <a href="support.html">Suporte</a>
+      <a href="privacy.html">Privacidade</a>
+    </nav>
+  </header>
   <main>
-    <section><h2>Sobre o app</h2><p>O aplicativo reúne o texto em português do Catecismo publicado pelo Vaticano e oito guias autorais para leitura sem conexão. A fonte consultada não apresenta os §§2217 e 2439. Inclui busca local, navegação por seções e narração.</p></section>
-    <section><h2>Conteúdo</h2><p>O texto do Catecismo é © Libreria Editrice Vaticana. A atribuição aparece no próprio aplicativo; a autorização necessária para redistribuição precisa estar confirmada antes da publicação na loja. O app não exige conta, anúncios ou rastreamento.</p></section>
-    <p>Disponível para Android e iOS. Para dúvidas, consulte o <a href="support.html">suporte</a>.</p>
+    <section>
+      <h2>Sobre o aplicativo</h2>
+      <p>O Catecismo reúne o texto em português organizado em quatro partes (§§1–2865) e oito guias autorais para leitura offline. Inclui busca local, navegação por seções, favoritos, progresso e narração usando a voz do sistema.</p>
+    </section>
+    <section>
+      <h2>Conteúdo e atribuição</h2>
+      <p>O texto do Catecismo foi transcrito da edição em português consultada no PDF da Diocese de Miracema e é atribuído à Libreria Editrice Vaticana. A redistribuição integral para este projeto foi autorizada formalmente, conforme confirmação do responsável pelo projeto.</p>
+      <p>O aplicativo é independente e não oficial. Não exige conta nem conexão com a internet para consultar os textos incluídos.</p>
+    </section>
+    <p>Para dúvidas, consulte o <a href="support.html">suporte</a> ou leia a <a href="privacy.html">política de privacidade</a>.</p>
   </main>
 </body>
 </html>

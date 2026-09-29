@@ -11,7 +11,7 @@
 - Oito guias autorais, preservando os capítulos originais e acrescentando quatro seções revisadas por guia.
 - Quatro assets do Catecismo em português, transcritos do PDF da Diocese de Miracema, com §§1–2865 e leitura offline.
 - §§2217 e 2439 estão presentes nos assets, copiados da mesma edição em português do PDF.
-- O texto é © Libreria Editrice Vaticana. Atribuição está no app; autorização de redistribuição precisa estar confirmada antes da publicação na loja.
+- O texto é atribuído à Libreria Editrice Vaticana. Atribuição está no app; o responsável pelo projeto confirmou que a autorização formal para redistribuição integral está obtida.
 - A interface permanece disponível em português, inglês, espanhol e francês. O texto oficial embarcado é a edição em português.
 
 ## Validação e evidências
@@ -20,7 +20,8 @@
 - `python3 tools/validate_ios_assets.py`: recursos, catálogo e arquivos empacotados do iOS.
 - `./gradlew testDebugUnitTest lintDebug`: testes/lint Android.
 - `.github/workflows/ios-screenshots.yml`: capturas de auditoria em simuladores iPhone e iPad.
-- `.github/workflows/ios-release.yml`: build IPA e envio TestFlight; executar somente após aprovar as evidências e confirmar autorização de conteúdo.
+- `.github/workflows/ios-release.yml`: build IPA, atualização dos URLs em português no App Store Connect e submissão opcional para App Review com lançamento automático após aprovação.
+- `.github/workflows/pages.yml`: publicação das páginas de suporte e privacidade via GitHub Pages.
 
 ## Pipelines
 

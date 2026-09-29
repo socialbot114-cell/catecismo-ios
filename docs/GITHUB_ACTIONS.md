@@ -8,6 +8,8 @@ The release workflow is manual. Configure these encrypted repository secrets bef
 - `ANDROID_KEYSTORE_PASSWORD`: current PKCS12 password
 - `ANDROID_KEY_PASSWORD`: current PKCS12 key password
 
-The iOS workflow is manual and uses the `macos-26` runner with Xcode 26. The Apple Team ID is `SRN7AW424S`. The `iOS TestFlight` workflow uses automatic signing through the App Store Connect API key and uploads the exported IPA after archiving.
+The iOS App Store workflow is manual and uses the `macos-15` runner with Xcode 26. The Apple Team ID is `SRN7AW424S`. It builds and signs an IPA, updates the Portuguese-Brazil App Store URLs from `store-kit/metadata`, and uploads the binary through Fastlane Deliver. Select `confirm_app_store_submission` when dispatching it to submit to App Review and release automatically after approval; otherwise it uploads the build without submitting it.
+
+The `Publish project website` workflow deploys `site/` to GitHub Pages when those files change on `main` or `socialbot114-cell/pufferfish`.
 
 The first app record still must exist in App Store Connect. Create it with bundle ID `br.com.CATECISMO.DAIGREJACAToLICA`, name `Catecismo`, a unique SKU, and primary language `Portuguese (Brazil)`. App Store Connect does not permit creating the app record through its public API.

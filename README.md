@@ -16,4 +16,4 @@ Aplicativo Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). O ciclo atual pre
 jarsigner -verify -verbose -certs app/build/outputs/bundle/release/app-release.aab
 ```
 
-O pacote Play Console e o bundle App Store são `br.com.CATECISMO.DAIGREJACAToLICA`. A redistribuição do texto © Libreria Editrice Vaticana deve ter autorização confirmada antes de uma publicação na loja.
+O pacote Play Console e o bundle App Store são `br.com.CATECISMO.DAIGREJACAToLICA`. O responsável pelo projeto confirmou que a autorização formal para redistribuir o texto atribuído à Libreria Editrice Vaticana está obtida.
