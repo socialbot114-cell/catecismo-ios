@@ -76,16 +76,20 @@ jobs:
           SIMULATOR_UDID: ${{ steps.simulator.outputs.udid }}
         run: |
           set -euo pipefail
+          test_status=0
           xcodebuild test \
             -scheme Catecismo \
             -destination "platform=iOS Simulator,id=$SIMULATOR_UDID" \
             -resultBundlePath "$RUNNER_TEMP/catecismo-${{ matrix.device.slug }}.xcresult" \
             -only-testing:CatecismoUITests \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO || test_status=$?
+          screenshot_dir="$RUNNER_TEMP/catecismo-screenshots-${{ matrix.device.slug }}"
           xcrun xcresulttool export attachments \
             --path "$RUNNER_TEMP/catecismo-${{ matrix.device.slug }}.xcresult" \
-            --output-path "$RUNNER_TEMP/catecismo-screenshots-${{ matrix.device.slug }}"
-          python3 - "$RUNNER_TEMP/catecismo-screenshots-${{ matrix.device.slug }}" <<'PY'
+            --output-path "$screenshot_dir" || export_status=$?
+          mkdir -p "$screenshot_dir"
+          if [ -f "$screenshot_dir/manifest.json" ]; then
+            python3 - "$screenshot_dir" <<'PY'
           import json
           import re
           import shutil
@@ -106,7 +110,11 @@ jobs:
                   shutil.copy2(source, destination)
           print(f"Named {len(list(named.glob('*.png')))} screenshots in {named}")
           PY
+          fi
+          if [ "$test_status" -ne 0 ]; then exit "$test_status"; fi
+          if [ "${export_status:-0}" -ne 0 ]; then exit "$export_status"; fi
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: catecismo-ios-screenshots-${{ matrix.device.slug }}
           path: ${{ runner.temp }}/catecismo-screenshots-${{ matrix.device.slug }}

@@ -108,15 +108,13 @@ final class CatecismoScreenshotTests: XCTestCase {
         let chapterPicker = app.buttons["chapter-picker-button"].firstMatch
         scrollUpUntilHittable(chapterPicker, in: app)
         chapterPicker.tap()
-        XCTAssertTrue(app.buttons["O quarto mandamento"].waitForExistence(timeout: 5))
         capture(named: "\(locale.slug)-chapter-picker")
-        app.buttons["O quarto mandamento"].tap()
+        selectChapter("O quarto mandamento", in: app)
         captureParagraph("2217.", named: "\(locale.slug)-paragraph-2217", in: app)
 
         scrollUpUntilHittable(chapterPicker, in: app)
         chapterPicker.tap()
-        XCTAssertTrue(app.buttons["O sétimo mandamento"].waitForExistence(timeout: 5))
-        app.buttons["O sétimo mandamento"].tap()
+        selectChapter("O sétimo mandamento", in: app)
         captureParagraph("2439.", named: "\(locale.slug)-paragraph-2439", in: app)
     }
 
@@ -164,6 +162,26 @@ final class CatecismoScreenshotTests: XCTestCase {
         let paragraph = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", marker)).firstMatch
         scrollDownUntilHittable(paragraph, in: app)
         capture(named: name)
+    }
+
+    private func selectChapter(_ title: String, in app: XCUIApplication) {
+        let chapter = app.buttons.matching(NSPredicate(format: "label == %@", title)).firstMatch
+        let visibleChapterOptions = app.buttons.matching(NSPredicate(format: "label CONTAINS[cd] %@", "mandamento"))
+        XCTAssertTrue(visibleChapterOptions.firstMatch.waitForExistence(timeout: 5), "Chapter menu did not open")
+        for _ in 0..<20 {
+            if chapter.isHittable {
+                chapter.tap()
+                return
+            }
+            let visibleOptions = visibleChapterOptions.allElementsBoundByIndex
+            if let lastVisibleOption = visibleOptions.last, lastVisibleOption.isHittable {
+                lastVisibleOption.swipeUp()
+            } else {
+                app.swipeUp()
+            }
+        }
+        XCTAssertTrue(chapter.waitForExistence(timeout: 5), "Missing chapter option: \(title)")
+        chapter.tap()
     }
 
     private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
