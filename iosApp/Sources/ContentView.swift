@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 private enum AppSection: CaseIterable, Identifiable {
-    case home, library, topics, pioX, saved
+    case home, library, topics, saved
 
     var id: Self { self }
 
@@ -11,7 +11,6 @@ private enum AppSection: CaseIterable, Identifiable {
         case .home: "Início"
         case .library: "Biblioteca"
         case .topics: "Temas"
-        case .pioX: "São Pio X"
         case .saved: "Minha biblioteca"
         }
     }
@@ -21,7 +20,6 @@ private enum AppSection: CaseIterable, Identifiable {
         case .home: "section-home"
         case .library: "section-library"
         case .topics: "section-topics"
-        case .pioX: "section-pio-x"
         case .saved: "section-saved"
         }
     }
@@ -31,7 +29,6 @@ private enum AppSection: CaseIterable, Identifiable {
         case .home: return "house.fill"
         case .library: return "books.vertical.fill"
         case .topics: return "square.grid.2x2.fill"
-        case .pioX: return "book.closed.fill"
         case .saved: return "bookmark.fill"
         }
     }
@@ -156,7 +153,6 @@ struct ContentView: View {
         case .home: HomeView()
         case .library: LibraryView()
         case .topics: TopicsView()
-        case .pioX: SaintPiusXView()
         case .saved: MyLibraryView(language: $languageSelection)
         }
     }

@@ -44,4 +44,8 @@ for resource in ("catecismo-parte-1.json", "catecismo-parte-2.json", "catecismo-
     assert resource in project
 for item_id in ids:
     assert f"Resources/Texts/{item_id}.json" in project, f"resource not bundled by XcodeGen: {item_id}"
+for source in (root / "Sources").glob("*.swift"):
+    text = source.read_text(encoding="utf-8")
+    assert "Link(destination:" not in text, f"runtime external link found: {source.name}"
+    assert "UIApplication.shared.open" not in text, f"runtime URL launch found: {source.name}"
 print("iOS resources OK: 12 obras locais (4 partes do Catecismo + 8 guias)")

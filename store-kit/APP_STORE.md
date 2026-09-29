@@ -27,7 +27,7 @@ Texto do Catecismo em português e guias de fé em português, inglês, espanhol
 
 Catecismo reúne oito guias autorais de fé e reflexão e quatro partes do texto em português publicado pelo Vaticano, com leitura offline, narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
 
-É um aplicativo independente e não oficial. A seção de São Pio X apresenta links para edições externas; abrir essas fontes requer conexão com a internet.
+É um aplicativo independente e não oficial. Os textos disponíveis para leitura estão incluídos no pacote do app; não há navegação para Internet Archive ou para PDFs externos.
 
 Recursos:
 
@@ -40,7 +40,7 @@ Recursos:
 - Idioma selecionável nas preferências, além do idioma do dispositivo.
 - Layout próprio para iPad com barra lateral.
 
-Não é necessário criar uma conta. O aplicativo não exibe anúncios nem coleta dados pessoais. Os textos embarcados funcionam offline; os links das edições históricas de São Pio X precisam de internet.
+Não é necessário criar uma conta nem conexão com a internet para consultar os textos embarcados. O aplicativo não exibe anúncios nem coleta dados pessoais.
 
 **Nota de submissão:** o texto do Catecismo é © Libreria Editrice Vaticana. A atribuição está no app; confirme e arquive a autorização para redistribuição integral antes de enviar a versão às lojas. A edição em português consultada não apresenta os §§2217 e 2439, e essa limitação é indicada no app.
 
@@ -53,7 +53,7 @@ catecismo,fe,igreja,oracao,catolico,reflexao,leitura,espiritualidade
 - Texto em português do Catecismo organizado em quatro partes, disponível offline.
 - Guias autorais ampliados com referências aos parágrafos do Catecismo.
 - Busca no texto embarcado, além de narração e leitura offline.
-- Mantida a seleção de idioma, os guias localizados e a seção São Pio X.
+- Mantida a seleção de idioma e os guias localizados da versão anterior.
 
 ## URLs
 
@@ -76,7 +76,7 @@ Conteúdo religioso/educacional, sem material sensível. Classificação esperad
 
 Olá,
 
-O Catecismo é um aplicativo de leitura offline para iPhone e iPad, com guias autorais e quatro partes do texto do Catecismo em português. A seção São Pio X contém links externos que precisam de internet.
+O Catecismo é um aplicativo de leitura offline para iPhone e iPad, com guias autorais e quatro partes do texto do Catecismo em português. Os textos de leitura estão no pacote do aplicativo; não há links externos nem PDFs necessários para usá-lo.
 
 Para testar:
 
@@ -86,9 +86,9 @@ Para testar:
 4. Leia uma seção, salve uma citação e use o botão "Ouvir" para narração.
 5. Pesquise uma palavra existente no texto do Catecismo e abra um resultado.
 6. Abra um guia autoral, leia uma seção e use áudio, favorito e progresso.
-7. Abra Temas e Minha biblioteca; confirme a seleção de idioma e a seção São Pio X.
+7. Abra Temas e Minha biblioteca; confirme as categorias, o progresso e a seleção de idioma.
 
-Não é necessário criar uma conta, conceder permissões ou conectar-se à internet para ler os guias. Os links externos da seção São Pio X precisam de conexão. Não há compras, anúncios, rastreamento ou conteúdo que exija autenticação. O app é independente e não oficial.
+Não é necessário criar uma conta, conceder permissões ou conectar-se à internet para ler os textos embarcados. Não há compras, anúncios, rastreamento ou conteúdo que exija autenticação. O app é independente e não oficial.
 
 Obrigado.
 
@@ -100,7 +100,7 @@ As novas capturas da 1.2.1 são geradas pelo GitHub Actions workflow `Catecismo 
 
 Prints anteriores: `store-kit/screenshots/` (referência visual da versão publicada).
 
-Selecionar capturas da versão 1.2.1 somente depois de revisar as telas da home, biblioteca, leitor do Catecismo, leitor autoral, temas e São Pio X. As capturas de auditoria não substituem a seleção e o dimensionamento de screenshots no App Store Connect.
+Selecionar capturas da versão 1.2.1 somente depois de revisar as telas da home, biblioteca, leitor do Catecismo, leitor autoral e temas. As capturas de auditoria não substituem a seleção e o dimensionamento de screenshots no App Store Connect.
 
 Ordem recomendada:
 

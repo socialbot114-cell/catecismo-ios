@@ -142,13 +142,12 @@ fun CatecismoApp() {
                 }
                 SeedState.Loading -> Box(Modifier.fillMaxSize().background(Color(0xFFF7F2E8)))
                 SeedState.Ready -> Scaffold(bottomBar = {
-                    if (screen in listOf("home", "library", "universe", "pio-x", "my-library")) {
+                    if (screen in listOf("home", "library", "universe", "my-library")) {
                         NavigationBar {
                             listOf(
                                 "home" to (Icons.Filled.Home to R.string.nav_home),
                                 "library" to (Icons.AutoMirrored.Filled.MenuBook to R.string.nav_library),
                                 "universe" to (Icons.Filled.AutoAwesome to R.string.nav_universe),
-                                "pio-x" to (Icons.AutoMirrored.Filled.MenuBook to R.string.nav_pio_x),
                                 "my-library" to (Icons.Filled.Bookmark to R.string.nav_my_library)
                             ).forEach { (route, item) ->
                                 NavigationBarItem(
@@ -167,7 +166,6 @@ fun CatecismoApp() {
                             "library" -> LibraryScreen(works, query, { query = it }, ::openWork)
                             "search" -> SearchScreen(repo, ::openWork)
                             "universe" -> UniverseScreen { selectedCharacter = it; screen = "character" }
-                            "pio-x" -> PiusXScreen()
                             "my-library" -> MyLibraryScreen(
                                 works, allProgress, favorites, quotes, ::openWork,
                                 onUniverse = { screen = "universe" },

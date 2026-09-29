@@ -27,12 +27,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Explore por tema"].waitForExistence(timeout: 5))
         capture(named: "catecismo-topics-pt")
 
-        selectSection("section-pio-x", in: app)
-        XCTAssertTrue(app.staticTexts["PORTUGUÊS (BRASIL)"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["ITALIANO"].exists)
-        XCTAssertTrue(app.staticTexts["Catecismo de São Pio X"].exists)
-        capture(named: "catecismo-pio-x-pt")
-
         selectSection("section-library", in: app)
         portugueseGuide.tap()
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
@@ -65,11 +59,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["The Gift of Faith"].waitForExistence(timeout: 5))
         capture(named: "catecismo-guides-en")
 
-        selectSection("section-pio-x", in: app)
-        XCTAssertTrue(app.staticTexts["ENGLISH"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["The Catechism of Pope Saint Pius X · 1911"].exists)
-        capture(named: "catecismo-pio-x-en")
-
         selectSection("section-saved", in: app)
         selectLanguage("Español", in: app)
         XCTAssertTrue(app.staticTexts["Mi biblioteca"].waitForExistence(timeout: 10))
@@ -84,11 +73,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["El don de la fe"].waitForExistence(timeout: 5))
         capture(named: "catecismo-guides-es")
 
-        selectSection("section-pio-x", in: app)
-        XCTAssertTrue(app.staticTexts["ESPAÑOL"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Catecismo Mayor de San Pío X · 1906"].exists)
-        capture(named: "catecismo-pio-x-es")
-
         selectSection("section-saved", in: app)
         selectLanguage("Français", in: app)
         XCTAssertTrue(app.staticTexts["Ma bibliothèque"].waitForExistence(timeout: 10))
@@ -102,11 +86,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         selectSection("section-library", in: app)
         XCTAssertTrue(app.staticTexts["Le don de la foi"].waitForExistence(timeout: 5))
         capture(named: "catecismo-guides-fr")
-
-        selectSection("section-pio-x", in: app)
-        XCTAssertTrue(app.staticTexts["FRANÇAIS"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Catéchisme de Rome · édition complète de 1905"].exists)
-        capture(named: "catecismo-pio-x-fr")
 
         selectSection("section-saved", in: app)
         selectLanguage("Português (Brasil)", in: app)
