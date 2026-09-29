@@ -6,17 +6,15 @@ final class CatecismoScreenshotTests: XCTestCase {
         let pickerOption: String
         let homeTitle: String
         let guideTitle: String
-        let libraryBackLabel: String
         let myLibraryTitle: String
         let quotesTitle: String
-        let topicsBackLabel: String
     }
 
     private let locales = [
-        LocaleCase(slug: "pt", pickerOption: "Português (Brasil)", homeTitle: "Comece a ler", guideTitle: "O dom da fé", libraryBackLabel: "Biblioteca", myLibraryTitle: "Minha biblioteca", quotesTitle: "Citações", topicsBackLabel: "Temas"),
-        LocaleCase(slug: "en", pickerOption: "English", homeTitle: "Start reading", guideTitle: "The Gift of Faith", libraryBackLabel: "Library", myLibraryTitle: "My Library", quotesTitle: "Quotes", topicsBackLabel: "Topics"),
-        LocaleCase(slug: "es", pickerOption: "Español", homeTitle: "Empieza a leer", guideTitle: "El don de la fe", libraryBackLabel: "Biblioteca", myLibraryTitle: "Mi biblioteca", quotesTitle: "Citas", topicsBackLabel: "Temas"),
-        LocaleCase(slug: "fr", pickerOption: "Français", homeTitle: "Commencer la lecture", guideTitle: "Le don de la foi", libraryBackLabel: "Bibliothèque", myLibraryTitle: "Ma bibliothèque", quotesTitle: "Citations", topicsBackLabel: "Thèmes"),
+        LocaleCase(slug: "pt", pickerOption: "Português (Brasil)", homeTitle: "Comece a ler", guideTitle: "O dom da fé", myLibraryTitle: "Minha biblioteca", quotesTitle: "Citações"),
+        LocaleCase(slug: "en", pickerOption: "English", homeTitle: "Start reading", guideTitle: "The Gift of Faith", myLibraryTitle: "My Library", quotesTitle: "Quotes"),
+        LocaleCase(slug: "es", pickerOption: "Español", homeTitle: "Empieza a leer", guideTitle: "El don de la fe", myLibraryTitle: "Mi biblioteca", quotesTitle: "Citas"),
+        LocaleCase(slug: "fr", pickerOption: "Français", homeTitle: "Commencer la lecture", guideTitle: "Le don de la foi", myLibraryTitle: "Ma bibliothèque", quotesTitle: "Citations"),
     ]
 
     func testAllScreenshotsInAllLanguages() {
@@ -41,7 +39,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "\(locale.slug)-my-library")
 
         let quoteHeading = app.staticTexts[locale.quotesTitle].firstMatch
-        scrollDownUntilHittable(quoteHeading, in: app, scrollViewIdentifier: "screen-saved")
+        scrollDownUntilHittable(quoteHeading, in: app)
         capture(named: "\(locale.slug)-my-library-quotes")
 
         selectSection("section-home", in: app)
@@ -49,7 +47,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[locale.homeTitle].waitForExistence(timeout: 10))
         capture(named: "\(locale.slug)-home")
         let offlineText = app.descendants(matching: .any).matching(identifier: "home-catechism-section").firstMatch
-        scrollDownUntilHittable(offlineText, in: app, scrollViewIdentifier: "screen-home")
+        scrollDownUntilHittable(offlineText, in: app)
         capture(named: "\(locale.slug)-home-offline-catechism")
 
         selectSection("section-library", in: app)
@@ -70,7 +68,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         topic?.tap()
         waitForScreen("screen-topic-detail", in: app)
         capture(named: "\(locale.slug)-topic-detail")
-        returnToPreviousScreen(locale.topicsBackLabel, in: app)
 
         selectSection("section-library", in: app)
         waitForScreen("screen-library", in: app)
@@ -80,8 +77,8 @@ final class CatecismoScreenshotTests: XCTestCase {
         guide.tap()
         waitForScreen("screen-reader", in: app)
         capture(named: "\(locale.slug)-guide-reader")
-        returnToPreviousScreen(locale.libraryBackLabel, in: app)
 
+        selectSection("section-home", in: app)
         selectSection("section-library", in: app)
         waitForScreen("screen-library", in: app)
         let catechismSearch = app.textFields["library-search-field"]
@@ -97,17 +94,19 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "\(locale.slug)-catechism-reader")
 
         let chapterPicker = app.buttons["chapter-picker-button"].firstMatch
-        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
+        scrollUpUntilHittable(chapterPicker, in: app)
         chapterPicker.tap()
         capture(named: "\(locale.slug)-chapter-picker")
         selectChapter("O quarto mandamento", in: app)
         captureParagraph(2217, named: "\(locale.slug)-paragraph-2217", in: app)
 
-        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
+        scrollUpUntilHittable(chapterPicker, in: app)
         chapterPicker.tap()
         selectChapter("O sétimo mandamento", in: app)
-        XCTAssertTrue(app.staticTexts["O sétimo mandamento"].firstMatch.waitForExistence(timeout: 5))
-        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
+        let chapterTitle = app.descendants(matching: .any).matching(identifier: "selected-chapter-title").firstMatch
+        XCTAssertTrue(chapterTitle.waitForExistence(timeout: 5))
+        XCTAssertEqual(chapterTitle.label, "O sétimo mandamento")
+        scrollUpUntilHittable(chapterPicker, in: app)
         capture(named: "\(locale.slug)-reader-seventh-commandment")
         captureParagraph(2439, named: "\(locale.slug)-paragraph-2439", in: app)
     }
@@ -123,10 +122,10 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(favorite.waitForExistence(timeout: 5))
         favorite.tap()
         let quote = app.buttons.matching(identifier: "save-quote-button").firstMatch
-        scrollDownUntilHittable(quote, in: app, scrollViewIdentifier: "screen-reader")
+        scrollDownUntilHittable(quote, in: app)
         quote.tap()
         let complete = app.buttons["complete-chapter-button"]
-        scrollDownUntilHittable(complete, in: app, scrollViewIdentifier: "screen-reader")
+        scrollDownUntilHittable(complete, in: app)
         complete.tap()
         selectSection("section-saved", in: app)
         waitForScreen("screen-saved", in: app)
@@ -134,7 +133,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
     private func selectLanguage(_ name: String, captureAs: String? = nil, in app: XCUIApplication) {
         let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        scrollUpUntilHittable(picker, in: app, scrollViewIdentifier: "screen-saved")
+        scrollUpUntilHittable(picker, in: app)
         XCTAssertTrue(picker.waitForExistence(timeout: 10), "Language picker is not visible")
         picker.tap()
         let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
@@ -143,20 +142,16 @@ final class CatecismoScreenshotTests: XCTestCase {
         option.tap()
     }
 
-    private func returnToPreviousScreen(_ label: String, in app: XCUIApplication) {
-        let back = app.navigationBars.buttons.matching(NSPredicate(format: "label == %@", label)).firstMatch
-        XCTAssertTrue(back.waitForExistence(timeout: 5), "Expected the navigation back button")
-        back.tap()
-    }
-
     private func waitForScreen(_ identifier: String, in app: XCUIApplication) {
         let screen = app.descendants(matching: .any).matching(identifier: identifier).firstMatch
         XCTAssertTrue(screen.waitForExistence(timeout: 10), "Missing screen: \(identifier)")
     }
 
     private func captureParagraph(_ number: Int, named name: String, in app: XCUIApplication) {
-        let paragraph = app.staticTexts["catechism-paragraph-\(number)"].firstMatch
-        scrollDownUntilHittable(paragraph, in: app, scrollViewIdentifier: "screen-reader")
+        let paragraph = app.descendants(matching: .any)
+            .matching(identifier: "catechism-paragraph-\(number)")
+            .firstMatch
+        scrollDownUntilHittable(paragraph, in: app)
         capture(named: name)
     }
 
@@ -180,24 +175,20 @@ final class CatecismoScreenshotTests: XCTestCase {
         chapter.tap()
     }
 
-    private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication, scrollViewIdentifier: String) {
-        let scrollView = app.scrollViews.matching(identifier: scrollViewIdentifier).firstMatch
-        XCTAssertTrue(scrollView.waitForExistence(timeout: 5), "Missing scroll view: \(scrollViewIdentifier)")
+    private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<48 {
             if element.isHittable { return }
-            let start = scrollView.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.8))
-            let end = scrollView.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.48))
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.8))
+            let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.48))
             start.press(forDuration: 0.05, thenDragTo: end)
         }
         XCTAssertTrue(element.isHittable, "Could not scroll to \(element.identifier)")
     }
 
-    private func scrollUpUntilHittable(_ element: XCUIElement, in app: XCUIApplication, scrollViewIdentifier: String) {
-        let scrollView = app.scrollViews.matching(identifier: scrollViewIdentifier).firstMatch
-        XCTAssertTrue(scrollView.waitForExistence(timeout: 5), "Missing scroll view: \(scrollViewIdentifier)")
+    private func scrollUpUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<24 {
             if element.isHittable { return }
-            scrollView.swipeDown()
+            app.swipeDown()
         }
         XCTAssertTrue(element.isHittable, "Could not scroll back to \(element.identifier)")
     }

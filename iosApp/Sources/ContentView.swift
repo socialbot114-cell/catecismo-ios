@@ -667,6 +667,7 @@ private struct GuideDetailView: View {
                     Text(chapter.title)
                         .font(CatecismoTheme.display(25))
                         .foregroundStyle(CatecismoTheme.ink)
+                        .accessibilityIdentifier("selected-chapter-title")
                 }
                 Spacer(minLength: 8)
                 Menu {
