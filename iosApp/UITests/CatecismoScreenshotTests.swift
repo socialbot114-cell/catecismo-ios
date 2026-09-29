@@ -41,7 +41,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "\(locale.slug)-my-library")
 
         let quoteHeading = app.staticTexts[locale.quotesTitle].firstMatch
-        scrollDownUntilHittable(quoteHeading, in: app)
+        scrollDownUntilHittable(quoteHeading, in: app, scrollViewIdentifier: "screen-saved")
         capture(named: "\(locale.slug)-my-library-quotes")
 
         selectSection("section-home", in: app)
@@ -49,7 +49,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[locale.homeTitle].waitForExistence(timeout: 10))
         capture(named: "\(locale.slug)-home")
         let offlineText = app.descendants(matching: .any).matching(identifier: "home-catechism-section").firstMatch
-        scrollDownUntilHittable(offlineText, in: app)
+        scrollDownUntilHittable(offlineText, in: app, scrollViewIdentifier: "screen-home")
         capture(named: "\(locale.slug)-home-offline-catechism")
 
         selectSection("section-library", in: app)
@@ -97,18 +97,18 @@ final class CatecismoScreenshotTests: XCTestCase {
         capture(named: "\(locale.slug)-catechism-reader")
 
         let chapterPicker = app.buttons["chapter-picker-button"].firstMatch
-        scrollUpUntilHittable(chapterPicker, in: app)
+        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
         chapterPicker.tap()
         capture(named: "\(locale.slug)-chapter-picker")
         selectChapter("O quarto mandamento", in: app)
         captureParagraph("2217.", named: "\(locale.slug)-paragraph-2217", in: app)
 
-        scrollUpUntilHittable(chapterPicker, in: app)
+        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
         chapterPicker.tap()
         selectChapter("O sétimo mandamento", in: app)
         XCTAssertTrue(app.staticTexts["O sétimo mandamento"].firstMatch.waitForExistence(timeout: 5))
+        scrollUpUntilHittable(chapterPicker, in: app, scrollViewIdentifier: "screen-reader")
         capture(named: "\(locale.slug)-reader-seventh-commandment")
-        scrollUpUntilHittable(chapterPicker, in: app)
         captureParagraph("2439.", named: "\(locale.slug)-paragraph-2439", in: app)
     }
 
@@ -123,10 +123,10 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(favorite.waitForExistence(timeout: 5))
         favorite.tap()
         let quote = app.buttons.matching(identifier: "save-quote-button").firstMatch
-        scrollDownUntilHittable(quote, in: app)
+        scrollDownUntilHittable(quote, in: app, scrollViewIdentifier: "screen-reader")
         quote.tap()
         let complete = app.buttons["complete-chapter-button"]
-        scrollDownUntilHittable(complete, in: app)
+        scrollDownUntilHittable(complete, in: app, scrollViewIdentifier: "screen-reader")
         complete.tap()
         selectSection("section-saved", in: app)
         waitForScreen("screen-saved", in: app)
@@ -134,7 +134,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
     private func selectLanguage(_ name: String, captureAs: String? = nil, in app: XCUIApplication) {
         let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        scrollUpUntilHittable(picker, in: app)
+        scrollUpUntilHittable(picker, in: app, scrollViewIdentifier: "screen-saved")
         XCTAssertTrue(picker.waitForExistence(timeout: 10), "Language picker is not visible")
         picker.tap()
         let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
@@ -156,7 +156,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
     private func captureParagraph(_ marker: String, named name: String, in app: XCUIApplication) {
         let paragraph = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", marker)).firstMatch
-        scrollDownUntilHittable(paragraph, in: app)
+        scrollDownUntilHittable(paragraph, in: app, scrollViewIdentifier: "screen-reader")
         capture(named: name)
     }
 
@@ -180,18 +180,22 @@ final class CatecismoScreenshotTests: XCTestCase {
         chapter.tap()
     }
 
-    private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
+    private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication, scrollViewIdentifier: String) {
+        let scrollView = app.scrollViews.matching(identifier: scrollViewIdentifier).firstMatch
+        XCTAssertTrue(scrollView.waitForExistence(timeout: 5), "Missing scroll view: \(scrollViewIdentifier)")
         for _ in 0..<24 {
             if element.isHittable { return }
-            app.swipeUp()
+            scrollView.swipeUp()
         }
         XCTAssertTrue(element.isHittable, "Could not scroll to \(element.identifier)")
     }
 
-    private func scrollUpUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
+    private func scrollUpUntilHittable(_ element: XCUIElement, in app: XCUIApplication, scrollViewIdentifier: String) {
+        let scrollView = app.scrollViews.matching(identifier: scrollViewIdentifier).firstMatch
+        XCTAssertTrue(scrollView.waitForExistence(timeout: 5), "Missing scroll view: \(scrollViewIdentifier)")
         for _ in 0..<24 {
             if element.isHittable { return }
-            app.swipeDown()
+            scrollView.swipeDown()
         }
         XCTAssertTrue(element.isHittable, "Could not scroll back to \(element.identifier)")
     }
