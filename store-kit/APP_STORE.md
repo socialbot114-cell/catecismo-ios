@@ -15,7 +15,7 @@ Use este arquivo para preparar a submissão iOS 1.2.1. As capturas aprovadas par
 - Preço: `Gratuito`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
 - Versão em preparação: `1.2.1`
-- Último build enviado: `1.1.1 (30)`; o próximo build planejado é `1.2.1 (31)`.
+- Último build enviado: `1.2.1 (31)`; App Store Connect processing succeeded. The version is being prepared for App Review.
 - Build anterior: `1.1 (17)`; workflow `36257985758` aceitou o upload.
 - Copyright: `2026 <CONFERIR titular>`
 

@@ -1,0 +1,74 @@
+name: Submit existing iOS build to App Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_app_review_submission:
+        description: Submit processed build 31 to App Review and release automatically after approval
+        type: boolean
+        required: true
+        default: false
+      build_number:
+        description: Processed App Store Connect build number
+        type: string
+        required: true
+        default: '31'
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    if: ${{ inputs.confirm_app_review_submission }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install Fastlane
+        run: gem install fastlane --no-document
+
+      - name: Prepare App Store Connect API key
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          path = Path(os.environ['RUNNER_TEMP']) / 'app-store-connect-api-key.json'
+          path.write_text(json.dumps({
+              'key_id': os.environ['APPLE_API_KEY_ID'],
+              'issuer_id': os.environ['APPLE_API_ISSUER_ID'],
+              'key': os.environ['APPLE_API_KEY_P8'],
+              'in_house': False,
+          }))
+          PY
+
+      - name: Submit processed build and metadata
+        env:
+          BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          set -euo pipefail
+          [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]]
+          args=(
+            deliver
+            --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
+            --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
+            --app_version '1.2.1'
+            --build_number "$BUILD_NUMBER"
+            --metadata_path 'store-kit/metadata'
+            --skip_binary_upload
+            --skip_screenshots
+            --precheck_include_in_app_purchases false
+            --force
+            --submit_for_review
+            --automatic_release
+          )
+          fastlane "${args[@]}"
