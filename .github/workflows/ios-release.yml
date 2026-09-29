@@ -32,7 +32,9 @@ jobs:
           import plistlib
           from pathlib import Path
           root = Path('iosApp')
-          plistlib.load((root / 'Info.plist').open('rb'))
+          info = plistlib.load((root / 'Info.plist').open('rb'))
+          assert info['CFBundleShortVersionString'] == '1.2.1'
+          assert info['CFBundleVersion'] == '31'
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
           assert len(texts) == 12
