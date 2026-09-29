@@ -3,7 +3,9 @@ import XCTest
 final class CatecismoScreenshotTests: XCTestCase {
     private struct LocaleCase {
         let slug: String
-        let pickerOption: String
+        let languagePreference: String
+        let appleLanguage: String
+        let appleLocale: String
         let homeTitle: String
         let guideTitle: String
         let myLibraryTitle: String
@@ -11,29 +13,30 @@ final class CatecismoScreenshotTests: XCTestCase {
     }
 
     private let locales = [
-        LocaleCase(slug: "pt", pickerOption: "Português (Brasil)", homeTitle: "Comece a ler", guideTitle: "O dom da fé", myLibraryTitle: "Minha biblioteca", quotesTitle: "Citações"),
-        LocaleCase(slug: "en", pickerOption: "English", homeTitle: "Start reading", guideTitle: "The Gift of Faith", myLibraryTitle: "My Library", quotesTitle: "Quotes"),
-        LocaleCase(slug: "es", pickerOption: "Español", homeTitle: "Empieza a leer", guideTitle: "El don de la fe", myLibraryTitle: "Mi biblioteca", quotesTitle: "Citas"),
-        LocaleCase(slug: "fr", pickerOption: "Français", homeTitle: "Commencer la lecture", guideTitle: "Le don de la foi", myLibraryTitle: "Ma bibliothèque", quotesTitle: "Citations"),
+        LocaleCase(slug: "pt", languagePreference: "pt-BR", appleLanguage: "pt-BR", appleLocale: "pt_BR", homeTitle: "Comece a ler", guideTitle: "O dom da fé", myLibraryTitle: "Minha biblioteca", quotesTitle: "Citações"),
+        LocaleCase(slug: "en", languagePreference: "en", appleLanguage: "en", appleLocale: "en_US", homeTitle: "Start reading", guideTitle: "The Gift of Faith", myLibraryTitle: "My Library", quotesTitle: "Quotes"),
+        LocaleCase(slug: "es", languagePreference: "es", appleLanguage: "es", appleLocale: "es_ES", homeTitle: "Empieza a leer", guideTitle: "El don de la fe", myLibraryTitle: "Mi biblioteca", quotesTitle: "Citas"),
+        LocaleCase(slug: "fr", languagePreference: "fr", appleLanguage: "fr", appleLocale: "fr_FR", homeTitle: "Commencer la lecture", guideTitle: "Le don de la foi", myLibraryTitle: "Ma bibliothèque", quotesTitle: "Citations"),
     ]
 
     func testAllScreenshotsInAllLanguages() {
         let app = XCUIApplication()
-        app.launchArguments = ["-ui-testing", "-AppleLanguages", "(pt-BR)", "-AppleLocale", "pt_BR"]
-        app.launch()
-
-        selectSection("section-saved", in: app)
-        selectLanguage(locales[0].pickerOption, in: app)
-        seedSavedContent(in: app)
-
         for locale in locales {
+            app.launchArguments = [
+                "-ui-testing",
+                "-catecismo.language", locale.languagePreference,
+                "-AppleLanguages", "(\(locale.appleLanguage))",
+                "-AppleLocale", locale.appleLocale,
+            ]
+            app.launch()
+            if locale.slug == "pt" { seedSavedContent(in: app) }
             audit(locale, in: app)
+            app.terminate()
         }
     }
 
     private func audit(_ locale: LocaleCase, in app: XCUIApplication) {
         selectSection("section-saved", in: app)
-        selectLanguage(locale.pickerOption, captureAs: "\(locale.slug)-language-picker", in: app)
         waitForScreen("screen-saved", in: app)
         XCTAssertTrue(app.staticTexts[locale.myLibraryTitle].firstMatch.waitForExistence(timeout: 10))
         capture(named: "\(locale.slug)-my-library")
@@ -129,17 +132,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         complete.tap()
         selectSection("section-saved", in: app)
         waitForScreen("screen-saved", in: app)
-    }
-
-    private func selectLanguage(_ name: String, captureAs: String? = nil, in app: XCUIApplication) {
-        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        scrollUpUntilHittable(picker, in: app)
-        XCTAssertTrue(picker.waitForExistence(timeout: 10), "Language picker is not visible")
-        picker.tap()
-        let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
-        XCTAssertTrue(option.waitForExistence(timeout: 5))
-        if let captureAs { capture(named: captureAs) }
-        option.tap()
     }
 
     private func waitForScreen(_ identifier: String, in app: XCUIApplication) {
