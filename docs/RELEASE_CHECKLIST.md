@@ -2,7 +2,7 @@
 
 ## Before release
 
-- [ ] Confirm the app icon and other image licenses in `ASSET_LICENSES.md`.
+- [x] Confirm app icon and packaged artwork distribution rights with the project owner; recorded in `ASSET_LICENSES.md`.
 - [x] Confirm Catechism text redistribution authorization with the project owner.
 - [ ] Rotate any credential exposed outside the local machine.
 - [ ] Run `python3 tools/validate_assets.py`.

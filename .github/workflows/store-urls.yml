@@ -16,6 +16,7 @@ jobs:
   update-live-urls:
     if: ${{ inputs.confirm_store_url_update }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -46,12 +47,4 @@ jobs:
           PY
 
       - name: Update live listing URLs only
-        run: >-
-          fastlane deliver
-          --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
-          --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
-          --metadata_path 'store-kit/metadata'
-          --edit_live
-          --skip_binary_upload
-          --skip_screenshots
-          --force
+        run: ruby tools/update_app_store_urls.rb "$RUNNER_TEMP/app-store-connect-api-key.json"
