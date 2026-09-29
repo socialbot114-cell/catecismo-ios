@@ -140,6 +140,15 @@ final class CatecismoScreenshotTests: XCTestCase {
         waitForScreen("screen-saved", in: app)
     }
 
+    private func selectLanguage(_ name: String, in app: XCUIApplication) {
+        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
+        XCTAssertTrue(picker.waitForExistence(timeout: 10))
+        picker.tap()
+        let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
+        XCTAssertTrue(option.waitForExistence(timeout: 5))
+        option.tap()
+    }
+
     private func returnToPreviousScreen(_ label: String, in app: XCUIApplication) {
         let back = app.navigationBars.buttons[label].firstMatch
         XCTAssertTrue(back.waitForExistence(timeout: 5), "Expected the navigation back button")
