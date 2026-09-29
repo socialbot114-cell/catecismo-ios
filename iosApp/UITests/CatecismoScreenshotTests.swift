@@ -38,7 +38,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Escutar e responder"].waitForExistence(timeout: 5))
         capture(named: "catecismo-reading-pt")
 
-        selectSection("section-library", in: app)
+        returnToLibrary(in: app)
         let search = app.textFields["library-search-field"]
         XCTAssertTrue(search.waitForExistence(timeout: 5))
         search.tap()
@@ -50,6 +50,7 @@ final class CatecismoScreenshotTests: XCTestCase {
         firstPart.tap()
         XCTAssertTrue(app.staticTexts["Prólogo: a vida do homem é conhecer e amar a Deus"].waitForExistence(timeout: 5))
         capture(named: "catecismo-vatican-reading-pt")
+        returnToLibrary(in: app)
         selectSection("section-saved", in: app)
         selectLanguage("English", in: app)
         XCTAssertTrue(app.staticTexts["My Library"].waitForExistence(timeout: 10))
@@ -119,6 +120,12 @@ final class CatecismoScreenshotTests: XCTestCase {
         let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
         XCTAssertTrue(option.waitForExistence(timeout: 5))
         option.tap()
+    }
+
+    private func returnToLibrary(in app: XCUIApplication) {
+        let back = app.navigationBars.buttons["Biblioteca"].firstMatch
+        XCTAssertTrue(back.waitForExistence(timeout: 5), "Expected the Library back button")
+        back.tap()
     }
 
     private func capture(named name: String) {
