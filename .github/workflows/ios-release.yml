@@ -41,6 +41,8 @@ jobs:
           project = (root / 'project.yml').read_text()
           assert 'MARKETING_VERSION: "1.2.1"' in project
           assert 'CURRENT_PROJECT_VERSION: "31"' in project
+          assert 'CFBundleShortVersionString: "1.2.1"' in project
+          assert 'CFBundleVersion: "31"' in project
           forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
@@ -131,6 +133,15 @@ jobs:
             DEVELOPMENT_TEAM="$TEAM_ID" \
             MARKETING_VERSION=1.2.1 \
             CURRENT_PROJECT_VERSION=31
+
+      - name: Validate archive version
+        run: |
+          app="$RUNNER_TEMP/Catecismo.xcarchive/Products/Applications/Catecismo.app"
+          short_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Info.plist")
+          build_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Info.plist")
+          printf 'Archive version=%s build=%s\n' "$short_version" "$build_version"
+          test "$short_version" = '1.2.1'
+          test "$build_version" = '31'
 
       - name: Export IPA
         run: |

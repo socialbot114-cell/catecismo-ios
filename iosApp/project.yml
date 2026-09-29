@@ -65,6 +65,8 @@ targets:
     info:
       path: Info.plist
       properties:
+        CFBundleShortVersionString: "1.2.1"
+        CFBundleVersion: "31"
         UILaunchScreen:
           UIColorName: LaunchBackground
         LSRequiresIPhoneOS: true
