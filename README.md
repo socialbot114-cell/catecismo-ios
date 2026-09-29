@@ -4,7 +4,7 @@ Aplicativo Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). O ciclo atual pre
 
 ## Conteúdo
 
-- Texto em português publicado pelo Vaticano, organizado em quatro partes e embarcado para leitura offline. A fonte consultada não apresenta os §§2217 e 2439; veja `DATA_SOURCES.md`.
+- Texto em português do Catecismo, organizado em quatro partes e embarcado para leitura offline. A transcrição da edição no PDF da Diocese de Miracema inclui §§1–2865, inclusive §§2217 e 2439; veja `DATA_SOURCES.md`.
 - Oito guias autorais ampliados (seis capítulos cada) sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
 - Leitura paginada por seções, busca local integral (FTS), favoritos, citações e progresso.
 - Narração local por TextToSpeech no Android e AVSpeechSynthesizer no iOS, sem dependência de rede.

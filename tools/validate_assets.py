@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "app/src/main/assets/texts"
 REPORT = ROOT / "RELATORIO_CONTEUDO.md"
 
-KNOWN_MISSING_SECTIONS = {2217, 2439}
+EXPECTED_CATECHISM_SECTIONS = set(range(1, 2866))
 
 
 def main():
@@ -87,15 +87,18 @@ def main():
         except (AssertionError, KeyError, json.JSONDecodeError) as error:
             errors.append(str(error))
 
+    catechism_work_ids = {entry.get("id") for entry in index if entry.get("status") == "catecismo"}
+    if catechism_work_ids != {f"catecismo-parte-{part}" for part in range(1, 5)}:
+        errors.append("o catálogo deve conter as quatro partes do Catecismo")
     if covered:
-        missing = [n for n in range(1, 2866) if n not in covered and n not in KNOWN_MISSING_SECTIONS]
+        missing = sorted(EXPECTED_CATECHISM_SECTIONS - covered)
         if missing:
             errors.append(f"§§ ausentes nos assets do Catecismo: {missing[:12]}")
-        unexpected = sorted(covered - set(range(1, 2866)))
+        unexpected = sorted(covered - EXPECTED_CATECHISM_SECTIONS)
         if unexpected:
             errors.append(f"numeração § fora do intervalo 1–2865: {unexpected[:12]}")
-        if {n for n in range(1, 2866) if n not in covered} != KNOWN_MISSING_SECTIONS:
-            errors.append("lacunas do texto em português divergiram das lacunas conhecidas §2217 e §2439")
+        if covered != EXPECTED_CATECHISM_SECTIONS:
+            errors.append("a edição deve conter todos os parágrafos §§1–2865, sem duplicatas ou lacunas")
 
     indexed = {entry.get("id") for entry in index if isinstance(entry, dict)}
     assets = {path.stem for path in OUT.glob("*.json") if path.name != "index.json"}
@@ -113,8 +116,8 @@ def main():
         f"- **Obras:** {len(rows)}",
         f"- **Seções:** {sum(row[3] for row in rows)}",
         f"- **Palavras:** {sum(row[4] for row in rows):,}".replace(",", "."),
-        "- **Fontes:** guias autorais (Equipe Catecismo) + texto em português publicado pelo Vaticano, © Libreria Editrice Vaticana.",
-        "- **Cobertura da fonte online:** §§2217 e 2439 não constam nas páginas em português consultadas.",
+        "- **Fontes:** guias autorais (Equipe Catecismo) + edição em português do Catecismo transcrita do PDF da Diocese de Miracema.",
+        "- **Cobertura:** todos os 2.865 parágrafos (§§1–2865) estão incluídos, inclusive §§2217 e 2439.",
         "",
         "| Obra | ID | Seções | Palavras |",
         "|---|---|---:|---:|",

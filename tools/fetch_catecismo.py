@@ -1,71 +1,28 @@
 #!/usr/bin/env python3
-"""Importação do texto do Catecismo da Igreja Católica (Vatican.va, edição pt).
-
-Gera app/src/main/assets/texts/cic-*.json + index.json e cópia para iosApp/Resources/Texts.
-Texto © Libreria Editrice Vaticana — atribuição registrada em cada asset (sourceUrl).
-Sem ortografia reescrita: fidelidade completa ao texto publicado pela Santa Sé.
-"""
-import html as html_mod
+"""Build offline Catechism assets from the Diocese of Miracema PDF edition."""
+import argparse
 import json
 import re
-import sys
-import time
-import urllib.request
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CACHE = ROOT / "tools" / "cache" / "catecismo"
 OUT_ANDROID = ROOT / "app" / "src" / "main" / "assets" / "texts"
 OUT_IOS = ROOT / "iosApp" / "Resources" / "Texts"
-CACHE.mkdir(parents=True, exist_ok=True)
-OUT_ANDROID.mkdir(parents=True, exist_ok=True)
-OUT_IOS.mkdir(parents=True, exist_ok=True)
-
-BASE = "https://www.vatican.va/archive/cathechism_po/index_new/"
-USER_AGENT = "CatecismoImporter/1.2 (offline content build) python-urllib"
-
-# (arquivo no site, § inicial, § final)
-PAGE_SPEC = [
-    ("prologo%201-25_po.html", 1, 25),
-    ("p1s1c1_26-49_po.html", 26, 49),
-    ("p1s1c2_50-141_po.html", 50, 141),
-    ("p1s1c3_142-184_po.html", 142, 184),
-    ("p1s2_185-197_po.html", 185, 197),
-    ("p1s2c1_198-421_po.html", 198, 421),
-    ("p1s2cap2_422-682_po.html", 422, 682),
-    ("p1s2cap3_683-1065_po.html", 683, 1065),
-    ("p2s1cap1_1066-1075_po.html", 1066, 1075),
-    ("p2s1cap1_1076-1134_po.html", 1076, 1134),
-    ("p2s1cap2_1135-1209_po.html", 1135, 1209),
-    ("p2s2cap1_1210-1419_po.html", 1210, 1419),
-    ("p2s2cap1_1420-1532_po.html", 1420, 1532),
-    ("p2s2cap3_1533-1666_po.html", 1533, 1666),
-    ("p2s2cap4_1667-1690_po.html", 1667, 1690),
-    ("p3-intr_1691-1698_po.html", 1691, 1698),
-    ("p3s1cap1_1699-1876_po.html", 1699, 1876),
-    ("p3s1cap2_1877-1948_po.html", 1877, 1948),
-    ("p3s1cap3_1949-2051_po.html", 1949, 2051),
-    ("p3s2-intr_2052-2082_po.html", 2052, 2082),
-    ("p3s2cap1_2083-2195_po.html", 2083, 2195),
-    ("p3s2cap2_2196-2557_po.html", 2196, 2557),
-    ("p4-intr_2558-2565_po.html", 2558, 2565),
-    ("p4s1cap1_2566-2649_po.html", 2566, 2649),
-    ("p4s1cap2_2650-2696_po.html", 2650, 2696),
-    ("p4s1cap3_2697-2758_po.html", 2697, 2758),
-    ("p4s2_2759-2865_po.html", 2759, 2865),
-]
+SOURCE_URL = "https://diocesedemiracemato.org.br/upload/arquivos/214.pdf"
+SOURCE_NAME = "Catecismo da Igreja Católica — edição portuguesa no PDF da Diocese de Miracema"
 
 # Estrutura oficial do Catecismo: capítulos = um por artigo + introduções.
-# (título da seção, § inicial) — ver WORKS abaixo, validado contra as seções do Vaticano.
+# (título da seção, § inicial), organizado em quatro partes.
 
 WORKS = [
     {
         "id": "catecismo-parte-1",
         "title": "Parte I — A Profissão da Fé",
         "description": "Prólogo e Profissão da Fé no Catecismo da Igreja Católica (§§1–1065).",
-        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Mantivemos a redação e a numeração publicadas na fonte em português. A página online não apresenta os §§2217 e 2439 da Parte III.",
+        "context": f"Fonte: {SOURCE_NAME}. Texto e numeração reproduzidos da edição em português do PDF de origem.",
         "characters": ["Credo", "Criação", "Jesus Cristo", "Espírito Santo", "Igreja", "Vida eterna"],
-        "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-prima-parte_po.html",
+        "sourceUrl": SOURCE_URL,
         "sections": [
             ("Prólogo: a vida do homem é conhecer e amar a Deus", 1),
             ("O homem é «capaz» de Deus — o desejo de Deus", 27),
@@ -92,9 +49,9 @@ WORKS = [
         "id": "catecismo-parte-2",
         "title": "Parte II — A Celebração do Mistério Cristão",
         "description": "Liturgia e sacramentos do Catecismo da Igreja Católica (§§1066–1690).",
-        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
+        "context": f"Fonte: {SOURCE_NAME}. Texto e numeração reproduzidos da edição em português do PDF de origem.",
         "characters": ["Liturgia", "Batismo", "Confirmação", "Eucaristia", "Penitência", "Unção dos enfermos", "Ordem", "Matrimônio"],
-        "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-seconda-parte_po.html",
+        "sourceUrl": SOURCE_URL,
         "sections": [
             ("Introdução: por que a liturgia?", 1066),
             ("O mistério pascal no tempo da Igreja", 1076),
@@ -116,9 +73,9 @@ WORKS = [
         "id": "catecismo-parte-3",
         "title": "Parte III — A Vida em Cristo",
         "description": "Dignidade humana, mandamentos e vida cristã (§§1691–2557).",
-        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. A página em português consultada não apresenta os §§2217 e 2439; não substituímos esses trechos por outra tradução.",
+        "context": f"Fonte: {SOURCE_NAME}. Inclui os §§2217 e 2439 conforme a edição em português do PDF de origem.",
         "characters": ["Dignidade humana", "Bem-aventurança", "Liberdade", "Consciência moral", "Virtudes", "Lei e graça", "Dez Mandamentos"],
-        "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-terza-parte_po.html",
+        "sourceUrl": SOURCE_URL,
         "sections": [
             ("Introdução: a vida em Cristo", 1691),
             ("A dignidade da pessoa humana", 1699),
@@ -153,9 +110,9 @@ WORKS = [
         "id": "catecismo-parte-4",
         "title": "Parte IV — A Oração Cristã",
         "description": "Oração e Pai-Nosso no Catecismo da Igreja Católica (§§2558–2865).",
-        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
+        "context": f"Fonte: {SOURCE_NAME}. Texto e numeração reproduzidos da edição em português do PDF de origem.",
         "characters": ["Oração", "Pai-Nosso", "Mariologia orante", "Tradição da oração"],
-        "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-quarta-parte_po.html",
+        "sourceUrl": SOURCE_URL,
         "sections": [
             ("Introdução: a oração na vida cristã", 2558),
             ("A revelação da oração", 2566),
@@ -171,62 +128,134 @@ WORKS = [
     },
 ]
 
-KNOWN_MISSING = {2217, 2439}
+EXPECTED_SECTIONS = set(range(1, 2866))
 
 
-def fetch(name):
-    dest = CACHE / name
-    if dest.exists():
-        return dest.read_text(encoding="latin-1")
-    url = BASE + name
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        raw = r.read()
+PARAGRAPH_MARKER = re.compile(r"^\s{0,5}(\d{1,4})\.\s*(.*\S.*)$")
+ROMAN_HEADING = re.compile(r"^(?:[IVXLCDM]+\.?\s+)[A-ZÁÉÍÓÚÂÊÔÃÕÇ]", re.I)
+NAMED_HEADING = re.compile(
+    r"^(?:CAP[IÍ]TULO\b|ARTIGO\b|INTRODU[CÇ][AÃ]O\b|CONCLUS[AÃ]O\b|"
+    r"(?:PRIMEIRA|SEGUNDA|TERCEIRA|QUARTA) PARTE\s*:)",
+    re.I,
+)
+
+
+def run_pdftotext(pdf_path):
     try:
-        data = raw.decode("utf-8")
-    except UnicodeDecodeError:
-        data = raw.decode("latin-1")
-    dest.write_text(data, encoding="latin-1")
-    time.sleep(1.5)
-    return data
+        result = subprocess.run(
+            ["pdftotext", "-layout", "-enc", "UTF-8", str(pdf_path), "-"],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+    except FileNotFoundError as error:
+        raise RuntimeError("pdftotext is required (install Poppler utils)") from error
+    return result.stdout.split("\n")
 
 
-def page_segments(raw):
-    body = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", raw, flags=re.S | re.I)
-    body = re.sub(r"<[pP][^>]*>", "\u2402", body)
-    body = re.sub(r"<b[uBb]?\s*>", "\u2402", body)
-    body = re.sub(r"</[bB]>", "", body)
-    plain = re.sub(r"<[^>]+>", "", body)
-    plain = html_mod.unescape(plain).replace("\xa0", " ")
-    out = []
-    for chunk in re.split("\u2402", plain):
-        s = re.sub(r"\s+", " ", chunk).strip()
-        if s:
-            out.append(s)
-    return out
+def is_heading(line):
+    line = line.strip()
+    if not line:
+        return True
+    if re.fullmatch(r"\d{1,3}", line):
+        return True
+    if ROMAN_HEADING.match(line) or NAMED_HEADING.match(line):
+        return True
+    letters = re.sub(r"[^A-Za-zÀ-ÿ]", "", line)
+    return len(letters) >= 4 and letters.isupper()
 
 
-def clean_paragraph(text):
-    text = re.sub(r"^\s*(\d{1,4})\.\s*", lambda m: m.group(1) + ". ", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return re.sub(r"\s+([,.;:!?»])", r"\1", text)
+def clean_paragraph_lines(lines):
+    cleaned = []
+    for raw_line in lines:
+        line = raw_line.replace("\f", " ").strip()
+        if not is_heading(line):
+            cleaned.append(line)
+
+    # Short section headings are set as their own final line before the next
+    # numbered paragraph in this edition; remove only title-like trailing lines.
+    while len(cleaned) > 1:
+        line = cleaned[-1]
+        title_like = (
+            len(line) <= 100
+            and len(line.split()) <= 10
+            and re.match(r"^[A-ZÁÉÍÓÚÂÊÔÃÕÇ]", line)
+            and not re.search(r"[.!?;»”)]$", line)
+            and not any(quote in line for quote in ('"', "“", "”", "«", "»"))
+            and "Summa Theologica" not in line
+        )
+        if not title_like:
+            break
+        cleaned.pop()
+
+    joined = ""
+    for line in cleaned:
+        if not joined:
+            joined = line
+        elif joined.endswith("-") and line[:1].islower():
+            joined += line
+        else:
+            joined += " " + line
+    joined = re.sub(r"\s+", " ", joined).strip()
+    joined = re.sub(r"\s+([,.;:!?»])", r"\1", joined)
+    joined = re.sub(r"([«(])\s+", r"\1", joined)
+    return re.sub(r"\s+([)])", r"\1", joined)
 
 
-def build():
-    paragraphs = {}
-    for name, lo, hi in PAGE_SPEC:
-        raw = fetch(name)
-        for seg in page_segments(raw):
-            match = re.match(r"^(\d{1,4})[\.\s]?[\s.]*", seg)
-            if not match:
+def extract_paragraphs(pdf_path):
+    lines = run_pdftotext(pdf_path)
+    markers = []
+    expected = 1
+    started = False
+
+    for index, raw_line in enumerate(lines):
+        match = PARAGRAPH_MARKER.match(raw_line.replace("\f", " "))
+        if not match:
+            continue
+        number = int(match.group(1))
+        text = match.group(2).strip()
+        if not started:
+            if number == 1 and text.startswith("Deus, infinitamente"):
+                started = True
+            else:
                 continue
-            n = int(match.group(1))
-            if lo <= n <= hi and n not in paragraphs:
-                paragraphs[n] = clean_paragraph(seg)
+        if number == expected:
+            markers.append((number, index, text))
+            expected += 1
+            if number == 2865:
+                break
 
-    gaps = [n for n in range(1, 2866) if n not in paragraphs]
-    if gaps != sorted(KNOWN_MISSING):
-        raise RuntimeError(f"Cobertura inválida do Catecismo: faltando {gaps}")
+    if expected != 2866 or len(markers) != 2865:
+        raise RuntimeError(
+            f"PDF coverage invalid: extracted {len(markers)} sequential paragraphs; "
+            f"next expected §{expected}"
+        )
+
+    contents_start = next(
+        (index for index in range(markers[-1][1] + 1, len(lines)) if "Índice Geral" in lines[index]),
+        None,
+    )
+    if contents_start is None:
+        raise RuntimeError("Could not locate the table of contents after §2865")
+
+    paragraphs = {}
+    for position, (number, index, initial_text) in enumerate(markers):
+        end = markers[position + 1][1] if position + 1 < len(markers) else contents_start
+        body = clean_paragraph_lines([initial_text, *lines[index + 1:end]])
+        if not body:
+            raise RuntimeError(f"Empty text in §{number}")
+        paragraphs[number] = f"{number}. {body}"
+
+    if set(paragraphs) != EXPECTED_SECTIONS:
+        raise RuntimeError("PDF paragraph coverage is not exactly §§1–2865")
+    return paragraphs
+
+
+def build(pdf_path):
+    paragraphs = extract_paragraphs(pdf_path)
+    OUT_ANDROID.mkdir(parents=True, exist_ok=True)
+    OUT_IOS.mkdir(parents=True, exist_ok=True)
 
     index_entries = []
     total_words = 0
@@ -255,7 +284,7 @@ def build():
             "context": work["context"],
             "characters": work["characters"],
             "sourceUrl": work["sourceUrl"],
-            "copyright": "Texto © Libreria Editrice Vaticana. Fonte consultada: Vatican.va, edição em português.",
+            "copyright": "Catecismo da Igreja Católica. Edição em português reproduzida no PDF da Diocese de Miracema.",
             "chapters": chapters,
         }
         path_android = OUT_ANDROID / f"{work['id']}.json"
@@ -287,8 +316,13 @@ def build():
             "sourceUrl": work["sourceUrl"],
         })
     index_path.write_text(json.dumps(guias + catalog, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"TOTAL palavras CIC (sem 2 §§ ausentes {sorted(KNOWN_MISSING)}): {total_words}")
+    print(f"TOTAL palavras CIC (2.865 parágrafos): {total_words}")
 
 
 if __name__ == "__main__":
-    build()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("pdf", type=Path, help="PDF português do Catecismo da Diocese de Miracema")
+    args = parser.parse_args()
+    if not args.pdf.is_file():
+        parser.error(f"PDF not found: {args.pdf}")
+    build(args.pdf)

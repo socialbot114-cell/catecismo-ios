@@ -41,7 +41,11 @@ final class CatecismoTests: XCTestCase {
             let translated = try repository.loadGuides(languageCode: language)
             XCTAssertEqual(Set(translated.filter { $0.category != "Catecismo" }.map(\.id)), authoredIDs, "Missing translated guide IDs for \(language)")
             XCTAssertEqual(Set(translated.filter { $0.category == "Catecismo" }.map(\.id)), catechismIDs, "Missing official Catechism parts for \(language)")
-            XCTAssertTrue(translated.filter { $0.category == "Catecismo" }.allSatisfy { $0.description.contains("português") })
+            XCTAssertEqual(
+                translated.filter { $0.category == "Catecismo" },
+                baseGuides.filter { $0.category == "Catecismo" },
+                "The bundled Portuguese Catechism parts should remain unchanged in \(language)"
+            )
         }
     }
 

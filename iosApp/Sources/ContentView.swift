@@ -185,9 +185,9 @@ private struct HomeView: View {
                     let catechismParts = library.guides.filter { $0.category == "Catecismo" }
                     if !catechismParts.isEmpty {
                         VStack(alignment: .leading, spacing: 14) {
-                            SectionHeading(title: "Catecismo em quatro partes", subtitle: "Texto em português publicado pelo Vaticano · leitura offline")
+                            SectionHeading(title: "Catecismo em quatro partes", subtitle: "Edição em português · leitura offline")
                             guideGrid(catechismParts)
-                            Text("Fonte: Vatican.va · © Libreria Editrice Vaticana. §§2217 e 2439 não constam na versão consultada.")
+                            Text("Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline.")
                                 .font(.footnote)
                                 .foregroundStyle(CatecismoTheme.muted)
                         }
@@ -205,7 +205,7 @@ private struct HomeView: View {
                     }
 
                     DisclosureGroup("Sobre este aplicativo") {
-                        Text("Aplicativo independente e não oficial. Inclui guias autorais e o texto em português do Catecismo publicado pelo Vaticano, © Libreria Editrice Vaticana. As quatro partes ficam armazenadas no aparelho para leitura offline.")
+                        Text("Aplicativo independente e não oficial. Inclui guias autorais e quatro partes do Catecismo transcritas da edição em português no PDF da Diocese de Miracema. O texto fica armazenado no aparelho para leitura offline.")
                             .font(.footnote)
                             .foregroundStyle(CatecismoTheme.muted)
                             .padding(.top, 8)
@@ -238,6 +238,7 @@ private struct HomeView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 14)
+            .accessibilityIdentifier("screen-home")
             .navigationTitle(String(localized: "Início", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -369,6 +370,7 @@ private struct LibraryView: View {
                                     .foregroundStyle(CatecismoTheme.muted)
                             }
                             .accessibilityLabel("Limpar busca")
+                            .accessibilityIdentifier("library-clear-search")
                         }
                     }
                     .font(.body)
@@ -397,6 +399,7 @@ private struct LibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
+            .accessibilityIdentifier("screen-library")
             .navigationTitle(String(localized: "Biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -442,6 +445,7 @@ private struct TopicsView: View {
                                 TopicCategoryCard(category: category, guideCount: guides.count)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("topic-category-\(category)")
                         }
                     }
                 }
@@ -453,6 +457,7 @@ private struct TopicsView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
+            .accessibilityIdentifier("screen-topics")
             .navigationTitle(String(localized: "Temas", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -471,6 +476,7 @@ private struct MyLibraryView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     SectionHeading(title: "Minha biblioteca", subtitle: "Seu caminho de leitura, salvo neste aparelho")
+                        .accessibilityIdentifier("my-library-heading")
 
                     HStack(spacing: 12) {
                         StatCard(value: "\(library.startedGuideCount)", label: "Guias iniciados", symbol: "book.pages.fill")
@@ -495,6 +501,7 @@ private struct MyLibraryView: View {
 
                     VStack(alignment: .leading, spacing: 12) {
                         SectionHeading(title: "Favoritos", subtitle: "Guias que você marcou")
+                            .accessibilityIdentifier("my-library-favorites-heading")
                         if favoriteGuides.isEmpty {
                             EmptyStateCard(symbol: "heart", title: "Seus favoritos aparecerão aqui", message: "Toque no coração de um guia para guardá-lo nesta biblioteca.")
                         } else {
@@ -507,6 +514,7 @@ private struct MyLibraryView: View {
 
                     VStack(alignment: .leading, spacing: 12) {
                         SectionHeading(title: "Citações", subtitle: "Trechos guardados durante a leitura")
+                            .accessibilityIdentifier("my-library-quotes-heading")
                         if library.quotes.isEmpty {
                             EmptyStateCard(symbol: "quote.opening", title: "Ainda não há citações", message: "Salve um trecho no leitor para encontrá-lo aqui.")
                         } else {
@@ -538,6 +546,7 @@ private struct MyLibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
+            .accessibilityIdentifier("screen-saved")
             .navigationTitle(String(localized: "Minha biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -577,7 +586,7 @@ private struct GuideDetailView: View {
                 .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
 
                 if guide.category == "Catecismo" {
-                    Text("Fonte: Vatican.va · © Libreria Editrice Vaticana. §§2217 e 2439 não constam na versão consultada.")
+                    Text("Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline.")
                         .font(.footnote)
                         .foregroundStyle(CatecismoTheme.muted)
                         .accessibilityIdentifier("catechism-source-note")
@@ -603,6 +612,7 @@ private struct GuideDetailView: View {
         }
         .background(CatecismoTheme.canvas.ignoresSafeArea())
         .safeAreaPadding(.bottom, 16)
+        .accessibilityIdentifier("screen-reader")
         .navigationTitle(String(localized: "Leitura", locale: locale))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { speech.setLanguage(locale.identifier) }
@@ -625,7 +635,7 @@ private struct GuideDetailView: View {
                     .foregroundStyle(.white.opacity(0.84))
                     .fixedSize(horizontal: false, vertical: true)
                 Text(guide.category == "Catecismo"
-                     ? "TEXTO DO VATICANO · \(guide.chapterCount) SEÇÕES"
+                     ? "EDIÇÃO EM PORTUGUÊS · \(guide.chapterCount) SEÇÕES"
                      : "GUIA AUTORAL  ·  \(guide.chapterCount) CAPÍTULOS")
                     .font(.caption2.weight(.semibold))
                     .tracking(0.6)
@@ -672,6 +682,7 @@ private struct GuideDetailView: View {
                         .background(CatecismoTheme.canvas, in: Circle())
                         .foregroundStyle(CatecismoTheme.navy)
                 }
+                .accessibilityIdentifier("chapter-picker-button")
                 .accessibilityLabel("Escolher capítulo")
             }
 
@@ -688,6 +699,7 @@ private struct GuideDetailView: View {
                     Label(library.isFavorite(guide.id) ? "Salvo" : "Salvar", systemImage: library.isFavorite(guide.id) ? "heart.fill" : "heart")
                 }
                 .buttonStyle(.bordered)
+                .accessibilityIdentifier("guide-favorite-button")
                 .accessibilityLabel(library.isFavorite(guide.id) ? "Remover dos favoritos" : "Adicionar aos favoritos")
             }
 
@@ -714,6 +726,7 @@ private struct GuideDetailView: View {
                             .buttonStyle(.plain)
                             .accessibilityLabel("Salvar como citação")
                             .accessibilityHint(String(paragraph.prefix(80)))
+                            .accessibilityIdentifier("save-quote-button")
                         }
                     }
                 }
@@ -729,6 +742,7 @@ private struct GuideDetailView: View {
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
             .padding(.top, 4)
+            .accessibilityIdentifier("complete-chapter-button")
         }
         .padding(20)
         .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
@@ -888,6 +902,7 @@ private struct TopicGuidesView: View {
         .background(CatecismoTheme.canvas.ignoresSafeArea())
         .navigationTitle(category)
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("screen-topic-detail")
     }
 }
 

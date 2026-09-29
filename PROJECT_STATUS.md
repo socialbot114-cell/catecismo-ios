@@ -9,8 +9,8 @@
 ## Conteúdo local
 
 - Oito guias autorais, preservando os capítulos originais e acrescentando quatro seções revisadas por guia.
-- Quatro assets do Catecismo em português, com numeração de parágrafos e leitura offline.
-- A página em português do Vatican.va consultada não apresenta §§2217 e 2439; os parágrafos não foram preenchidos por outra tradução.
+- Quatro assets do Catecismo em português, transcritos do PDF da Diocese de Miracema, com §§1–2865 e leitura offline.
+- §§2217 e 2439 estão presentes nos assets, copiados da mesma edição em português do PDF.
 - O texto é © Libreria Editrice Vaticana. Atribuição está no app; autorização de redistribuição precisa estar confirmada antes da publicação na loja.
 - A interface permanece disponível em português, inglês, espanhol e francês. O texto oficial embarcado é a edição em português.
 
@@ -24,6 +24,6 @@
 
 ## Pipelines
 
-- `python3 tools/fetch_catecismo.py`: obtém/cacheia as páginas oficiais e gera quatro assets locais.
+- `python3 tools/fetch_catecismo.py /caminho/para/214.pdf`: extrai os 2.865 parágrafos do PDF e gera os quatro assets locais. Requer `pdftotext` (Poppler).
 - `python3 tools/build_guides.py`: combina os guias-base preservados com as expansões revisadas e atualiza os catálogos.
-- `tools/cache/` contém cache local de desenvolvimento e não é dependência do aplicativo.
+- O PDF-fonte é insumo de manutenção e não é dependência do aplicativo instalado.

@@ -144,7 +144,7 @@
   "category": "Catecismo",
   "status": "catecismo",
   "description": "Prólogo e Profissão da Fé no Catecismo da Igreja Católica (§§1–1065).",
-  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Mantivemos a redação e a numeração publicadas na fonte em português. A página online não apresenta os §§2217 e 2439 da Parte III.",
+  "context": "Fonte: Catecismo da Igreja Católica — edição portuguesa no PDF da Diocese de Miracema. Texto e numeração reproduzidos da edição em português do PDF de origem.",
   "characters": [
    "Credo",
    "Criação",
@@ -154,8 +154,8 @@
    "Vida eterna"
   ],
   "chapters": 18,
-  "words": 73278,
-  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-prima-parte_po.html"
+  "words": 84489,
+  "sourceUrl": "https://diocesedemiracemato.org.br/upload/arquivos/214.pdf"
  },
  {
   "id": "catecismo-parte-2",
@@ -165,7 +165,7 @@
   "category": "Catecismo",
   "status": "catecismo",
   "description": "Liturgia e sacramentos do Catecismo da Igreja Católica (§§1066–1690).",
-  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
+  "context": "Fonte: Catecismo da Igreja Católica — edição portuguesa no PDF da Diocese de Miracema. Texto e numeração reproduzidos da edição em português do PDF de origem.",
   "characters": [
    "Liturgia",
    "Batismo",
@@ -177,8 +177,8 @@
    "Matrimônio"
   ],
   "chapters": 13,
-  "words": 42595,
-  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-seconda-parte_po.html"
+  "words": 48096,
+  "sourceUrl": "https://diocesedemiracemato.org.br/upload/arquivos/214.pdf"
  },
  {
   "id": "catecismo-parte-3",
@@ -188,7 +188,7 @@
   "category": "Catecismo",
   "status": "catecismo",
   "description": "Dignidade humana, mandamentos e vida cristã (§§1691–2557).",
-  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. A página em português consultada não apresenta os §§2217 e 2439; não substituímos esses trechos por outra tradução.",
+  "context": "Fonte: Catecismo da Igreja Católica — edição portuguesa no PDF da Diocese de Miracema. Inclui os §§2217 e 2439 conforme a edição em português do PDF de origem.",
   "characters": [
    "Dignidade humana",
    "Bem-aventurança",
@@ -199,8 +199,8 @@
    "Dez Mandamentos"
   ],
   "chapters": 26,
-  "words": 46868,
-  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-terza-parte_po.html"
+  "words": 57215,
+  "sourceUrl": "https://diocesedemiracemato.org.br/upload/arquivos/214.pdf"
  },
  {
   "id": "catecismo-parte-4",
@@ -210,7 +210,7 @@
   "category": "Catecismo",
   "status": "catecismo",
   "description": "Oração e Pai-Nosso no Catecismo da Igreja Católica (§§2558–2865).",
-  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
+  "context": "Fonte: Catecismo da Igreja Católica — edição portuguesa no PDF da Diocese de Miracema. Texto e numeração reproduzidos da edição em português do PDF de origem.",
   "characters": [
    "Oração",
    "Pai-Nosso",
@@ -218,7 +218,7 @@
    "Tradição da oração"
   ],
   "chapters": 9,
-  "words": 21072,
-  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-quarta-parte_po.html"
+  "words": 23748,
+  "sourceUrl": "https://diocesedemiracemato.org.br/upload/arquivos/214.pdf"
  }
 ]

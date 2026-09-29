@@ -25,13 +25,13 @@ Texto do Catecismo em português e guias de fé em português, inglês, espanhol
 
 ## Descrição
 
-Catecismo reúne oito guias autorais de fé e reflexão e quatro partes do texto em português publicado pelo Vaticano, com leitura offline, narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
+Catecismo reúne oito guias autorais de fé e reflexão e quatro partes do Catecismo em português, transcritas do PDF da Diocese de Miracema, com leitura offline, narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
 
-É um aplicativo independente e não oficial. Os textos disponíveis para leitura estão incluídos no pacote do app; não há navegação para Internet Archive ou para PDFs externos.
+É um aplicativo independente e não oficial. Os textos disponíveis para leitura estão incluídos no pacote do app; não há navegação para fontes externas de leitura.
 
 Recursos:
 
-- Texto em português do Catecismo em quatro partes, com numeração de parágrafos para consulta.
+- Texto em português do Catecismo em quatro partes, com §§1–2865, inclusive §§2217 e 2439, para consulta offline.
 - Oito guias autorais ampliados sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
 - Leitura por capítulos com progresso.
 - Narração local por voz.
@@ -42,7 +42,7 @@ Recursos:
 
 Não é necessário criar uma conta nem conexão com a internet para consultar os textos embarcados. O aplicativo não exibe anúncios nem coleta dados pessoais.
 
-**Nota de submissão:** o texto do Catecismo é © Libreria Editrice Vaticana. A atribuição está no app; confirme e arquive a autorização para redistribuição integral antes de enviar a versão às lojas. A edição em português consultada não apresenta os §§2217 e 2439, e essa limitação é indicada no app.
+**Nota de submissão:** o texto do Catecismo foi transcrito da edição em português no PDF da Diocese de Miracema e tem origem na publicação da Libreria Editrice Vaticana. A atribuição está no app; confirme e arquive a autorização para redistribuição integral antes de enviar a versão às lojas.
 
 ## Palavras-chave
 

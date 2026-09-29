@@ -2,13 +2,10 @@
 
 ## Texto do Catecismo em português
 
-- Fonte consultada: [Catecismo da Igreja Católica, arquivo do Vaticano](https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html).
-- Direitos indicados na fonte: © Libreria Editrice Vaticana. A atribuição é exibida no app; **a atribuição não substitui autorização de redistribuição**. A permissão para incluir o texto integral no aplicativo precisa estar confirmada antes da publicação nas lojas.
-- O material embarcado conserva a redação portuguesa disponibilizada pelo Vaticano e a numeração dos parágrafos quando presente.
-- **Limitação conhecida da fonte consultada:** as páginas em português usadas pelo importador não incluem os §§2217 e 2439. Não foram preenchidos com texto de outra tradução. A interface e os metadados devem descrever o material como texto publicado na fonte em português, não como transcrição completa sem lacunas.
-- `https://www.vatican.va/archive/ccc/index_po.htm` é o índice do Catecismo; as páginas de conteúdo utilizadas pelo importador estão em `https://www.vatican.va/archive/cathechism_po/index_new/`.
-- O PDF `https://diocesedemiracemato.org.br/upload/arquivos/214.pdf` foi usado somente para comparar estrutura e numeração. É uma tradução/edição diferente; seu texto não foi misturado nem embarcado.
-- Pipeline: `tools/fetch_catecismo.py`; cache de desenvolvimento em `tools/cache/catecismo/` (não é dependência de runtime).
+- Fonte: [Catecismo da Igreja Católica — PDF da Diocese de Miracema](https://diocesedemiracemato.org.br/upload/arquivos/214.pdf), documento de 375 páginas com camada de texto.
+- Os assets embarcados foram transcritos dessa edição em português, mantendo a redação e numeração dos §§1–2865, inclusive §§2217 e 2439. Não dependem de acesso à rede para leitura.
+- O texto do Catecismo tem origem na publicação da Libreria Editrice Vaticana. A atribuição da fonte é registrada nos assets; a confirmação da autorização de redistribuição integral permanece necessária antes da publicação nas lojas.
+- O PDF não é necessário no app instalado. Para regenerar os JSONs, use `python3 tools/fetch_catecismo.py /caminho/para/214.pdf`; o script requer `pdftotext` (Poppler).
 
 ## Guias autorais
 
@@ -18,6 +15,6 @@
 
 ## Validação
 
-- `tools/validate_assets.py`: valida assets Android, capítulos e cobertura dos parágrafos numerados, registrando as duas lacunas conhecidas da fonte.
+- `tools/validate_assets.py`: valida assets Android, capítulos e cobertura integral dos 2.865 parágrafos numerados.
 - `tools/validate_ios_assets.py`: valida os 12 recursos do pacote iOS.
 - Estatísticas geradas: `RELATORIO_CONTEUDO.md`.

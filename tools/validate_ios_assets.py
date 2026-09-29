@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import re
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1] / "iosApp"
@@ -9,6 +10,7 @@ assert len(catalog) == 12 and len(ids) == 12
 catechism_ids = {"catecismo-parte-1", "catecismo-parte-2", "catecismo-parte-3", "catecismo-parte-4"}
 assert {item["id"] for item in catalog if item.get("status") == "catecismo"} == catechism_ids
 assert {path.stem for path in (root / "Resources/Texts").glob("*.json")} == ids
+catechism_sections = []
 for item in catalog:
     document = json.loads((root / "Resources/Texts" / f"{item['id']}.json").read_text(encoding="utf-8"))
     assert document["id"] == item["id"] and len(document["chapters"]) == item["chapters"]
@@ -20,6 +22,13 @@ for item in catalog:
         assert sum(len(p.split()) for c in document["chapters"] for p in c["paragraphs"]) >= 350
     if item.get("status") == "catecismo":
         assert document["category"] == "Catecismo"
+        assert "diocesedemiracemato.org.br/upload/arquivos/214.pdf" in document["sourceUrl"]
+        for chapter in document["chapters"]:
+            for paragraph in chapter["paragraphs"]:
+                match = re.match(r"^(\d{1,4})\.", paragraph)
+                assert match, f"unnumbered Catechism paragraph: {item['id']}"
+                catechism_sections.append(int(match.group(1)))
+assert catechism_sections == list(range(1, 2866))
 document = json.loads((root / "Resources/Texts/catecismo-parte-1.json").read_text(encoding="utf-8"))
 assert document["status"] == "catecismo" and document["author"] == "Catecismo da Igreja Católica"
 assert document["chapters"][0]["paragraphs"][0].startswith("1. Deus")
