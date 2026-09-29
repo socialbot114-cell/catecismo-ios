@@ -115,15 +115,22 @@ private struct HomeView: View {
                     .frame(height: 210).clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
 
                     DisclosureGroup("Sobre este aplicativo") {
-                        Text("Aplicativo independente e não oficial. Reúne guias autorais de introdução e não afirma ser o Catecismo completo nem substitui fontes oficiais.")
+                        Text("Aplicativo independente e não oficial. Inclui guias autorais de introdução e o texto integral do Catecismo da Igreja Católica (edição em português do Vaticano), © Libreria Editrice Vaticana, tudo para leitura offline. O texto oficial não substitui o aconselhamento da sua comunidade.")
                             .font(.footnote).foregroundStyle(.secondary).padding(.top, 6)
                     }
 
+                    Text("Catecismo completo").font(.title2.bold())
+                    if library.guides.filter({ $0.category == "Catecismo integral" }).isEmpty {
+                        ContentUnavailableView("Nenhum texto disponível", systemImage: "book.pages.fill")
+                    } else {
+                        ForEach(library.guides.filter { $0.category == "Catecismo integral" }) { guide in GuideRow(guide: guide) }
+                    }
+
                     Text("Comece a ler").font(.title2.bold())
-                    if library.guides.isEmpty {
+                    if library.guides.filter({ $0.category != "Catecismo integral" }).isEmpty {
                         ContentUnavailableView("Nenhum guia disponível", systemImage: "books.vertical")
                     } else {
-                        ForEach(library.guides.prefix(3)) { guide in GuideRow(guide: guide) }
+                        ForEach(library.guides.filter { $0.category != "Catecismo integral" }.prefix(3)) { guide in GuideRow(guide: guide) }
                     }
                 }
                 .frame(maxWidth: 760, alignment: .leading).padding()
@@ -279,7 +286,7 @@ private struct GuideDetailView: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(guide.title).font(.largeTitle.bold())
                 Text(guide.description).foregroundStyle(.secondary)
-                Text("Guia autoral · \(guide.category)").font(.footnote).foregroundStyle(.secondary)
+                Text("\(guide.category == "Catecismo integral" ? "Texto oficial · © Libreria Editrice Vaticana" : "Guia autoral · \(guide.category)")").font(.footnote).foregroundStyle(.secondary)
                 DisclosureGroup("Contexto") { Text(guide.context).font(.callout).padding(.top, 5) }
 
                 if let chapter {

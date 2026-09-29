@@ -1,7 +1,12 @@
-name: Catecismo iOS Screenshots
+name: Catecismo iOS Screenshots (auditoria 1.2.1)
 
 on:
   workflow_dispatch:
+    inputs:
+      note:
+        description: "Observação da auditoria"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -18,6 +23,8 @@ jobs:
             slug: ipad
     steps:
       - uses: actions/checkout@v4
+      - name: Validate iOS resources
+        run: python3 tools/validate_ios_assets.py
       - name: Install XcodeGen
         run: brew install xcodegen
       - name: Generate project
@@ -41,3 +48,4 @@ jobs:
         with:
           name: catecismo-ios-screenshots-${{ matrix.device.slug }}
           path: ${{ runner.temp }}/catecismo-screenshots-${{ matrix.device.slug }}
+          retention-days: 30

@@ -48,7 +48,8 @@ fun DetailScreen(work: WorkEntity, openChapter: (ChapterEntity) -> Unit, repo: L
                     Text(work.author, color = green, fontWeight = FontWeight.Bold)
                     Text("${work.year}", fontFamily = FontFamily.Serif, fontSize = 18.sp)
                     Text("${work.category.uppercase()} • ${work.chapterCount} seções", color = Color(0xFF5a544a))
-                    Text("${work.wordCount / 1000}k palavras • ${work.status}", color = Color(0xFF5a544a), fontSize = 13.sp)
+                    val label = if (work.wordCount >= 1000) "${work.wordCount / 1000}k palavras" else "${work.wordCount} palavras"
+                    Text("$label • ${if (work.status == "catecismo") "texto oficial" else "guia autoral"}", color = Color(0xFF5a544a), fontSize = 13.sp)
                 }
             }
             Spacer(Modifier.height(18.dp))
@@ -58,7 +59,9 @@ fun DetailScreen(work: WorkEntity, openChapter: (ChapterEntity) -> Unit, repo: L
             Spacer(Modifier.height(18.dp))
             SectionTitle("SOBRE O GUIA"); Text(work.description, fontFamily = FontFamily.Serif, fontSize = 17.sp, lineHeight = 25.sp)
             SectionTitle("COMO ESTUDAR"); Text(work.context, fontFamily = FontFamily.Serif, fontSize = 16.sp, lineHeight = 24.sp)
-            SectionTitle("TEMAS RELACIONADOS"); Text(work.characterList.joinToString(" • "))
+            if (work.characterList.isNotEmpty()) {
+                SectionTitle("TEMAS RELACIONADOS"); Text(work.characterList.joinToString(" • "))
+            }
             SectionTitle("SEÇÕES • ${chapters.size}")
             chapters.forEachIndexed { i, c ->
                 Row(Modifier.fillMaxWidth().clickable { openChapter(c) }.padding(vertical = 7.dp)) {
@@ -67,7 +70,11 @@ fun DetailScreen(work: WorkEntity, openChapter: (ChapterEntity) -> Unit, repo: L
                 }
             }
             SectionTitle("FONTE")
-            Text("Conteúdo autoral de apoio, inspirado na estrutura do Catecismo da Igreja Católica e em referências oficiais do Vaticano.", fontSize = 12.sp, color = Color(0xFF5a544a))
+            if (work.status == "catecismo") {
+                Text("Texto integral do Catecismo da Igreja Católica (edição em português, Vatican.va). Copyright © Libreria Editrice Vaticana. Distribuído offline, com autorização de uso pastoral.", fontSize = 12.sp, color = Color(0xFF5a544a))
+            } else {
+                Text("Conteúdo autoral de apoio, inspirado na estrutura do Catecismo da Igreja Católica e em referências oficiais do Vaticano.", fontSize = 12.sp, color = Color(0xFF5a544a))
+            }
             Spacer(Modifier.height(24.dp))
         }
     }

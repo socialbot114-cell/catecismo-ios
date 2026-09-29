@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(works: List<WorkEntity>, progress: List<ChapterProgressEntity>, open: (WorkEntity) -> Unit, query: String, setQuery: (String) -> Unit, onSearch: () -> Unit, onUniverse: () -> Unit, onMyLibrary: () -> Unit, onLibrary: () -> Unit) {
     val progressByWork = progress.groupBy { it.workId }.mapValues { (_, values) -> values.maxOfOrNull { it.progress } ?: 0 }
     val active = works.filter { (progressByWork[it.id] ?: 0) in 1..99 }.take(6)
-    val categories = works.map { it.category }.filter { it.isNotBlank() }.distinct().take(4)
+    val categories = works.map { it.category }.filter { it.isNotBlank() }.distinct()
     Column(Modifier.fillMaxSize().padding(horizontal = 22.dp).verticalScroll(rememberScrollState())) {
         Spacer(Modifier.height(22.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -60,7 +60,7 @@ fun HomeScreen(works: List<WorkEntity>, progress: List<ChapterProgressEntity>, o
         Spacer(Modifier.height(20.dp))
         if (active.isNotEmpty()) HomeBookSection("Continue lendo", active, open, showAll = onMyLibrary)
         SectionTitle("EXPLORE POR CATEGORIA")
-        Text("${works.size} guias autorais para ler offline", fontSize = 13.sp, color = Color(0xFF5a544a))
+        Text("${works.size} guias e obras para ler offline", fontSize = 13.sp, color = Color(0xFF5a544a))
         categories.forEach { category ->
             HomeBookSection(category, works.filter { it.category == category }.take(6), open, showAll = onLibrary)
         }
@@ -97,10 +97,11 @@ private fun HomeBookSection(title: String, works: List<WorkEntity>, open: (WorkE
 private fun HeroCarousel(works: List<WorkEntity>, open: (WorkEntity) -> Unit) {
     val heroes = listOf(
         Triple(R.drawable.bg_church_path, "o-dom-da-fe", "A fé ilumina o caminho"),
+        Triple(R.drawable.bg_church_open, "catecismo-parte-1", "O Catecismo completo"),
         Triple(R.drawable.bg_church_bible, "credo-em-caminho", "Conhecer para viver"),
         Triple(R.drawable.bg_church_community, "a-igreja-viva", "Uma fé compartilhada"),
         Triple(R.drawable.bg_church_sunset, "escola-da-oracao", "Um momento para rezar")
-    )
+    ).filter { hero -> works.any { work -> work.id == hero.second } }
     val pager = rememberPagerState(pageCount = { heroes.size })
     Column {
         HorizontalPager(state = pager, pageSpacing = 12.dp, contentPadding = PaddingValues(end = 28.dp), modifier = Modifier.fillMaxWidth()) { page ->

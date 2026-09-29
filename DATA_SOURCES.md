@@ -1,33 +1,23 @@
-# Fontes e domínio público
+# Fontes e direitos do conteúdo
 
-As obras do catálogo foram publicadas por Machado de Assis entre 1870 e 1908. No Brasil, a proteção patrimonial expira 70 anos após a morte do autor; Machado faleceu em 1908. Portanto, os textos originais estão em domínio público.
+## Catecismo da Igreja Católica — texto integral embarcado
 
-## Textos embarcados
+- Texto: edição oficial em português publicada pelo Vaticano em `vatican.va/archive/cathechism_po/` (§§1–2865).
+- Copyright: © Libreria Editrice Vaticana. O app distribui o texto integral de forma gratuita, sem alteração de conteúdo, com atribuição na tela "Fonte" de cada parte e na seção "Sobre".
+- Os §§2217 e 2439 não constam na página em português do Vaticano; nenhum outro texto foi tecido no lugar deles, por fidelidade à fonte oficial.
+- Pipeline reproduzível: `tools/fetch_catecismo.py` (cache em `tools/cache/catecismo/`, apenas ambiente de desenvolvimento).
 
-Os textos integrais desta versão (v1.2.0) foram obtidos por transcrição automatizada do Wikisource em português, por meio da API MediaWiki (`action=parse`), com pipeline reproduzível em `tools/fetch_machado.py`:
+## Guias autorais (8 obras)
 
-- Autor no Wikisource PT: https://pt.wikisource.org/wiki/Autor:Machado_de_Assis
-- Cada obra registra sua página de origem no campo `sourceUrl` do asset JSON (ex.: `https://pt.wikisource.org/wiki/Dom_Casmurro`).
-- Licença das transcrições: Creative Commons Attribution-ShareAlike (CC BY-SA), dos colaboradores do Wikisource. A atribuição a cada página é preservada via `sourceUrl`.
-- Texto original de Machado de Assis: domínio público (falecido em 1908).
+- Conteúdo próprio da Equipe Catecismo, referenciando §§ oficiais do Catecismo para navegação cruzada.
+- Estrutura: 6 seções por guia, com propostas práticas de aprofundamento semanal.
 
-## Adaptação ortográfica
+## Documentação
 
-Aplicamos modernização ortográfica conservadora e declarada (ex.: `idéia → ideia`, `herva → erva`, trema removido), sem alterar sintaxe ou vocabulário. A lista completa de substituições está em `tools/fetch_machado.py` (`MODERN`).
+- `RELATORIO_CONTEUDO.md`: estatísticas geradas por `tools/validate_assets.py`.
+- `tools/validate_ios_assets.py`: consistência do pacote iOS (12 obras).
 
-## Referências de metadados
+## Publicação
 
-- Catálogo e edições de conferência: Biblioteca Brasiliana Guita e José Mindlin, USP: https://digital.bbm.usp.br/
-- Obras e metadados: Projeto Gutenberg: https://www.gutenberg.org/ebooks/author/1586
-- Datas biográficas: Academia Brasileira de Letras: https://www.academia.org.br/academicos/machado-de-assis/biografia
-
-## Escopo
-
-Esta versão embarca 30 obras integrais (10 romances e 20 contos) para leitura offline. Nenhum conteúdo contemporâneo protegido foi usado como texto literário; traduções, edições críticas, notas e capas de terceiros podem ter direitos próprios e não foram embarcadas.
-
-## Reprodução
-
-```bash
-python3 tools/fetch_machado.py      # baixa e gera app/src/main/assets/texts/*.json.gzdata
-python3 tools/validate_assets.py    # valida e gera RELATORIO_CONTEUDO.md
-```
+- Play Console: pacote `br.com.CATECISMO.DAIGREJACAToLICA`.
+- App Store Connect: bundle `br.com.CATECISMO.DAIGREJACAToLICA` (iOS 1.2.1).

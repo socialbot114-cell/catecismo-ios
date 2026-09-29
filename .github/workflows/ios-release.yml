@@ -23,7 +23,7 @@ jobs:
           plistlib.load((root / 'Info.plist').open('rb'))
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
-          assert len(texts) == 8
+          assert len(texts) == 12
           forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
@@ -127,7 +127,7 @@ jobs:
           app=("$RUNNER_TEMP"/ipa/Payload/*.app)
           /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.CATECISMO.DAIGREJACAToLICA'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
-           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 8
+           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
            codesign --verify --deep --strict "${app[0]}"
 
       - uses: actions/upload-artifact@v4

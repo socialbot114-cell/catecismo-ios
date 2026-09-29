@@ -18,8 +18,9 @@ final class CatecismoTests: XCTestCase {
 
     func testAllPackagedGuidesDecode() throws {
         let guides = try BundleGuideRepository().loadGuides()
-        XCTAssertEqual(guides.count, 8)
+        XCTAssertEqual(guides.count, 12)
         XCTAssertTrue(guides.allSatisfy { !$0.id.isEmpty && !$0.chapters.isEmpty })
+        XCTAssertTrue(guides.filter { $0.category == "Catecismo integral" }.count == 4)
     }
 
     func testOpeningGuideDoesNotCreateProgress() {

@@ -34,6 +34,7 @@ import br.com.catecismo.igreja.db.WorkEntity
 data class CharacterCard(val id: String, val name: String, val work: String, val summary: String, val story: String, val image: Int?, val workId: String)
 
 private val topics = listOf(
+    CharacterCard("catecismo", "Catecismo integral", "Texto oficial", "Os §§1-2865 do Catecismo da Igreja Católica, direto no app.", "Leia o texto integral da Santa Sé offline, organizado em quatro partes: Profissão da Fé, Sacramentos, Vida em Cristo e Oração Cristã.", null, "catecismo-parte-1"),
     CharacterCard("credo", "Credo", "A profissão da fé", "As palavras que reúnem a comunidade cristã em uma mesma esperança.", "Percorra os fundamentos da fé cristã com linguagem clara, perguntas para reflexão e referências para aprofundar.", null, "credo-em-caminho"),
     CharacterCard("sacramentos", "Sacramentos", "A vida da graça", "Sinais celebrados que tornam visível a proximidade de Deus.", "Conheça o sentido dos sacramentos e descubra como a celebração continua em escolhas de cuidado, serviço e comunhão.", null, "sinais-da-graca"),
     CharacterCard("oracao", "Oração", "O encontro com Deus", "Silêncio, gratidão e pedido como caminhos de presença.", "Uma escola prática para criar momentos de oração e escuta no ritmo possível de cada dia.", null, "escola-da-oracao"),

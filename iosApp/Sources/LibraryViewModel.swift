@@ -76,7 +76,7 @@ final class LibraryViewModel: ObservableObject {
 }
 
 final class BundleGuideRepository {
-    private let guideIDs = ["o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
+    private let guideIDs = ["catecismo-parte-1", "catecismo-parte-2", "catecismo-parte-3", "catecismo-parte-4", "o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
     func loadGuides() throws -> [Guide] {
         try guideIDs.map { try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts")) }
     }

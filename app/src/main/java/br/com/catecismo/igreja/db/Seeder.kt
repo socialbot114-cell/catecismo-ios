@@ -17,7 +17,7 @@ private val Context.seedStore by preferencesDataStore("catecismo_seed")
 class Seeder(private val context: Context, private val db: CatecismoDatabase) {
 
     suspend fun seedIfNeeded(onProgress: (Int, Int) -> Unit = { _, _ -> }): Boolean = withContext(Dispatchers.IO) {
-        val key = booleanPreferencesKey("seeded_v1")
+        val key = booleanPreferencesKey("seeded_v2")
         val done = context.seedStore.data.first()[key] ?: false
         if (done && db.dao().workCount() > 0) return@withContext true
 

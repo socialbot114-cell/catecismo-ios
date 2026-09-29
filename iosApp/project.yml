@@ -8,7 +8,7 @@ settings:
   base:
     PRODUCT_BUNDLE_IDENTIFIER: br.com.CATECISMO.DAIGREJACAToLICA
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "1.0"
+    MARKETING_VERSION: "1.2.1"
     CURRENT_PROJECT_VERSION: "1"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     GENERATE_INFOPLIST_FILE: NO
@@ -28,6 +28,14 @@ targets:
       - path: Resources/catalog.json
         buildPhase: resources
       - path: Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
+      - path: Resources/Texts/catecismo-parte-1.json
+        buildPhase: resources
+      - path: Resources/Texts/catecismo-parte-2.json
+        buildPhase: resources
+      - path: Resources/Texts/catecismo-parte-3.json
+        buildPhase: resources
+      - path: Resources/Texts/catecismo-parte-4.json
         buildPhase: resources
       - path: Resources/Texts/o-dom-da-fe.json
         buildPhase: resources

@@ -1,10 +1,159 @@
 [
-  {"id":"o-dom-da-fe","title":"O dom da fé","author":"Equipe Catecismo","year":2026,"category":"Fundamentos","chapters":2,"words":116,"status":"guia"},
-  {"id":"credo-em-caminho","title":"O Credo em caminho","author":"Equipe Catecismo","year":2026,"category":"Credo","chapters":2,"words":118,"status":"guia"},
-  {"id":"sinais-da-graca","title":"Sinais da graça","author":"Equipe Catecismo","year":2026,"category":"Sacramentos","chapters":2,"words":107,"status":"guia"},
-  {"id":"liberdade-e-amor","title":"Liberdade e amor","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":106,"status":"guia"},
-  {"id":"escola-da-oracao","title":"Escola da oração","author":"Equipe Catecismo","year":2026,"category":"Oração","chapters":2,"words":98,"status":"guia"},
-  {"id":"a-igreja-viva","title":"A Igreja viva","author":"Equipe Catecismo","year":2026,"category":"Igreja","chapters":2,"words":100,"status":"guia"},
-  {"id":"maria-e-o-sim","title":"Maria e o sim","author":"Equipe Catecismo","year":2026,"category":"Maria","chapters":2,"words":97,"status":"guia"},
-  {"id":"conversao-diaria","title":"Conversão diária","author":"Equipe Catecismo","year":2026,"category":"Vida cristã","chapters":2,"words":105,"status":"guia"}
+ {
+  "id": "o-dom-da-fe",
+  "title": "O dom da fé",
+  "year": 2026,
+  "category": "Fundamentos",
+  "chapters": 6,
+  "words": 1010,
+  "status": "guia"
+ },
+ {
+  "id": "credo-em-caminho",
+  "title": "O Credo em caminho",
+  "year": 2026,
+  "category": "Credo",
+  "chapters": 6,
+  "words": 729,
+  "status": "guia"
+ },
+ {
+  "id": "sinais-da-graca",
+  "title": "Sinais da graça",
+  "year": 2026,
+  "category": "Sacramentos",
+  "chapters": 6,
+  "words": 595,
+  "status": "guia"
+ },
+ {
+  "id": "liberdade-e-amor",
+  "title": "Liberdade e amor",
+  "year": 2026,
+  "category": "Vida cristã",
+  "chapters": 6,
+  "words": 549,
+  "status": "guia"
+ },
+ {
+  "id": "escola-da-oracao",
+  "title": "Escola da oração",
+  "year": 2026,
+  "category": "Oração",
+  "chapters": 6,
+  "words": 546,
+  "status": "guia"
+ },
+ {
+  "id": "a-igreja-viva",
+  "title": "A Igreja viva",
+  "year": 2026,
+  "category": "Igreja",
+  "chapters": 6,
+  "words": 508,
+  "status": "guia"
+ },
+ {
+  "id": "maria-e-o-sim",
+  "title": "Maria e o sim",
+  "year": 2026,
+  "category": "Maria",
+  "chapters": 6,
+  "words": 582,
+  "status": "guia"
+ },
+ {
+  "id": "conversao-diaria",
+  "title": "Conversão diária",
+  "year": 2026,
+  "category": "Vida cristã",
+  "chapters": 6,
+  "words": 456,
+  "status": "guia"
+ },
+ {
+  "id": "catecismo-parte-1",
+  "title": "Catecismo – Parte I: A Profissão da Fé",
+  "author": "Catecismo da Igreja Católica",
+  "year": 1997,
+  "category": "Catecismo integral",
+  "status": "catecismo",
+  "description": "Texto integral da Primeira Parte do Catecismo da Igreja Católica (§§26–1065).",
+  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Prólogo e Parte I, do desejo de Deus ao «Creio na vida eterna».",
+  "characters": [
+   "Credo",
+   "Criação",
+   "Jesus Cristo",
+   "Espírito Santo",
+   "Igreja",
+   "Vida eterna"
+  ],
+  "chapters": 18,
+  "words": 73278,
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-prima-parte_po.html"
+ },
+ {
+  "id": "catecismo-parte-2",
+  "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
+  "author": "Catecismo da Igreja Católica",
+  "year": 1997,
+  "category": "Catecismo integral",
+  "status": "catecismo",
+  "description": "Texto integral da Segunda Parte (§§1066–1690): a liturgia e os sete sacramentos.",
+  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Por que a liturgia, o Mistério Pascal nos sacramentos e as celebrações.",
+  "characters": [
+   "Liturgia",
+   "Batismo",
+   "Confirmação",
+   "Eucaristia",
+   "Penitência",
+   "Unção dos enfermos",
+   "Ordem",
+   "Matrimônio"
+  ],
+  "chapters": 13,
+  "words": 42595,
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-seconda-parte_po.html"
+ },
+ {
+  "id": "catecismo-parte-3",
+  "title": "Catecismo – Parte III: A Vida em Cristo",
+  "author": "Catecismo da Igreja Católica",
+  "year": 1997,
+  "category": "Catecismo integral",
+  "status": "catecismo",
+  "description": "Texto integral da Terceira Parte (§§1691–2557): dignidade humana, mandamentos e graça.",
+  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Dignidade humana, comunidade, lei e graça e os Dez Mandamentos.",
+  "characters": [
+   "Dignidade humana",
+   "Bem-aventurança",
+   "Liberdade",
+   "Consciência moral",
+   "Virtudes",
+   "Lei e graça",
+   "Dez Mandamentos"
+  ],
+  "chapters": 26,
+  "words": 46868,
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-terza-parte_po.html"
+ },
+ {
+  "id": "catecismo-parte-4",
+  "title": "Catecismo – Parte IV: A Oração Cristã",
+  "author": "Catecismo da Igreja Católica",
+  "year": 1997,
+  "category": "Catecismo integral",
+  "status": "catecismo",
+  "description": "Texto integral da Quarta Parte (§§2558–2865): oração, tradição e Pai-Nosso.",
+  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Revelação da oração, tradição, vida de oração e os sete pedidos do Pai-Nosso.",
+  "characters": [
+   "Oração",
+   "Pai-Nosso",
+   "Mariologia orante",
+   "Tradição da oração"
+  ],
+  "chapters": 9,
+  "words": 21072,
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-quarta-parte_po.html"
+ }
 ]
