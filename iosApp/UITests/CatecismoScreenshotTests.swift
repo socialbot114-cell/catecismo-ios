@@ -114,7 +114,7 @@ final class CatecismoScreenshotTests: XCTestCase {
     }
 
     private func selectLanguage(_ name: String, in app: XCUIApplication) {
-        let picker = app.buttons.matching(identifier: "app-language-picker").firstMatch
+        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
         XCTAssertTrue(picker.waitForExistence(timeout: 10))
         picker.tap()
         let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
