@@ -35,7 +35,7 @@ final class CatecismoScreenshotTests: XCTestCase {
 
     private func audit(_ locale: LocaleCase, in app: XCUIApplication) {
         selectSection("section-saved", in: app)
-        selectLanguage(locale.pickerOption, in: app)
+        selectLanguage(locale.pickerOption, captureAs: "\(locale.slug)-language-picker", in: app)
         waitForScreen("screen-saved", in: app)
         XCTAssertTrue(app.staticTexts[locale.myLibraryTitle].firstMatch.waitForExistence(timeout: 10))
         capture(named: "\(locale.slug)-my-library")
@@ -43,15 +43,6 @@ final class CatecismoScreenshotTests: XCTestCase {
         let quoteHeading = app.staticTexts[locale.quotesTitle].firstMatch
         scrollDownUntilHittable(quoteHeading, in: app)
         capture(named: "\(locale.slug)-my-library-quotes")
-        scrollUpUntilHittable(app.descendants(matching: .any).matching(identifier: "my-library-heading").firstMatch, in: app)
-
-        let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        XCTAssertTrue(picker.waitForExistence(timeout: 10))
-        picker.tap()
-        let option = app.buttons.matching(NSPredicate(format: "label == %@", locale.pickerOption)).firstMatch
-        XCTAssertTrue(option.waitForExistence(timeout: 5))
-        capture(named: "\(locale.slug)-language-picker")
-        option.tap()
 
         selectSection("section-home", in: app)
         waitForScreen("screen-home", in: app)
@@ -141,12 +132,14 @@ final class CatecismoScreenshotTests: XCTestCase {
         waitForScreen("screen-saved", in: app)
     }
 
-    private func selectLanguage(_ name: String, in app: XCUIApplication) {
+    private func selectLanguage(_ name: String, captureAs: String? = nil, in app: XCUIApplication) {
         let picker = app.descendants(matching: .any).matching(identifier: "app-language-picker").firstMatch
-        XCTAssertTrue(picker.waitForExistence(timeout: 10))
+        scrollUpUntilHittable(picker, in: app)
+        XCTAssertTrue(picker.waitForExistence(timeout: 10), "Language picker is not visible")
         picker.tap()
         let option = app.buttons.matching(NSPredicate(format: "label == %@", name)).firstMatch
         XCTAssertTrue(option.waitForExistence(timeout: 5))
+        if let captureAs { capture(named: captureAs) }
         option.tap()
     }
 
@@ -190,7 +183,7 @@ final class CatecismoScreenshotTests: XCTestCase {
     private func scrollDownUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<24 {
             if element.isHittable { return }
-            app.scrollViews.firstMatch.swipeUp()
+            app.swipeUp()
         }
         XCTAssertTrue(element.isHittable, "Could not scroll to \(element.identifier)")
     }
@@ -198,7 +191,7 @@ final class CatecismoScreenshotTests: XCTestCase {
     private func scrollUpUntilHittable(_ element: XCUIElement, in app: XCUIApplication) {
         for _ in 0..<24 {
             if element.isHittable { return }
-            app.scrollViews.firstMatch.swipeDown()
+            app.swipeDown()
         }
         XCTAssertTrue(element.isHittable, "Could not scroll back to \(element.identifier)")
     }
