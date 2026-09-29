@@ -1,106 +1,29 @@
-# Machado Biblioteca - Estado do Projeto
+# Catecismo — status do projeto
 
-Ultima atualizacao: 2026-09-10
+## Versão em preparação
 
-## Objetivo
+- iOS: 1.2.1; próximo build planejado: 31. A referência de produção anterior é 1.1.1 (build 30).
+- Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`.
+- O escopo de publicação desta revisão é iOS. O versionamento Android permanece separado.
 
-Publicar a versao iOS do aplicativo Biblioteca Machado de Assis no TestFlight e, depois, na App Store. O Android permanece no mesmo repositorio privado.
+## Conteúdo local
 
-## Repositorio e site
+- Oito guias autorais, preservando os capítulos originais e acrescentando quatro seções revisadas por guia.
+- Quatro assets do Catecismo em português, com numeração de parágrafos e leitura offline.
+- A página em português do Vatican.va consultada não apresenta §§2217 e 2439; os parágrafos não foram preenchidos por outra tradução.
+- O texto é © Libreria Editrice Vaticana. Atribuição está no app; autorização de redistribuição precisa estar confirmada antes da publicação na loja.
+- A interface permanece disponível em português, inglês, espanhol e francês. O texto oficial embarcado é a edição em português.
 
-- Repositorio: https://github.com/socialbot114-cell/machado-biblioteca
-- Site publico: https://socialbot114-cell.github.io/machado-biblioteca-site/
-- Working tree estava limpo antes desta documentacao.
+## Validação e evidências
 
-## App Store Connect correto
+- `python3 tools/validate_assets.py`: assets Android e conteúdo do catálogo.
+- `python3 tools/validate_ios_assets.py`: recursos, catálogo e arquivos empacotados do iOS.
+- `./gradlew testDebugUnitTest lintDebug`: testes/lint Android.
+- `.github/workflows/ios-screenshots.yml`: capturas de auditoria em simuladores iPhone e iPad.
+- `.github/workflows/ios-release.yml`: build IPA e envio TestFlight; executar somente após aprovar as evidências e confirmar autorização de conteúdo.
 
-- App correto: `Biblioteca Machado Assis`
-- App ID correto: `6810760794`
-- Bundle ID correto: `br.com.machadodeassis.biblioteca`
-- App Store version ID: `208f4bd0-92bf-4c36-a87a-1b377e4c2446`
-- Versao: `1.0`
-- Estado: `PREPARE_FOR_SUBMISSION`
-- Localizacao: `pt-BR`
-- Localizacao ID: `50053ba3-a928-469d-932b-77cda8f7f1e4`
+## Pipelines
 
-Existe uma segunda app incorreta, criada durante os testes:
-
-- App ID: `6810766838`
-- Bundle ID: `br.com.machadodeassis.biblioteca.ios`
-- Nao usar para o envio final.
-
-## Build iOS
-
-- Workflow final aprovado: `34540409036`
-- URL: https://github.com/socialbot114-cell/machado-biblioteca/actions/runs/34540409036
-- Próximo build correto: `1.0 (2)` na app `6810760794`.
-- Build ID: `12324d89-89e4-4025-9596-4c6de3b0b8da`
-- O build foi associado a `App Store version 1.0`.
-- O workflow gera archive assinado, exporta IPA e envia ao TestFlight.
-- A versao atual e iPhone-only (`TARGETED_DEVICE_FAMILY=1`).
-
-## Screenshots
-
-Os tres screenshots corrigidos foram gerados em `1242 x 2688 px`:
-
-- `refs/photo_4981107340111188027_y_1242x2688.jpg`
-- `refs/photo_4981107340111188028_y_1242x2688.jpg`
-- `refs/photo_4981107340111188029_y_1242x2688.jpg`
-
-Foram enviados via App Store Connect API para a app correta, no conjunto `APP_IPHONE_65`:
-
-- Screenshot set ID: `ec9a9089-0a01-4b47-bd1d-f6f2b6c8144a`
-- Os tres estados estao `COMPLETE`.
-
-## Assinatura Apple
-
-Os dados de assinatura Apple ficam somente nos secrets do GitHub Actions e nos
-arquivos locais ignorados pelo Git. Identificadores, caminhos de chaves,
-certificados e UUIDs não devem ser documentados neste arquivo.
-
-Consulte `docs/GITHUB_ACTIONS.md` para os nomes dos secrets necessários.
-
-## Arquivos importantes
-
-- `.github/workflows/ios.yml`: build de simulador.
-- `.github/workflows/ios-release.yml`: archive, exportacao e upload TestFlight.
-- `iosApp/project.yml`: XcodeGen, bundle ID, recursos e assinatura.
-- `iosApp/ExportOptions.plist`: exportacao App Store manual.
-- `iosApp/Info.plist`: metadata declarada do app.
-- `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/`: icones do app.
-- `iosApp/Resources/`: catalogo, textos, imagens e PrivacyInfo.
-
-## Solucoes aplicadas no workflow
-
-- Criacao de certificado iOS Distribution via App Store Connect API.
-- Criacao de provisioning profile App Store via API.
-- Keychain temporario no runner macOS.
-- Importacao separada de certificado `.cer` e chave privada.
-- Assinatura manual com `Apple Distribution`.
-- Compilacao explicita do `Assets.xcassets` com `actool`.
-- Script `Prepare App Store icon metadata` para garantir `CFBundleIconName`, `CFBundleIcons` e icon 120x120.
-- Launch screen e orientacoes foram resolvidos para a configuracao iPhone-only.
-
-## Pendencias antes do envio para revisao
-
-1. Classificacao etaria ainda nao foi preenchida. O primeiro PATCH falhou porque `gambling` e `healthOrWellnessTopics` sao booleanos e `kidsAgeBand` aceita apenas faixas infantis.
-2. Categoria primaria ainda nao foi definida. Categoria planejada: `BOOKS`.
-3. A URL da politica de privacidade da localizacao `pt-BR` ainda aparece como nula na API; usar o site publico de privacidade.
-4. Verificar export compliance e demais perguntas finais no App Store Connect.
-5. Depois de corrigir essas pendencias, validar a versao e enviar para revisao.
-
-## Conteudo do app
-
-- Aplicativo offline.
-- 30 obras integrais de Machado de Assis.
-- Busca textual, leitor paginado, favoritos, citacoes, Universo Machado e narracao local em pt-BR.
-- Sem login, anuncios, tracking ou sincronizacao.
-- Fontes documentadas no app: Wikisource PT.
-
-## Historico recente de commits
-
-- `68711c1` Target original App Store Connect bundle
-- `069f31a` Remove temporary bundle inspection step
-- `33ae033` Add universal marketing icon variant
-- `7db9382` Compile app icon asset catalog explicitly
-- `0d1b9db` Add primary app icon plist structure
+- `python3 tools/fetch_catecismo.py`: obtém/cacheia as páginas oficiais e gera quatro assets locais.
+- `python3 tools/build_guides.py`: combina os guias-base preservados com as expansões revisadas e atualiza os catálogos.
+- `tools/cache/` contém cache local de desenvolvimento e não é dependência do aplicativo.

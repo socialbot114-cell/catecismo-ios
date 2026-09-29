@@ -4,83 +4,95 @@
     "title": "O dom da fé",
     "category": "Fundamentos",
     "description": "Uma introdução simples à resposta humana ao Deus que se revela.",
-    "chapters": 6
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "credo-em-caminho",
     "title": "O Credo em caminho",
     "category": "Credo",
     "description": "Um percurso meditativo pelas palavras centrais da profissão de fé cristã.",
-    "chapters": 6
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "sinais-da-graca",
     "title": "Sinais da graça",
     "category": "Sacramentos",
     "description": "Como gestos celebrados pela Igreja comunicam a presença e a ação de Deus.",
-    "chapters": 6
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "liberdade-e-amor",
     "title": "Liberdade e amor",
     "category": "Vida cristã",
-    "description": "Uma reflexão sobre escolhas livres, responsabilidade e cuidado.",
-    "chapters": 6
+    "description": "A liberdade como capacidade de escolher o bem e crescer no amor.",
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "escola-da-oracao",
     "title": "Escola da oração",
     "category": "Oração",
-    "description": "Práticas simples para cultivar silêncio, escuta e presença.",
-    "chapters": 6
+    "description": "Práticas simples para criar espaço de silêncio, gratidão e diálogo com Deus.",
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "a-igreja-viva",
     "title": "A Igreja viva",
     "category": "Igreja",
-    "description": "A comunidade como espaço de encontro, serviço e esperança.",
-    "chapters": 6
+    "description": "A comunidade cristã como povo reunido, diverso e enviado ao mundo.",
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "maria-e-o-sim",
     "title": "Maria e o sim",
     "category": "Maria",
-    "description": "Uma leitura introdutória sobre disponibilidade, confiança e serviço.",
-    "chapters": 6
+    "description": "Uma meditação sobre disponibilidade, confiança e cuidado a partir de Maria.",
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "conversao-diaria",
     "title": "Conversão diária",
     "category": "Vida cristã",
-    "description": "Pequenos passos para transformar a vida à luz do Evangelho.",
-    "chapters": 6
+    "description": "Recomeçar todos os dias: reconhecer limites, pedir perdão e praticar o bem.",
+    "chapters": 6,
+    "status": "guia"
   },
   {
     "id": "catecismo-parte-1",
     "title": "Catecismo – Parte I: A Profissão da Fé",
-    "category": "Catecismo integral",
-    "description": "Texto integral da Primeira Parte do Catecismo da Igreja Católica.",
-    "chapters": 18
+    "category": "Catecismo",
+    "description": "Prólogo e Primeira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1–1065).",
+    "chapters": 18,
+    "status": "catecismo"
   },
   {
     "id": "catecismo-parte-2",
     "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
-    "category": "Catecismo integral",
-    "description": "Texto integral da Segunda Parte: liturgia e sacramentos.",
-    "chapters": 13
+    "category": "Catecismo",
+    "description": "Segunda Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1066–1690): liturgia e sacramentos.",
+    "chapters": 13,
+    "status": "catecismo"
   },
   {
     "id": "catecismo-parte-3",
     "title": "Catecismo – Parte III: A Vida em Cristo",
-    "category": "Catecismo integral",
-    "description": "Texto integral da Terceira Parte: dignidade, mandamentos, graça.",
-    "chapters": 26
+    "category": "Catecismo",
+    "description": "Terceira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1691–2557): dignidade, mandamentos e graça.",
+    "chapters": 26,
+    "status": "catecismo"
   },
   {
     "id": "catecismo-parte-4",
     "title": "Catecismo – Parte IV: A Oração Cristã",
-    "category": "Catecismo integral",
-    "description": "Texto integral da Quarta Parte: oração e Pai-Nosso.",
-    "chapters": 9
+    "category": "Catecismo",
+    "description": "Quarta Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§2558–2865): oração e Pai-Nosso.",
+    "chapters": 9,
+    "status": "catecismo"
   }
 ]

@@ -13,7 +13,8 @@ class LibraryRepository(context: Context) {
     private val db = CatecismoDatabase.get(context)
     private val seeder = Seeder(context, db)
 
-    suspend fun seedIfNeeded(onProgress: (Int, Int) -> Unit) = seeder.seedIfNeeded(onProgress)
+    suspend fun seedIfNeeded(languageTag: String = "pt-BR", onProgress: (Int, Int) -> Unit = { _, _ -> }) =
+        seeder.seedIfNeeded(languageTag, onProgress)
 
     suspend fun worksOnce(): List<WorkEntity> = db.dao().worksOnce()
     fun works(): Flow<List<WorkEntity>> = db.dao().works()

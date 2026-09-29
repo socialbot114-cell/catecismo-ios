@@ -1,23 +1,23 @@
-# Fontes e direitos do conteúdo
+# Fontes, atribuição e cobertura
 
-## Catecismo da Igreja Católica — texto integral embarcado
+## Texto do Catecismo em português
 
-- Texto: edição oficial em português publicada pelo Vaticano em `vatican.va/archive/cathechism_po/` (§§1–2865).
-- Copyright: © Libreria Editrice Vaticana. O app distribui o texto integral de forma gratuita, sem alteração de conteúdo, com atribuição na tela "Fonte" de cada parte e na seção "Sobre".
-- Os §§2217 e 2439 não constam na página em português do Vaticano; nenhum outro texto foi tecido no lugar deles, por fidelidade à fonte oficial.
-- Pipeline reproduzível: `tools/fetch_catecismo.py` (cache em `tools/cache/catecismo/`, apenas ambiente de desenvolvimento).
+- Fonte consultada: [Catecismo da Igreja Católica, arquivo do Vaticano](https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html).
+- Direitos indicados na fonte: © Libreria Editrice Vaticana. A atribuição é exibida no app; **a atribuição não substitui autorização de redistribuição**. A permissão para incluir o texto integral no aplicativo precisa estar confirmada antes da publicação nas lojas.
+- O material embarcado conserva a redação portuguesa disponibilizada pelo Vaticano e a numeração dos parágrafos quando presente.
+- **Limitação conhecida da fonte consultada:** as páginas em português usadas pelo importador não incluem os §§2217 e 2439. Não foram preenchidos com texto de outra tradução. A interface e os metadados devem descrever o material como texto publicado na fonte em português, não como transcrição completa sem lacunas.
+- `https://www.vatican.va/archive/ccc/index_po.htm` é o índice do Catecismo; as páginas de conteúdo utilizadas pelo importador estão em `https://www.vatican.va/archive/cathechism_po/index_new/`.
+- O PDF `https://diocesedemiracemato.org.br/upload/arquivos/214.pdf` foi usado somente para comparar estrutura e numeração. É uma tradução/edição diferente; seu texto não foi misturado nem embarcado.
+- Pipeline: `tools/fetch_catecismo.py`; cache de desenvolvimento em `tools/cache/catecismo/` (não é dependência de runtime).
 
-## Guias autorais (8 obras)
+## Guias autorais
 
-- Conteúdo próprio da Equipe Catecismo, referenciando §§ oficiais do Catecismo para navegação cruzada.
-- Estrutura: 6 seções por guia, com propostas práticas de aprofundamento semanal.
+- Oito guias da Equipe Catecismo. Cada guia preserva seus capítulos iniciais e adiciona quatro seções autorais com referências ao Catecismo.
+- As referências (§N) servem para localizar temas no texto embarcado; os guias não são texto magisterial.
+- Fonte editável: `tools/guides_content.json`; compilação/cópia para Android e iOS: `tools/build_guides.py`.
 
-## Documentação
+## Validação
 
-- `RELATORIO_CONTEUDO.md`: estatísticas geradas por `tools/validate_assets.py`.
-- `tools/validate_ios_assets.py`: consistência do pacote iOS (12 obras).
-
-## Publicação
-
-- Play Console: pacote `br.com.CATECISMO.DAIGREJACAToLICA`.
-- App Store Connect: bundle `br.com.CATECISMO.DAIGREJACAToLICA` (iOS 1.2.1).
+- `tools/validate_assets.py`: valida assets Android, capítulos e cobertura dos parágrafos numerados, registrando as duas lacunas conhecidas da fonte.
+- `tools/validate_ios_assets.py`: valida os 12 recursos do pacote iOS.
+- Estatísticas geradas: `RELATORIO_CONTEUDO.md`.

@@ -22,7 +22,7 @@ OUT_ANDROID.mkdir(parents=True, exist_ok=True)
 OUT_IOS.mkdir(parents=True, exist_ok=True)
 
 BASE = "https://www.vatican.va/archive/cathechism_po/index_new/"
-USER_AGENT = ("CatecismoImporter/1.2 (aplicativo criativo offline, EUA; contato: suporte@catecismo.app) python-urllib")
+USER_AGENT = "CatecismoImporter/1.2 (offline content build) python-urllib"
 
 # (arquivo no site, § inicial, § final)
 PAGE_SPEC = [
@@ -62,8 +62,8 @@ WORKS = [
     {
         "id": "catecismo-parte-1",
         "title": "Catecismo – Parte I: A Profissão da Fé",
-        "description": "Texto integral da Primeira Parte do Catecismo da Igreja Católica (§§26–1065).",
-        "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Prólogo e Parte I, do desejo de Deus ao «Creio na vida eterna».",
+        "description": "Prólogo e Primeira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1–1065).",
+        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Mantivemos a redação e a numeração publicadas na fonte em português. A página online não apresenta os §§2217 e 2439 da Parte III.",
         "characters": ["Credo", "Criação", "Jesus Cristo", "Espírito Santo", "Igreja", "Vida eterna"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-prima-parte_po.html",
         "sections": [
@@ -91,8 +91,8 @@ WORKS = [
     {
         "id": "catecismo-parte-2",
         "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
-        "description": "Texto integral da Segunda Parte (§§1066–1690): a liturgia e os sete sacramentos.",
-        "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Por que a liturgia, o Mistério Pascal nos sacramentos e as celebrações.",
+        "description": "Segunda Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1066–1690): liturgia e sacramentos.",
+        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
         "characters": ["Liturgia", "Batismo", "Confirmação", "Eucaristia", "Penitência", "Unção dos enfermos", "Ordem", "Matrimônio"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-seconda-parte_po.html",
         "sections": [
@@ -115,8 +115,8 @@ WORKS = [
     {
         "id": "catecismo-parte-3",
         "title": "Catecismo – Parte III: A Vida em Cristo",
-        "description": "Texto integral da Terceira Parte (§§1691–2557): dignidade humana, mandamentos e graça.",
-        "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Dignidade humana, comunidade, lei e graça e os Dez Mandamentos.",
+        "description": "Terceira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1691–2557): dignidade, mandamentos e graça.",
+        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. A página em português consultada não apresenta os §§2217 e 2439; não substituímos esses trechos por outra tradução.",
         "characters": ["Dignidade humana", "Bem-aventurança", "Liberdade", "Consciência moral", "Virtudes", "Lei e graça", "Dez Mandamentos"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-terza-parte_po.html",
         "sections": [
@@ -152,8 +152,8 @@ WORKS = [
     {
         "id": "catecismo-parte-4",
         "title": "Catecismo – Parte IV: A Oração Cristã",
-        "description": "Texto integral da Quarta Parte (§§2558–2865): oração, tradição e Pai-Nosso.",
-        "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Revelação da oração, tradição, vida de oração e os sete pedidos do Pai-Nosso.",
+        "description": "Quarta Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§2558–2865): oração e Pai-Nosso.",
+        "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
         "characters": ["Oração", "Pai-Nosso", "Mariologia orante", "Tradição da oração"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-quarta-parte_po.html",
         "sections": [
@@ -249,13 +249,13 @@ def build():
             "title": work["title"],
             "author": "Catecismo da Igreja Católica",
             "year": 1997,
-            "category": "Catecismo integral",
+            "category": "Catecismo",
             "status": "catecismo",
             "description": work["description"],
             "context": work["context"],
             "characters": work["characters"],
             "sourceUrl": work["sourceUrl"],
-            "copyright": "Texto © Libreria Editrice Vaticana, distribuído pelo Vaticano em português (vatican.va).",
+            "copyright": "Texto © Libreria Editrice Vaticana. Fonte consultada: Vatican.va, edição em português.",
             "chapters": chapters,
         }
         path_android = OUT_ANDROID / f"{work['id']}.json"
@@ -277,7 +277,7 @@ def build():
             "title": work["title"],
             "author": "Catecismo da Igreja Católica",
             "year": 1997,
-            "category": "Catecismo integral",
+            "category": "Catecismo",
             "status": "catecismo",
             "description": work["description"],
             "context": work["context"],

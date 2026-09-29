@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,8 +38,8 @@ fun DetailScreen(work: WorkEntity, openChapter: (ChapterEntity) -> Unit, repo: L
     }
     Scaffold(topBar = {
         TopAppBar(title = { Text(work.title, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp) },
-            navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Voltar") } },
-            actions = { IconButton(onToggleFav) { Icon(if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, "Favorito", tint = if (isFav) gold else Color.Unspecified) } })
+            navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back)) } },
+            actions = { IconButton(onToggleFav) { Icon(if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, stringResource(R.string.favorite), tint = if (isFav) gold else Color.Unspecified) } })
     }) { pad ->
         Column(Modifier.padding(pad).verticalScroll(rememberScrollState()).padding(22.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -47,34 +48,29 @@ fun DetailScreen(work: WorkEntity, openChapter: (ChapterEntity) -> Unit, repo: L
                 Column(Modifier.weight(1f)) {
                     Text(work.author, color = green, fontWeight = FontWeight.Bold)
                     Text("${work.year}", fontFamily = FontFamily.Serif, fontSize = 18.sp)
-                    Text("${work.category.uppercase()} • ${work.chapterCount} seções", color = Color(0xFF5a544a))
-                    val label = if (work.wordCount >= 1000) "${work.wordCount / 1000}k palavras" else "${work.wordCount} palavras"
-                    Text("$label • ${if (work.status == "catecismo") "texto oficial" else "guia autoral"}", color = Color(0xFF5a544a), fontSize = 13.sp)
+                    Text("${work.category.uppercase()} • ${stringResource(R.string.work_sections, work.chapterCount)}", color = Color(0xFF5a544a))
+                    val contentType = stringResource(if (work.status == "catecismo") R.string.content_type_catechism else R.string.content_type_guide)
+                    val wordCount = if (work.wordCount < 1000) "${work.wordCount} palavras" else stringResource(R.string.work_words_status, work.wordCount / 1000, contentType)
+                    Text(wordCount, color = Color(0xFF5a544a), fontSize = 13.sp)
                 }
             }
             Spacer(Modifier.height(18.dp))
             Button({ if (chapters.isNotEmpty()) openChapter(chapters[latestIndex]) }, Modifier.fillMaxWidth().height(52.dp), shape = RoundedCornerShape(14.dp)) {
-                Icon(Icons.Filled.PlayArrow, null); Spacer(Modifier.width(6.dp)); Text(if (latestIndex > 0) "CONTINUAR LEITURA" else "COMEÇAR A LER")
+                Icon(Icons.Filled.PlayArrow, null); Spacer(Modifier.width(6.dp)); Text(stringResource(if (latestIndex > 0) R.string.continue_reading_button else R.string.start_reading_button))
             }
             Spacer(Modifier.height(18.dp))
-            SectionTitle("SOBRE O GUIA"); Text(work.description, fontFamily = FontFamily.Serif, fontSize = 17.sp, lineHeight = 25.sp)
-            SectionTitle("COMO ESTUDAR"); Text(work.context, fontFamily = FontFamily.Serif, fontSize = 16.sp, lineHeight = 24.sp)
-            if (work.characterList.isNotEmpty()) {
-                SectionTitle("TEMAS RELACIONADOS"); Text(work.characterList.joinToString(" • "))
-            }
-            SectionTitle("SEÇÕES • ${chapters.size}")
+            SectionTitle(stringResource(R.string.about_guide)); Text(work.description, fontFamily = FontFamily.Serif, fontSize = 17.sp, lineHeight = 25.sp)
+            SectionTitle(stringResource(R.string.how_to_study)); Text(work.context, fontFamily = FontFamily.Serif, fontSize = 16.sp, lineHeight = 24.sp)
+            SectionTitle(stringResource(R.string.related_topics)); Text(work.characterList.joinToString(" • "))
+            SectionTitle(stringResource(R.string.sections_count, chapters.size))
             chapters.forEachIndexed { i, c ->
                 Row(Modifier.fillMaxWidth().clickable { openChapter(c) }.padding(vertical = 7.dp)) {
                     Text("${i + 1}. ", color = gold); Text(c.title, fontFamily = FontFamily.Serif, fontSize = 16.sp, modifier = Modifier.weight(1f))
                     Icon(Icons.AutoMirrored.Filled.ArrowForward, null, tint = Color(0xFF5a544a))
                 }
             }
-            SectionTitle("FONTE")
-            if (work.status == "catecismo") {
-                Text("Texto integral do Catecismo da Igreja Católica (edição em português, Vatican.va). Copyright © Libreria Editrice Vaticana. Distribuído offline, com autorização de uso pastoral.", fontSize = 12.sp, color = Color(0xFF5a544a))
-            } else {
-                Text("Conteúdo autoral de apoio, inspirado na estrutura do Catecismo da Igreja Católica e em referências oficiais do Vaticano.", fontSize = 12.sp, color = Color(0xFF5a544a))
-            }
+            SectionTitle(stringResource(R.string.source_heading))
+            Text(stringResource(if (work.status == "catecismo") R.string.catechism_source_note else R.string.guide_source_note), fontSize = 12.sp, color = Color(0xFF5a544a))
             Spacer(Modifier.height(24.dp))
         }
     }

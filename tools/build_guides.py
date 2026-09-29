@@ -1,58 +1,79 @@
 #!/usr/bin/env python3
-"""Guias autorais do Catecismo — 8 guias completos (6 seções cada).
-
-Gera app/src/main/assets/texts/<id>.json (status "guia") e preserva no index.json
-as quatro entradas do Catecismo integral (status "catecismo") geradas por
-tools/fetch_catecismo.py. Copia os guias para iosApp/Resources/Texts.
-"""
+"""Build expanded authored guides from the 1.1.1 baseline and reviewed additions."""
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT_ANDROID = ROOT / "app" / "src" / "main" / "assets" / "texts"
-OUT_IOS = ROOT / "iosApp" / "Resources" / "Texts"
-SOURCE_URL = "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html"
-
-CONTENT = json.loads((ROOT / "tools" / "guides_content.json").read_text(encoding="utf-8"))
+IOS_TEXTS = ROOT / "iosApp/Resources/Texts"
+ANDROID_TEXTS = ROOT / "app/src/main/assets/texts"
+BASE_TEXTS = ROOT / "tools/authorial_base"
+SOURCE = ROOT / "tools/guides_content.json"
 
 
 def build():
-    index_path = OUT_ANDROID / "index.json"
-    existing = json.loads(index_path.read_text(encoding="utf-8"))
-    cic = [item for item in existing if item.get("status") == "catecismo"]
+    additions = json.loads(SOURCE.read_text(encoding="utf-8"))
+    BASE_TEXTS.mkdir(parents=True, exist_ok=True)
+
+    # Freeze the source guide shape once, before replacing any bundled assets.
+    for guide_id in additions:
+        base = BASE_TEXTS / f"{guide_id}.json"
+        if not base.exists():
+            source = IOS_TEXTS / f"{guide_id}.json"
+            if not source.is_file():
+                raise FileNotFoundError(source)
+            base.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+
     index_rows = []
-    for gid, meta in CONTENT.items():
-        doc = {
-            "id": gid,
-            "title": meta["title"],
-            "author": "Equipe Catecismo",
-            "year": 2026,
-            "category": meta["category"],
-            "status": "guia",
-            "description": meta["description"],
-            "context": meta["context"],
-            "characters": meta["characters"],
-            "sourceUrl": SOURCE_URL,
-            "chapters": [
-                {"title": chapter["title"], "paragraphs": chapter["paragraphs"]}
-                for chapter in meta["chapters"]
-            ],
-        }
-        OUT_IOS.mkdir(parents=True, exist_ok=True)
-        (OUT_ANDROID / f"{gid}.json").write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
-        (OUT_IOS / f"{gid}.json").write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
-        words = sum(len(par.split()) for chapter in doc["chapters"] for par in chapter["paragraphs"])
+    for guide_id, chapters_to_add in additions.items():
+        document = json.loads((BASE_TEXTS / f"{guide_id}.json").read_text(encoding="utf-8"))
+        if len(document["chapters"]) != 2:
+            raise ValueError(f"{guide_id}: base asset should have its original two chapters")
+        document["chapters"].extend(chapters_to_add)
+        if len(document["chapters"]) != 6:
+            raise ValueError(f"{guide_id}: expected six chapters after expansion")
+        for chapter in document["chapters"]:
+            if not chapter["title"].strip() or len(chapter["paragraphs"]) < 3:
+                raise ValueError(f"{guide_id}: incomplete chapter {chapter['title']}")
+
+        encoded = json.dumps(document, ensure_ascii=False, separators=(",", ":"))
+        (IOS_TEXTS / f"{guide_id}.json").write_text(encoded, encoding="utf-8")
+        (ANDROID_TEXTS / f"{guide_id}.json").write_text(encoded, encoding="utf-8")
+        word_count = sum(len(paragraph.split()) for chapter in document["chapters"] for paragraph in chapter["paragraphs"])
         index_rows.append({
-            "id": gid,
-            "title": meta["title"],
-            "year": 2026,
-            "category": meta["category"],
-            "chapters": len(doc["chapters"]),
-            "words": words,
+            "id": guide_id,
+            "title": document["title"],
+            "author": document["author"],
+            "year": document["year"],
+            "category": document["category"],
+            "description": document["description"],
+            "context": document["context"],
+            "characters": document.get("characters", []),
+            "sourceUrl": document["sourceUrl"],
+            "chapters": len(document["chapters"]),
+            "words": word_count,
             "status": "guia",
         })
-        print(f"{gid}: {len(doc['chapters'])}capitulos, {words} palavras")
-    index_path.write_text(json.dumps(index_rows + cic, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"{guide_id}: {len(document['chapters'])} seções, {word_count} palavras")
+
+    index_path = ANDROID_TEXTS / "index.json"
+    existing = json.loads(index_path.read_text(encoding="utf-8"))
+    catecismo = [item for item in existing if item.get("status") == "catecismo"]
+    complete_index = index_rows + catecismo
+    index_path.write_text(json.dumps(complete_index, ensure_ascii=False, indent=1), encoding="utf-8")
+
+    catalog = []
+    for item in complete_index:
+        catalog.append({
+            "id": item["id"],
+            "title": item["title"],
+            "category": item["category"],
+            "description": item.get("description", ""),
+            "chapters": item["chapters"],
+            "status": item.get("status", "guia"),
+        })
+    (ROOT / "iosApp/Resources/catalog.json").write_text(
+        json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

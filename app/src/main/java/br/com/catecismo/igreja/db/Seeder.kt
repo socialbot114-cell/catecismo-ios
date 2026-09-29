@@ -3,6 +3,7 @@ package br.com.catecismo.igreja.db
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.withTransaction
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +17,30 @@ private val Context.seedStore by preferencesDataStore("catecismo_seed")
 
 class Seeder(private val context: Context, private val db: CatecismoDatabase) {
 
-    suspend fun seedIfNeeded(onProgress: (Int, Int) -> Unit = { _, _ -> }): Boolean = withContext(Dispatchers.IO) {
-        val key = booleanPreferencesKey("seeded_v2")
-        val done = context.seedStore.data.first()[key] ?: false
-        if (done && db.dao().workCount() > 0) return@withContext true
-
-        val indexJson = readJson("texts/index.json") ?: return@withContext false
-        val array = JSONObject("{\"items\":$indexJson}").getJSONArray("items")
+    suspend fun seedIfNeeded(languageTag: String = "pt-BR", onProgress: (Int, Int) -> Unit = { _, _ -> }): Boolean = withContext(Dispatchers.IO) {
+        val locale = languageTag.takeIf { it in listOf("pt-BR", "en", "es", "fr") } ?: "pt-BR"
+        val seedStore = context.seedStore.data.first()
+        val languageKey = stringPreferencesKey("seeded_language")
+        val legacyKey = booleanPreferencesKey("seeded_v1")
+        val existingLanguage = seedStore[languageKey]
+            ?: if (seedStore[legacyKey] == true && db.dao().workCount() > 0) "pt-BR" else null
+        val array = if (locale == "pt-BR") {
+            val indexJson = readJson("texts/index.json") ?: return@withContext false
+            JSONObject("{\"items\":$indexJson}").getJSONArray("items")
+        } else {
+            val localizedJson = readJson("texts/locales/$locale.json") ?: return@withContext false
+            val localized = JSONArray(localizedJson)
+            val indexJson = readJson("texts/index.json") ?: return@withContext false
+            val sourceIndex = JSONObject("{\"items\":$indexJson}").getJSONArray("items")
+            val combined = JSONArray()
+            for (i in 0 until localized.length()) combined.put(localized.getJSONObject(i))
+            for (i in 0 until sourceIndex.length()) {
+                val entry = sourceIndex.getJSONObject(i)
+                if (entry.optString("status") == "catecismo") combined.put(entry)
+            }
+            combined
+        }
+        if (existingLanguage == locale && db.dao().workCount() >= array.length()) return@withContext true
         val total = array.length()
         var imported = 0
         onProgress(0, total)
@@ -30,23 +48,27 @@ class Seeder(private val context: Context, private val db: CatecismoDatabase) {
         for (i in 0 until array.length()) {
             val meta = array.getJSONObject(i)
             val id = meta.getString("id")
-            val workJson = readJson("texts/$id.json")
-            if (workJson == null) {
-                onProgress(imported, total)
-                continue
+            val workJson = if (locale == "pt-BR" || meta.optString("status") == "catecismo") {
+                readJson("texts/$id.json")
+            } else {
+                meta.toString()
             }
+            if (workJson == null) { onProgress(imported, total); continue }
             val w = JSONObject(workJson)
             val chaptersArr = w.getJSONArray("chapters")
             if (w.getString("id") != id) continue
-            if (meta.has("chapters") && chaptersArr.length() != meta.getInt("chapters")) continue
-            if (meta.has("author") && w.getString("author") != meta.getString("author")) continue
+            if (meta.opt("chapters") is Number && chaptersArr.length() != meta.getInt("chapters")) continue
+            if ((locale == "pt-BR" || meta.optString("status") == "catecismo") && meta.has("author") && w.getString("author") != meta.getString("author")) continue
             importWork(w)
             imported++
             onProgress(imported, total)
         }
 
         if (imported == total && total > 0) {
-            context.seedStore.edit { it[key] = true }
+            context.seedStore.edit {
+                it[languageKey] = locale
+                it[legacyKey] = true
+            }
             true
         } else {
             false

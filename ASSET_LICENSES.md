@@ -1,10 +1,9 @@
-# Licenças E Referências Visuais
+# Licenças e referências
 
-O aplicativo publicado usa somente os recursos locais abaixo:
-
-| Arquivo | Uso | Origem/licença |
+| Recurso | Uso | Origem / situação |
 |---|---|---|
-| `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/` | Ícone do aplicativo iOS | Arte fornecida pelo projeto; confirmar licença antes da distribuição pública |
-| `Resources/Texts/catecismo-parte-*.json` (iOS) e `assets/texts/*.json` (Android) | Texto integral do Catecismo | © Libreria Editrice Vaticana (vatican.va); uso gratuito com atribuição na tela "Fonte" |
+| `iosApp/Resources/Assets.xcassets/AppIcon.appiconset/` | Ícone do app iOS | Arte do projeto; confirmar a licença para distribuição pública. |
+| `iosApp/Resources/Texts/catecismo-parte-*.json` | Texto do Catecismo em português para leitura offline | Fonte: Vatican.va. Copyright © Libreria Editrice Vaticana. A atribuição está no app; a autorização necessária para redistribuição integral ainda deve ser confirmada antes da publicação. |
+| `iosApp/Resources/Texts/*.json` (guias) | Guias de estudo e reflexão | Conteúdo autoral da Equipe Catecismo, com referências numeradas ao Catecismo. |
 
-Os guias são textos autorais e ficam empacotados no aplicativo para leitura offline. A publicação nas lojas exige a confirmação documental da licença do ícone.
+O app não baixa o PDF da Diocese nem depende de rede para abrir os textos. A fonte web serviu para preparar os assets locais.

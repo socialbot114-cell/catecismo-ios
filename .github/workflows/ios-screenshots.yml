@@ -13,13 +13,13 @@ permissions:
 
 jobs:
   screenshots:
-    runs-on: macos-26
+    runs-on: macos-15
     strategy:
       matrix:
         device:
-          - name: iPhone 17
+          - name: iPhone 16
             slug: iphone
-          - name: iPad Air 13-inch (M4)
+          - name: iPad Air 13-inch (M2)
             slug: ipad
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
           set -euo pipefail
           xcodebuild test \
             -scheme Catecismo \
-            -destination 'platform=iOS Simulator,name=${{ matrix.device.name }},OS=26.5' \
+            -destination 'platform=iOS Simulator,name=${{ matrix.device.name }},OS=latest' \
             -resultBundlePath "$RUNNER_TEMP/catecismo-${{ matrix.device.slug }}.xcresult" \
             -only-testing:CatecismoUITests \
             CODE_SIGNING_ALLOWED=NO

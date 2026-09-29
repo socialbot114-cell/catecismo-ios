@@ -2,73 +2,138 @@
  {
   "id": "o-dom-da-fe",
   "title": "O dom da fé",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Fundamentos",
+  "description": "Uma introdução simples à resposta humana ao Deus que se revela.",
+  "context": "Guia autoral de leitura e reflexão inspirado na estrutura do Catecismo da Igreja Católica.",
+  "characters": [
+   "Deus",
+   "a pessoa humana"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 1010,
+  "words": 658,
   "status": "guia"
  },
  {
   "id": "credo-em-caminho",
   "title": "O Credo em caminho",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Credo",
+  "description": "Um percurso meditativo pelas palavras centrais da profissão de fé cristã.",
+  "context": "Resumo autoral para leitura inicial, organizado em pequenas etapas.",
+  "characters": [
+   "Pai",
+   "Filho",
+   "Espírito Santo"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 729,
+  "words": 638,
   "status": "guia"
  },
  {
   "id": "sinais-da-graca",
   "title": "Sinais da graça",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Sacramentos",
+  "description": "Como gestos celebrados pela Igreja comunicam a presença e a ação de Deus.",
+  "context": "Apresentação autoral dos sacramentos como encontros que alimentam a vida cristã.",
+  "characters": [
+   "comunidade",
+   "discípulo"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 595,
+  "words": 560,
   "status": "guia"
  },
  {
   "id": "liberdade-e-amor",
   "title": "Liberdade e amor",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Vida cristã",
+  "description": "A liberdade como capacidade de escolher o bem e crescer no amor.",
+  "context": "Reflexão autoral sobre consciência, responsabilidade e dignidade humana.",
+  "characters": [
+   "consciência",
+   "próximo"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 549,
+  "words": 527,
   "status": "guia"
  },
  {
   "id": "escola-da-oracao",
   "title": "Escola da oração",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Oração",
+  "description": "Práticas simples para criar espaço de silêncio, gratidão e diálogo com Deus.",
+  "context": "Guia autoral inspirado nas grandes formas de oração cristã.",
+  "characters": [
+   "coração",
+   "comunidade"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 546,
+  "words": 468,
   "status": "guia"
  },
  {
   "id": "a-igreja-viva",
   "title": "A Igreja viva",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Igreja",
+  "description": "A comunidade cristã como povo reunido, diverso e enviado ao mundo.",
+  "context": "Síntese autoral para compreender pertença, missão e comunhão.",
+  "characters": [
+   "povo de Deus",
+   "servidor"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 508,
+  "words": 470,
   "status": "guia"
  },
  {
   "id": "maria-e-o-sim",
   "title": "Maria e o sim",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Maria",
+  "description": "Uma meditação sobre disponibilidade, confiança e cuidado a partir de Maria.",
+  "context": "Leitura autoral que contempla Maria no mistério de Cristo e da Igreja.",
+  "characters": [
+   "Maria",
+   "Jesus"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 582,
+  "words": 460,
   "status": "guia"
  },
  {
   "id": "conversao-diaria",
   "title": "Conversão diária",
+  "author": "Equipe Catecismo",
   "year": 2026,
   "category": "Vida cristã",
+  "description": "Recomeçar todos os dias: reconhecer limites, pedir perdão e praticar o bem.",
+  "context": "Reflexões autorais sobre mudança interior e misericórdia nas relações.",
+  "characters": [
+   "discípulo",
+   "irmão"
+  ],
+  "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/prima-pagina-cic_po.html",
   "chapters": 6,
-  "words": 456,
+  "words": 440,
   "status": "guia"
  },
  {
@@ -76,10 +141,10 @@
   "title": "Catecismo – Parte I: A Profissão da Fé",
   "author": "Catecismo da Igreja Católica",
   "year": 1997,
-  "category": "Catecismo integral",
+  "category": "Catecismo",
   "status": "catecismo",
-  "description": "Texto integral da Primeira Parte do Catecismo da Igreja Católica (§§26–1065).",
-  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Prólogo e Parte I, do desejo de Deus ao «Creio na vida eterna».",
+  "description": "Prólogo e Primeira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1–1065).",
+  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Mantivemos a redação e a numeração publicadas na fonte em português. A página online não apresenta os §§2217 e 2439 da Parte III.",
   "characters": [
    "Credo",
    "Criação",
@@ -97,10 +162,10 @@
   "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
   "author": "Catecismo da Igreja Católica",
   "year": 1997,
-  "category": "Catecismo integral",
+  "category": "Catecismo",
   "status": "catecismo",
-  "description": "Texto integral da Segunda Parte (§§1066–1690): a liturgia e os sete sacramentos.",
-  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Por que a liturgia, o Mistério Pascal nos sacramentos e as celebrações.",
+  "description": "Segunda Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1066–1690): liturgia e sacramentos.",
+  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
   "characters": [
    "Liturgia",
    "Batismo",
@@ -120,10 +185,10 @@
   "title": "Catecismo – Parte III: A Vida em Cristo",
   "author": "Catecismo da Igreja Católica",
   "year": 1997,
-  "category": "Catecismo integral",
+  "category": "Catecismo",
   "status": "catecismo",
-  "description": "Texto integral da Terceira Parte (§§1691–2557): dignidade humana, mandamentos e graça.",
-  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Dignidade humana, comunidade, lei e graça e os Dez Mandamentos.",
+  "description": "Terceira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1691–2557): dignidade, mandamentos e graça.",
+  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. A página em português consultada não apresenta os §§2217 e 2439; não substituímos esses trechos por outra tradução.",
   "characters": [
    "Dignidade humana",
    "Bem-aventurança",
@@ -142,10 +207,10 @@
   "title": "Catecismo – Parte IV: A Oração Cristã",
   "author": "Catecismo da Igreja Católica",
   "year": 1997,
-  "category": "Catecismo integral",
+  "category": "Catecismo",
   "status": "catecismo",
-  "description": "Texto integral da Quarta Parte (§§2558–2865): oração, tradição e Pai-Nosso.",
-  "context": "Texto oficial da Santa Sé, edição em português do Vaticano. Revelação da oração, tradição, vida de oração e os sete pedidos do Pai-Nosso.",
+  "description": "Quarta Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§2558–2865): oração e Pai-Nosso.",
+  "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
   "characters": [
    "Oração",
    "Pai-Nosso",

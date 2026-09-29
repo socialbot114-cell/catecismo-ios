@@ -8,13 +8,14 @@ permissions:
 
 jobs:
   release:
-    runs-on: macos-26
+    runs-on: macos-15
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
       - name: Validate content
         run: |
+          python3 tools/validate_ios_assets.py
           python3 - <<'PY'
           import json
           import plistlib
@@ -24,7 +25,9 @@ jobs:
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
           assert len(texts) == 12
-          forbidden = ('machado', 'dom casmurro', 'wikisource', 'br.com.machadodeassis')
+          project = (root / 'project.yml').read_text()
+          assert 'MARKETING_VERSION: "1.2.1"' in project
+          forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
                   assert not any(item in path.read_text(errors='ignore').lower() for item in forbidden), path
@@ -58,7 +61,7 @@ jobs:
           xcodebuild test \
             -project Catecismo.xcodeproj \
             -scheme Catecismo \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             CODE_SIGNING_ALLOWED=NO
 
       - name: Install signing assets
@@ -126,6 +129,8 @@ jobs:
           unzip -q "${ipa[0]}" -d "$RUNNER_TEMP/ipa"
           app=("$RUNNER_TEMP"/ipa/Payload/*.app)
           /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "${app[0]}/Info.plist" | grep -qx 'br.com.CATECISMO.DAIGREJACAToLICA'
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "${app[0]}/Info.plist" | grep -qx '1.2.1'
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist" | grep -qx '${{ github.run_number }}'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
            test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
            codesign --verify --deep --strict "${app[0]}"

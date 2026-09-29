@@ -1,0 +1,82 @@
+[
+  {
+    "id": "o-dom-da-fe", "title": "El don de la fe", "author": "Equipo de Catequesis", "year": 2026, "category": "Fundamentos",
+    "description": "Una introducción sencilla a la respuesta humana ante Dios, que se revela.",
+    "context": "Guía original de lectura y reflexión inspirada en la estructura del Catecismo de la Iglesia Católica.",
+    "characters": ["Dios", "la persona humana"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Escuchar y responder", "paragraphs": ["La fe comienza cuando la persona se abre a una presencia mayor que ella y acoge una palabra de amor.", "Creer no significa abandonar la razón. Es confiar libremente, buscar comprender y dejar que la verdad transforme la vida.", "La fe es un don recibido y una respuesta ofrecida. Crece cuando se celebra, se estudia y se vive cada día."]},
+      {"title": "Un camino compartido", "paragraphs": ["Nadie tiene que caminar a solas. La comunidad guarda la memoria de la fe y ayuda a cada persona a discernir sus pasos.", "La oración, la escucha de la Palabra y el servicio a quienes lo necesitan hacen visible una fe que no se encierra en ideas.", "Preguntar con sinceridad también forma parte del camino. Dios acompaña la búsqueda y educa el corazón con paciencia."]}
+    ]
+  },
+  {
+    "id": "credo-em-caminho", "title": "El Credo como camino", "author": "Equipo de Catequesis", "year": 2026, "category": "Credo",
+    "description": "Un recorrido meditativo por las palabras centrales de la profesión de fe.",
+    "context": "Resumen original para una lectura inicial, organizado en pequeños pasos.",
+    "characters": ["Padre", "Hijo", "Espíritu Santo"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "El Dios que llama", "paragraphs": ["Decir que creemos en Dios es reconocer un origen de amor y confiar en que la creación no es un accidente sin sentido.", "El Padre sostiene la vida y llama a cada persona a cuidar responsablemente del mundo, de los demás y de sí misma.", "El lenguaje de la fe es humilde: señala un misterio que podemos acoger, pero nunca reducir a nuestra medida."]},
+      {"title": "Cristo y el Espíritu", "paragraphs": ["En Jesucristo, la fe cristiana contempla a Dios cercano, solidario con la humanidad y comprometido con la vida plena.", "El Espíritu Santo despierta, reúne y fortalece. Inspira el valor para hacer el bien incluso cuando el camino es difícil.", "Profesar la fe es permitir que estas verdades se conviertan en decisiones concretas de justicia, esperanza y reconciliación."]}
+    ]
+  },
+  {
+    "id": "sinais-da-graca", "title": "Signos de la gracia", "author": "Equipo de Catequesis", "year": 2026, "category": "Sacramentos",
+    "description": "Cómo los signos celebrados por la Iglesia hacen visible la presencia y la acción de Dios.",
+    "context": "Presentación original de los sacramentos como encuentros que alimentan la vida cristiana.",
+    "characters": ["comunidad", "discípulo"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Dios se acerca", "paragraphs": ["La gracia no es un premio para personas perfectas. Es la ayuda gratuita de Dios, que sana, sostiene e invita a comenzar de nuevo.", "Los sacramentos usan signos sensibles para hacer perceptible una acción que alcanza a toda la persona.", "Celebrar exige presencia: el gesto exterior cobra sentido cuando encuentra una fe dispuesta a acoger y responder."]},
+      {"title": "Celebrar y vivir", "paragraphs": ["El Bautismo inaugura una pertenencia; la Eucaristía reúne y alimenta; la Reconciliación abre un espacio para la misericordia.", "Cada celebración envía a la comunidad hacia fuera, donde la fe debe convertirse en cuidado y compromiso.", "La vida sacramental no termina en la iglesia: continúa en las relaciones, el trabajo, la familia y las decisiones cotidianas."]}
+    ]
+  },
+  {
+    "id": "liberdade-e-amor", "title": "Libertad y amor", "author": "Equipo de Catequesis", "year": 2026, "category": "Vida cristiana",
+    "description": "La libertad como capacidad de elegir el bien y crecer en el amor.",
+    "context": "Reflexión original sobre la conciencia, la responsabilidad y la dignidad humana.",
+    "characters": ["conciencia", "prójimo"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Elegir con conciencia", "paragraphs": ["Ser libre no significa hacer todo lo que uno desea. Es poder orientar la propia vida hacia lo verdadero y lo bueno.", "La conciencia necesita formarse mediante la verdad, la experiencia y el diálogo con personas sabias y de confianza.", "Cada elección deja huellas. La responsabilidad las reconoce e intenta reparar el daño cuando es necesario."]},
+      {"title": "El amor que sirve", "paragraphs": ["El amor cristiano no se limita a un sentimiento: se convierte en atención, tiempo ofrecido y cuidado de quien lo necesita.", "Respetar la dignidad de cada persona es una forma concreta de honrar al Creador.", "Pequeños actos fieles, repetidos con perseverancia, pueden renovar una familia, una comunidad y a quien los realiza."]}
+    ]
+  },
+  {
+    "id": "escola-da-oracao", "title": "Escuela de oración", "author": "Equipo de Catequesis", "year": 2026, "category": "Oración",
+    "description": "Prácticas sencillas para abrir espacio al silencio, la gratitud y el diálogo con Dios.",
+    "context": "Guía original inspirada en las grandes formas de oración cristiana.",
+    "characters": ["corazón", "comunidad"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Hacer espacio", "paragraphs": ["Orar es volvernos hacia Dios con todo lo que somos: alegrías, temores, preguntas y esperanza.", "Un minuto de silencio atento ya puede ser una puerta. La constancia vale más que la duración o la apariencia de perfección.", "La gratitud educa la mirada para reconocer señales de cuidado que la prisa suele ocultar."]},
+      {"title": "Pedir y escuchar", "paragraphs": ["En la oración de petición aprendemos a presentar nuestras necesidades sin convertir a Dios en instrumento de nuestros planes.", "Escuchar exige paciencia. Una respuesta puede nacer como paz, claridad, valor o una llamada al servicio.", "Cuando faltan las palabras, respirar serenamente y estar presentes con sinceridad también puede ser oración."]}
+    ]
+  },
+  {
+    "id": "a-igreja-viva", "title": "La Iglesia viva", "author": "Equipo de Catequesis", "year": 2026, "category": "Iglesia",
+    "description": "La comunidad cristiana como pueblo reunido, diverso y enviado al mundo.",
+    "context": "Síntesis original para comprender la pertenencia, la misión y la comunión.",
+    "characters": ["pueblo de Dios", "servidor"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Pertenencia y comunión", "paragraphs": ["La Iglesia es una comunidad de personas en camino, no un club de quienes ya han llegado a la meta.", "Los dones diferentes no son una amenaza. Cuando se ponen al servicio de los demás, enriquecen la comunión.", "Escucharse mutuamente ayuda a la comunidad a reconocer heridas, corregir el rumbo y acoger a nuevas personas."]},
+      {"title": "Una misión en el mundo", "paragraphs": ["La comunidad también existe para anunciar esperanza y colaborar con todo lo que promueve la vida y la justicia.", "Servir a los pobres, proteger a los más vulnerables y cuidar la creación son expresiones públicas de la fe.", "Cada bautizado puede ser presencia de reconciliación allí donde vive, trabaja y construye relaciones."]}
+    ]
+  },
+  {
+    "id": "maria-e-o-sim", "title": "El sí de María", "author": "Equipo de Catequesis", "year": 2026, "category": "María",
+    "description": "Una meditación sobre la disponibilidad, la confianza y el cuidado a partir de María.",
+    "context": "Lectura original que contempla a María en el misterio de Cristo y de la Iglesia.",
+    "characters": ["María", "Jesús"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Disponibilidad", "paragraphs": ["El sí de María puede contemplarse como una respuesta libre, valiente y abierta a un futuro que no controlaba.", "Estar disponible no significa ser pasivo. Ella pregunta, discierne y asume con responsabilidad lo que comprende.", "También hoy, la fe crece cuando hacemos espacio para servir más allá de nuestros planes inmediatos."]},
+      {"title": "Cuidar la vida", "paragraphs": ["María acompaña el camino de Jesús con una presencia fiel, incluso en momentos de dolor e incertidumbre.", "Su cuidado recuerda que la grandeza espiritual puede manifestarse en gestos discretos, atentos y perseverantes.", "Contemplar a María es aprender a guardar la esperanza y ofrecerla con ternura a quien está desanimado."]}
+    ]
+  },
+  {
+    "id": "conversao-diaria", "title": "Conversión diaria", "author": "Equipo de Catequesis", "year": 2026, "category": "Vida cristiana",
+    "description": "Comenzar de nuevo cada día: reconocer límites, pedir perdón y hacer el bien.",
+    "context": "Reflexiones originales sobre el cambio interior y la misericordia en las relaciones.",
+    "characters": ["discípulo", "hermano"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/catechism_sp/index_sp.html",
+    "chapters": [
+      {"title": "Reconocer y comenzar de nuevo", "paragraphs": ["La conversión es un cambio de rumbo que comienza con el valor de mirar nuestra propia verdad.", "Reconocer un error no disminuye a nadie. Abre la posibilidad de aprender, reparar y madurar.", "La misericordia ofrece un futuro sin negar el pasado e invita a levantarse de nuevo."]},
+      {"title": "Perdonar y actuar", "paragraphs": ["Perdonar no llama bueno al mal. Detiene el deseo de devolver la herida y abre espacio para la justicia y la sanación.", "El cambio interior se confirma en las actitudes: hablar con honestidad, cumplir las promesas y proteger a quien es vulnerable.", "El bien cotidiano rara vez hace ruido, pero construye una vida coherente y una esperanza compartida."]}
+    ]
+  }
+]

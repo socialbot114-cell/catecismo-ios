@@ -20,7 +20,29 @@ final class CatecismoTests: XCTestCase {
         let guides = try BundleGuideRepository().loadGuides()
         XCTAssertEqual(guides.count, 12)
         XCTAssertTrue(guides.allSatisfy { !$0.id.isEmpty && !$0.chapters.isEmpty })
-        XCTAssertTrue(guides.filter { $0.category == "Catecismo integral" }.count == 4)
+        XCTAssertEqual(guides.filter { $0.category == "Catecismo" }.count, 4)
+    }
+
+    func testAppLanguageMapsDeviceRegionToSupportedContentBundle() {
+        XCTAssertEqual(AppLanguage.contentTag(for: Locale(identifier: "en-GB")), "en")
+        XCTAssertEqual(AppLanguage.contentTag(for: Locale(identifier: "es-MX")), "es")
+        XCTAssertEqual(AppLanguage.contentTag(for: Locale(identifier: "fr-CA")), "fr")
+        XCTAssertEqual(AppLanguage.contentTag(for: Locale(identifier: "pt-PT")), "pt-BR")
+        XCTAssertEqual(AppLanguage.contentTag(for: Locale(identifier: "de-DE")), "pt-BR")
+    }
+
+    func testLocalizedGuideBundlesKeepGuideIDsAndAppendCatechismParts() throws {
+        let repository = BundleGuideRepository()
+        let baseGuides = try repository.loadGuides(languageCode: "pt-BR")
+        let authoredIDs = Set(baseGuides.filter { $0.category != "Catecismo" }.map(\.id))
+        let catechismIDs = Set(baseGuides.filter { $0.category == "Catecismo" }.map(\.id))
+
+        for language in ["en", "es", "fr"] {
+            let translated = try repository.loadGuides(languageCode: language)
+            XCTAssertEqual(Set(translated.filter { $0.category != "Catecismo" }.map(\.id)), authoredIDs, "Missing translated guide IDs for \(language)")
+            XCTAssertEqual(Set(translated.filter { $0.category == "Catecismo" }.map(\.id)), catechismIDs, "Missing official Catechism parts for \(language)")
+            XCTAssertTrue(translated.filter { $0.category == "Catecismo" }.allSatisfy { $0.description.contains("português") })
+        }
     }
 
     func testOpeningGuideDoesNotCreateProgress() {

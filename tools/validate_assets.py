@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Valida guias autorais ('guia') e o texto integral ('catecismo'), gera o relatório."""
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -51,12 +52,16 @@ def main():
                     raise AssertionError(f"{work_id}: autor inválido")
                 if entry.get("year") != 2026:
                     raise AssertionError(f"{work_id}: ano inválido")
+                if len(chapters) != 6:
+                    raise AssertionError(f"{work_id}: esperado 6 capítulos autorais")
+                if words < 350:
+                    raise AssertionError(f"{work_id}: guia autoral não foi ampliado ({words} palavras)")
             elif status == "catecismo":
                 if work.get("author") != "Catecismo da Igreja Católica":
                     raise AssertionError(f"{work_id}: autor inválido")
                 if entry.get("year") != 1997:
                     raise AssertionError(f"{work_id}: ano inválido")
-                if work.get("category") != "Catecismo integral":
+                if work.get("category") != "Catecismo":
                     raise AssertionError(f"{work_id}: categoria inválida")
             else:
                 raise AssertionError(f"{work_id}: status inválido")
@@ -70,13 +75,14 @@ def main():
                 raise AssertionError(f"{work_id}: contagem de palavras divergente")
             for chapter in chapters:
                 if status == "catecismo":
-                    numbers = []
                     for paragraph in chapter["paragraphs"]:
-                        match = paragraph.split(".", 1)[0].split(" ", 1)[0]
-                        if match.isdigit():
-                            numbers.append(int(match))
-                    if numbers:
-                        covered.update(numbers)
+                        match = re.match(r"^(\d{1,4})(?:\.|\s)", paragraph)
+                        if not match:
+                            raise AssertionError(f"{work_id}: parágrafo sem número §: {paragraph[:60]}")
+                        number = int(match.group(1))
+                        if number in covered:
+                            raise AssertionError(f"§{number} duplicado no conteúdo embarcado")
+                        covered.add(number)
             rows.append((work.get("category", ""), work.get("title", work_id), work_id, len(chapters), words))
         except (AssertionError, KeyError, json.JSONDecodeError) as error:
             errors.append(str(error))
@@ -85,6 +91,11 @@ def main():
         missing = [n for n in range(1, 2866) if n not in covered and n not in KNOWN_MISSING_SECTIONS]
         if missing:
             errors.append(f"§§ ausentes no texto integral: {missing[:12]}")
+        unexpected = sorted(covered - set(range(1, 2866)))
+        if unexpected:
+            errors.append(f"numeração § fora do intervalo 1–2865: {unexpected[:12]}")
+        if {n for n in range(1, 2866) if n not in covered} != KNOWN_MISSING_SECTIONS:
+            errors.append("lacunas do texto em português divergiram das lacunas conhecidas §2217 e §2439")
 
     indexed = {entry.get("id") for entry in index if isinstance(entry, dict)}
     assets = {path.stem for path in OUT.glob("*.json") if path.name != "index.json"}
@@ -102,7 +113,8 @@ def main():
         f"- **Obras:** {len(rows)}",
         f"- **Seções:** {sum(row[3] for row in rows)}",
         f"- **Palavras:** {sum(row[4] for row in rows):,}".replace(",", "."),
-        "- **Fontes:** guias autorais (Equipe Catecismo) + texto integral do Catecismo da Igreja Católica © Libreria Editrice Vaticana (vatican.va).",
+        "- **Fontes:** guias autorais (Equipe Catecismo) + texto em português publicado pelo Vaticano, © Libreria Editrice Vaticana.",
+        "- **Cobertura da fonte online:** §§2217 e 2439 não constam nas páginas em português consultadas.",
         "",
         "| Obra | ID | Seções | Palavras |",
         "|---|---|---:|---:|",

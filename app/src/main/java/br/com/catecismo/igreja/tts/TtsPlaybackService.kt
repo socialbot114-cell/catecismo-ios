@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
 import br.com.catecismo.igreja.MainActivity
 import br.com.catecismo.igreja.R
@@ -95,7 +96,7 @@ class TtsPlaybackService : Service(), TextToSpeech.OnInitListener {
     private fun speakCurrent() {
         val text = paragraphs.getOrNull(index) ?: run { stopSelf(); return }
         paused = false
-        startForeground(NOTIFICATION, notification("Ouvindo capítulo • ${index + 1}/${paragraphs.size}"))
+        startForeground(NOTIFICATION, notification(getString(R.string.tts_notification_listening, index + 1, paragraphs.size)))
         startedAt = android.os.SystemClock.elapsedRealtime()
         broadcastState(true, false)
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "paragraph_$index")
@@ -106,7 +107,7 @@ class TtsPlaybackService : Service(), TextToSpeech.OnInitListener {
         paused = true
         saveProgress()
         broadcastState(false, true)
-        startForeground(NOTIFICATION, notification("Pausado • parágrafo ${index + 1}/${paragraphs.size}"))
+        startForeground(NOTIFICATION, notification(getString(R.string.tts_notification_paused, index + 1, paragraphs.size)))
     }
 
     private fun moveParagraph(offset: Int) {
@@ -118,7 +119,8 @@ class TtsPlaybackService : Service(), TextToSpeech.OnInitListener {
     }
 
     private fun setVoice(name: String?) {
-        val voice = tts?.voices?.firstOrNull { it.name == name && it.locale.language == "pt" && !it.isNetworkConnectionRequired }
+        val language = selectedLocale().language
+        val voice = tts?.voices?.firstOrNull { it.name == name && it.locale.language == language && !it.isNetworkConnectionRequired }
             ?: return
         tts?.voice = voice
         currentVoiceName = voice.name
@@ -154,19 +156,18 @@ class TtsPlaybackService : Service(), TextToSpeech.OnInitListener {
 
     private fun availableVoiceNames(): ArrayList<String> = ArrayList(
         tts?.voices.orEmpty()
-            .filter { it.locale.language == "pt" && it.locale.country in listOf("BR", "PT", "") && !it.isNetworkConnectionRequired }
+            .filter { it.locale.language == selectedLocale().language && !it.isNetworkConnectionRequired }
             .map { it.name }
             .distinct()
     )
 
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale("pt", "BR")
+        val locale = selectedLocale()
         val offlineVoice = tts?.voices?.firstOrNull { it.locale.language == locale.language && !it.isNetworkConnectionRequired }
-        if (offlineVoice == null) { stopSelf(); return }
-        tts?.voice = offlineVoice
+        if (offlineVoice != null) tts?.voice = offlineVoice else tts?.setLanguage(locale)
         val savedVoice = preferences.getString("voice_name", null)
-        tts?.voices?.firstOrNull { it.name == savedVoice && it.locale.language == "pt" && !it.isNetworkConnectionRequired }?.let {
+        tts?.voices?.firstOrNull { it.name == savedVoice && it.locale.language == locale.language && !it.isNetworkConnectionRequired }?.let {
             tts?.voice = it
         }
         currentVoiceName = tts?.voice?.name
@@ -205,17 +206,22 @@ class TtsPlaybackService : Service(), TextToSpeech.OnInitListener {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun createChannel() {
-        getSystemService(NotificationManager::class.java).createNotificationChannel(NotificationChannel(CHANNEL, "Leitura em voz", NotificationManager.IMPORTANCE_LOW))
+        getSystemService(NotificationManager::class.java).createNotificationChannel(NotificationChannel(CHANNEL, getString(R.string.tts_channel_name), NotificationManager.IMPORTANCE_LOW))
+    }
+
+    private fun selectedLocale(): Locale {
+        val override = AppCompatDelegate.getApplicationLocales().get(0)
+        return override ?: Locale.getDefault()
     }
 
     private fun notification(text: String) = NotificationCompat.Builder(this, CHANNEL)
         .setSmallIcon(R.drawable.logo_catecismo)
-        .setContentTitle("Catecismo da Igreja Católica")
+        .setContentTitle(getString(R.string.app_name))
         .setContentText(text)
         .setContentIntent(PendingIntent.getActivity(this, 0, Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT))
-        .addAction(0, if (paused) "Continuar" else "Pausar", servicePending(if (paused) ACTION_RESUME else ACTION_PAUSE))
-        .addAction(0, "Parar", servicePending(ACTION_STOP))
-        .addAction(0, "Próximo", servicePending(ACTION_NEXT))
+        .addAction(0, getString(if (paused) R.string.resume else R.string.pause), servicePending(if (paused) ACTION_RESUME else ACTION_PAUSE))
+        .addAction(0, getString(R.string.stop), servicePending(ACTION_STOP))
+        .addAction(0, getString(R.string.next_paragraph), servicePending(ACTION_NEXT))
         .setOngoing(true)
         .build()
 

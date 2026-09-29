@@ -1,0 +1,82 @@
+[
+  {
+    "id": "o-dom-da-fe", "title": "Le don de la foi", "author": "Équipe Catéchisme", "year": 2026, "category": "Fondements",
+    "description": "Une introduction simple à la réponse humaine à Dieu qui se révèle.",
+    "context": "Guide original de lecture et de réflexion inspiré de la structure du Catéchisme de l’Église catholique.",
+    "characters": ["Dieu", "la personne humaine"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Écouter et répondre", "paragraphs": ["La foi commence lorsque la personne s’ouvre à une présence plus grande qu’elle et accueille une parole d’amour.", "Croire ne signifie pas abandonner la raison. C’est faire confiance librement, chercher à comprendre et laisser la vérité transformer sa vie.", "La foi est un don reçu et une réponse offerte. Elle grandit lorsqu’elle est célébrée, étudiée et vécue au quotidien."]},
+      {"title": "Un chemin partagé", "paragraphs": ["Personne n’a besoin d’avancer seul. La communauté garde la mémoire de la foi et aide chacun à discerner ses pas.", "La prière, l’écoute de la Parole et le service des personnes dans le besoin rendent visible une foi qui ne se replie pas sur des idées.", "Les questions sincères font aussi partie du chemin. Dieu accompagne la recherche et éduque le cœur avec patience."]}
+    ]
+  },
+  {
+    "id": "credo-em-caminho", "title": "Le Credo en chemin", "author": "Équipe Catéchisme", "year": 2026, "category": "Credo",
+    "description": "Un parcours méditatif à travers les paroles essentielles de la profession de foi.",
+    "context": "Résumé original pour une première lecture, organisé en petites étapes.",
+    "characters": ["Père", "Fils", "Esprit Saint"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Le Dieu qui appelle", "paragraphs": ["Dire que nous croyons en Dieu, c’est reconnaître une origine aimante et faire confiance au fait que la création n’est pas un accident sans sens.", "Le Père soutient la vie et appelle chacun à prendre soin du monde, des autres et de soi-même avec responsabilité.", "Le langage de la foi est humble : il indique un mystère que nous pouvons accueillir, mais jamais réduire à notre mesure."]},
+      {"title": "Le Christ et l’Esprit", "paragraphs": ["En Jésus-Christ, la foi chrétienne contemple Dieu proche, solidaire de l’humanité et engagé en faveur de la vie en plénitude.", "L’Esprit Saint éveille, rassemble et fortifie. Il inspire le courage de faire le bien même lorsque le chemin est difficile.", "Professer la foi, c’est permettre à ces vérités de devenir des choix concrets de justice, d’espérance et de réconciliation."]}
+    ]
+  },
+  {
+    "id": "sinais-da-graca", "title": "Signes de la grâce", "author": "Équipe Catéchisme", "year": 2026, "category": "Sacrements",
+    "description": "Comment les signes célébrés par l’Église rendent visibles la présence et l’action de Dieu.",
+    "context": "Présentation originale des sacrements comme des rencontres qui nourrissent la vie chrétienne.",
+    "characters": ["communauté", "disciple"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Dieu s’approche", "paragraphs": ["La grâce n’est pas une récompense réservée aux personnes parfaites. C’est l’aide gratuite de Dieu, qui guérit, soutient et invite à recommencer.", "Les sacrements utilisent des signes sensibles pour rendre perceptible une action qui rejoint la personne tout entière.", "Célébrer demande une présence : le geste extérieur prend tout son sens lorsqu’il rencontre une foi prête à accueillir et à répondre."]},
+      {"title": "Célébrer et vivre", "paragraphs": ["Le Baptême inaugure une appartenance ; l’Eucharistie rassemble et nourrit ; la Réconciliation ouvre un espace à la miséricorde.", "Chaque célébration envoie la communauté au-dehors, là où la foi doit devenir attention et engagement.", "La vie sacramentelle ne s’arrête pas à l’église : elle se poursuit dans les relations, le travail, la famille et les décisions quotidiennes."]}
+    ]
+  },
+  {
+    "id": "liberdade-e-amor", "title": "Liberté et amour", "author": "Équipe Catéchisme", "year": 2026, "category": "Vie chrétienne",
+    "description": "La liberté comme capacité de choisir le bien et de grandir dans l’amour.",
+    "context": "Réflexion originale sur la conscience, la responsabilité et la dignité humaine.",
+    "characters": ["conscience", "prochain"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Choisir en conscience", "paragraphs": ["Être libre ne signifie pas faire tout ce qui nous passe par la tête. C’est pouvoir orienter sa vie vers ce qui est vrai et bon.", "La conscience doit être formée par la vérité, l’expérience et le dialogue avec des personnes sages et dignes de confiance.", "Chaque choix laisse une trace. La responsabilité la reconnaît et cherche à réparer le mal lorsque c’est nécessaire."]},
+      {"title": "L’amour qui sert", "paragraphs": ["L’amour chrétien ne se limite pas au sentiment : il devient attention, temps offert et soin des personnes dans le besoin.", "Respecter la dignité de chaque personne est une manière concrète d’honorer le Créateur.", "De petits actes fidèles, répétés avec persévérance, peuvent renouveler une famille, une communauté et la personne qui agit."]}
+    ]
+  },
+  {
+    "id": "escola-da-oracao", "title": "École de prière", "author": "Équipe Catéchisme", "year": 2026, "category": "Prière",
+    "description": "Des pratiques simples pour faire place au silence, à la gratitude et au dialogue avec Dieu.",
+    "context": "Guide original inspiré des grandes formes de la prière chrétienne.",
+    "characters": ["cœur", "communauté"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Faire place", "paragraphs": ["Prier, c’est se tourner vers Dieu avec tout ce que nous sommes : joies, peurs, questions et espérance.", "Une minute de silence attentif peut déjà ouvrir une porte. La régularité compte davantage que la durée ou l’apparence de perfection.", "La gratitude éduque le regard à reconnaître les signes d’attention que la hâte dissimule souvent."]},
+      {"title": "Demander et écouter", "paragraphs": ["Dans la prière de demande, nous apprenons à présenter nos besoins sans faire de Dieu l’instrument de nos projets.", "Écouter demande de la patience. Une réponse peut naître sous forme de paix, de clarté, de courage ou d’appel au service.", "Quand les mots manquent, une respiration paisible et une présence sincère peuvent aussi devenir prière."]}
+    ]
+  },
+  {
+    "id": "a-igreja-viva", "title": "L’Église vivante", "author": "Équipe Catéchisme", "year": 2026, "category": "Église",
+    "description": "La communauté chrétienne comme peuple rassemblé, divers et envoyé dans le monde.",
+    "context": "Synthèse originale pour comprendre l’appartenance, la mission et la communion.",
+    "characters": ["peuple de Dieu", "serviteur"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Appartenance et communion", "paragraphs": ["L’Église est une communauté de personnes en chemin, non un club de personnes déjà parvenues au but.", "Les dons différents ne sont pas une menace. Mis au service des autres, ils rendent la communion plus riche et plus vraie.", "L’écoute mutuelle aide la communauté à reconnaître ses blessures, à corriger sa route et à accueillir de nouvelles personnes."]},
+      {"title": "Une mission dans le monde", "paragraphs": ["La communauté existe aussi pour annoncer l’espérance et soutenir tout ce qui favorise la vie et la justice.", "Servir les pauvres, protéger les personnes fragiles et prendre soin de la création sont des expressions publiques de la foi.", "Chaque baptisé peut être une présence de réconciliation là où il vit, travaille et construit des relations."]}
+    ]
+  },
+  {
+    "id": "maria-e-o-sim", "title": "Le oui de Marie", "author": "Équipe Catéchisme", "year": 2026, "category": "Marie",
+    "description": "Une méditation sur la disponibilité, la confiance et le soin à partir de Marie.",
+    "context": "Lecture originale qui contemple Marie dans le mystère du Christ et de l’Église.",
+    "characters": ["Marie", "Jésus"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Disponibilité", "paragraphs": ["Le oui de Marie peut être contemplé comme une réponse libre et courageuse, ouverte à un avenir qu’elle ne maîtrisait pas.", "La disponibilité n’est pas la passivité. Elle questionne, discerne et assume avec responsabilité ce qu’elle comprend.", "Aujourd’hui encore, la foi grandit lorsque nous faisons place au service au-delà de nos projets immédiats."]},
+      {"title": "Prendre soin de la vie", "paragraphs": ["Marie accompagne le chemin de Jésus par une présence fidèle, même dans les moments de douleur et d’incertitude.", "Son attention rappelle que la grandeur spirituelle peut se manifester dans des gestes discrets, attentifs et persévérants.", "Contempler Marie, c’est apprendre à garder l’espérance et à l’offrir avec tendresse aux personnes découragées."]}
+    ]
+  },
+  {
+    "id": "conversao-diaria", "title": "Conversion quotidienne", "author": "Équipe Catéchisme", "year": 2026, "category": "Vie chrétienne",
+    "description": "Recommencer chaque jour : reconnaître ses limites, demander pardon et faire le bien.",
+    "context": "Réflexions originales sur le changement intérieur et la miséricorde dans les relations.",
+    "characters": ["disciple", "frère"], "status": "guide", "sourceUrl": "https://www.vatican.va/archive/FRA0013/_INDEX.HTM",
+    "chapters": [
+      {"title": "Reconnaître et recommencer", "paragraphs": ["La conversion est un changement de direction qui commence par le courage de regarder sa propre vérité.", "Reconnaître une erreur ne diminue personne. Cela ouvre la possibilité d’apprendre, de réparer et de mûrir.", "La miséricorde offre un avenir sans nier le passé et invite à se relever."]},
+      {"title": "Pardonner et agir", "paragraphs": ["Pardonner ne consiste pas à appeler le mal un bien. Le pardon arrête le désir de rendre la blessure et fait place à la justice et à la guérison.", "Le changement intérieur se confirme par des actes : parler avec honnêteté, tenir ses promesses et protéger les personnes vulnérables.", "Le bien quotidien fait rarement du bruit, mais il construit une vie cohérente et une espérance partagée."]}
+    ]
+  }
+]

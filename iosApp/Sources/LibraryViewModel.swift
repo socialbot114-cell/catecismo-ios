@@ -52,10 +52,10 @@ final class LibraryViewModel: ObservableObject {
     func addQuote(guideID: String, text: String) { quotes.append(Quote(id: UUID().uuidString, guideID: guideID, text: text, date: Date())); save() }
     func removeQuote(_ quote: Quote) { quotes.removeAll { $0.id == quote.id }; save() }
 
-    func load() {
+    func load(languageCode: String = "pt-BR") {
         loadState = .loading
         do {
-            guides = try repository.loadGuides()
+            guides = try repository.loadGuides(languageCode: languageCode)
             progress = ((defaults.dictionary(forKey: "catecismo.progress") as? [String: Double]) ?? [:])
                 .compactMapValues { value in value > 0 ? min(value, 1) : nil }
             favorites = Set(defaults.stringArray(forKey: "catecismo.favorites") ?? [])
@@ -76,9 +76,21 @@ final class LibraryViewModel: ObservableObject {
 }
 
 final class BundleGuideRepository {
-    private let guideIDs = ["catecismo-parte-1", "catecismo-parte-2", "catecismo-parte-3", "catecismo-parte-4", "o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
-    func loadGuides() throws -> [Guide] {
-        try guideIDs.map { try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts")) }
+    private let guideIDs = ["o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
+    private let catechismIDs = ["catecismo-parte-1", "catecismo-parte-2", "catecismo-parte-3", "catecismo-parte-4"]
+    func loadGuides(languageCode: String = "pt-BR") throws -> [Guide] {
+        let catechism = try catechismIDs.map {
+            try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts"))
+        }
+        if languageCode != "pt-BR",
+           let data = try? BundleResource.data(named: languageCode, fileExtension: "json", subdirectory: "Texts"),
+           let translated = try? JSONDecoder().decode([Guide].self, from: data) {
+             return translated + catechism
+        }
+        let authored = try guideIDs.map {
+            try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts"))
+        }
+        return authored + catechism
     }
 }
 

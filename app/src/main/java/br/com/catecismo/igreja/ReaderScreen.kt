@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -138,14 +139,14 @@ fun ReaderScreen(
     Scaffold(topBar = {
         TopAppBar(
             title = { Column { Text(work.title, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 19.sp, maxLines = 1); Text(chapter.title, fontSize = 12.sp, color = gold) } },
-            navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Voltar") } },
+            navigationIcon = { IconButton(onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back)) } },
             actions = {
                 IconButton({
                     if (Build.VERSION.SDK_INT >= 33 && context is Activity && context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) context.requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 700)
                      audioAction(TtsPlaybackService.ACTION_PLAY)
-                 }) { Icon(Icons.Filled.VolumeUp, "Ouvir capítulo") }
-                IconButton(onToggleFav) { Icon(if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, if (isFav) "Remover favorito" else "Adicionar favorito", tint = if (isFav) gold else Color.Unspecified) }
-                IconButton({ showToc = true }) { Icon(Icons.Filled.Menu, "Capítulos") }
+                 }) { Icon(Icons.Filled.VolumeUp, stringResource(R.string.listen_chapter)) }
+                IconButton(onToggleFav) { Icon(if (isFav) Icons.Filled.Star else Icons.Filled.StarBorder, stringResource(if (isFav) R.string.remove_favorite else R.string.add_favorite), tint = if (isFav) gold else Color.Unspecified) }
+                IconButton({ showToc = true }) { Icon(Icons.Filled.Menu, stringResource(R.string.chapters)) }
             }
         )
     }, bottomBar = {
@@ -156,29 +157,29 @@ fun ReaderScreen(
                         Icon(Icons.Filled.VolumeUp, null, tint = gold, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(8.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(if (audio.playing) "Narrando agora" else if (audio.paused) "Narração pausada" else "Narração concluída", fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                            Text("Parágrafo ${audio.index.coerceAtMost(audio.total - 1) + 1} de ${audio.total}", fontSize = 11.sp, color = Color(0xFF5a544a))
+                            Text(stringResource(if (audio.playing) R.string.listening_now else if (audio.paused) R.string.narration_paused else R.string.narration_finished), fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text(stringResource(R.string.paragraph_position, audio.index.coerceAtMost(audio.total - 1) + 1, audio.total), fontSize = 11.sp, color = Color(0xFF5a544a))
                         }
                         IconButton({ audioAction(if (audio.playing) TtsPlaybackService.ACTION_PAUSE else TtsPlaybackService.ACTION_RESUME) }) {
-                            Icon(if (audio.playing) Icons.Filled.Pause else Icons.Filled.PlayArrow, if (audio.playing) "Pausar" else "Continuar")
+                            Icon(if (audio.playing) Icons.Filled.Pause else Icons.Filled.PlayArrow, stringResource(if (audio.playing) R.string.pause else R.string.resume))
                         }
-                        IconButton({ audioAction(TtsPlaybackService.ACTION_STOP) }) { Icon(Icons.Filled.Stop, "Parar") }
-                        IconButton({ showVoicePicker = true }) { Icon(Icons.Filled.Settings, "Configurar voz") }
+                        IconButton({ audioAction(TtsPlaybackService.ACTION_STOP) }) { Icon(Icons.Filled.Stop, stringResource(R.string.stop)) }
+                        IconButton({ showVoicePicker = true }) { Icon(Icons.Filled.Settings, stringResource(R.string.configure_voice)) }
                     }
                     LinearProgressIndicator(
                         progress = { ((audio.index + if (audio.playing) 1 else 0).toFloat() / audio.total).coerceIn(0f, 1f) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                        IconButton({ audioAction(TtsPlaybackService.ACTION_PREVIOUS) }) { Icon(Icons.Filled.SkipPrevious, "Parágrafo anterior") }
-                        IconButton({ audioAction(TtsPlaybackService.ACTION_NEXT) }) { Icon(Icons.Filled.SkipNext, "Próximo parágrafo") }
+                        IconButton({ audioAction(TtsPlaybackService.ACTION_PREVIOUS) }) { Icon(Icons.Filled.SkipPrevious, stringResource(R.string.previous_paragraph)) }
+                        IconButton({ audioAction(TtsPlaybackService.ACTION_NEXT) }) { Icon(Icons.Filled.SkipNext, stringResource(R.string.next_paragraph)) }
                         Spacer(Modifier.weight(1f))
-                        FilterChip(selected = followAudio, onClick = { followAudio = !followAudio }, label = { Text("Acompanhar texto", fontSize = 11.sp) })
+                        FilterChip(selected = followAudio, onClick = { followAudio = !followAudio }, label = { Text(stringResource(R.string.follow_text), fontSize = 11.sp) })
                     }
                 }
                 LinearProgressIndicator(progress = { if (pages.isEmpty()) 0f else (pager.currentPage + 1).toFloat() / pages.size }, modifier = Modifier.fillMaxWidth())
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Text(if (pages.isEmpty()) "0 / 0" else "Página ${pager.currentPage + 1} de ${pages.size}", fontSize = 12.sp)
+                    Text(if (pages.isEmpty()) "0 / 0" else stringResource(R.string.page_position, pager.currentPage + 1, pages.size), fontSize = 12.sp)
                     Row {
                         TextButton({ if (pager.currentPage > 0) scope.launch { pager.animateScrollToPage(pager.currentPage - 1) } }) { Text("‹") }
                         TextButton({ if (pager.currentPage < pages.lastIndex) scope.launch { pager.animateScrollToPage(pager.currentPage + 1) } }) { Text("›") }
@@ -190,7 +191,7 @@ fun ReaderScreen(
         }
     }) { pad ->
         if (pages.isEmpty()) {
-            Box(Modifier.padding(pad).fillMaxSize(), contentAlignment = Alignment.Center) { Text("Texto indisponível.") }
+            Box(Modifier.padding(pad).fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.text_unavailable)) }
         } else {
             HorizontalPager(state = pager, modifier = Modifier.padding(pad).fillMaxSize(), contentPadding = PaddingValues(horizontal = 12.dp), pageSpacing = 12.dp) { page ->
                 LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 18.dp)) {
@@ -205,22 +206,22 @@ fun ReaderScreen(
                                 .padding(vertical = 9.dp)
                                 .combinedClickable(onClick = { if (index >= 0) audioAction(TtsPlaybackService.ACTION_PLAY, startIndex = index) }, onLongClick = { onQuote(Quote("${chapter.id}:$index", work.id, work.title, chapter.title, index, text)) }))
                     }
-                    item { Row(Modifier.fillMaxWidth().padding(top = 14.dp), horizontalArrangement = Arrangement.SpaceBetween) { TextButton({ goToChapter(prevChapter(chapters, chapter)) }) { Text("‹ Capítulo anterior") }; TextButton({ goToChapter(nextChapter(chapters, chapter)) }) { Text("Próximo capítulo ›") } } }
+                    item { Row(Modifier.fillMaxWidth().padding(top = 14.dp), horizontalArrangement = Arrangement.SpaceBetween) { TextButton({ goToChapter(prevChapter(chapters, chapter)) }) { Text(stringResource(R.string.previous_chapter)) }; TextButton({ goToChapter(nextChapter(chapters, chapter)) }) { Text(stringResource(R.string.next_chapter)) } } }
                 }
             }
         }
     }
 
-    if (showToc) AlertDialog(onDismissRequest = { showToc = false }, title = { Text("Capítulos • ${work.title}") }, text = { LazyColumn(Modifier.heightIn(max = 420.dp)) { items(chapters) { c -> Text(c.title, fontFamily = FontFamily.Serif, modifier = Modifier.fillMaxWidth().clickable { showToc = false; onChooseChapter(c) }.padding(10.dp)) } } }, confirmButton = { TextButton({ showToc = false }) { Text("Fechar") } })
+    if (showToc) AlertDialog(onDismissRequest = { showToc = false }, title = { Text("${stringResource(R.string.chapters)} • ${work.title}") }, text = { LazyColumn(Modifier.heightIn(max = 420.dp)) { items(chapters) { c -> Text(c.title, fontFamily = FontFamily.Serif, modifier = Modifier.fillMaxWidth().clickable { showToc = false; onChooseChapter(c) }.padding(10.dp)) } } }, confirmButton = { TextButton({ showToc = false }) { Text(stringResource(R.string.close)) } })
 
     if (showVoicePicker) AlertDialog(
         onDismissRequest = { showVoicePicker = false },
-        title = { Text("Voz da narração") },
+        title = { Text(stringResource(R.string.narration_voice)) },
         text = {
             Column {
-                Text("Apenas vozes instaladas e disponíveis offline aparecem aqui.", fontSize = 12.sp, color = Color(0xFF5a544a))
+                Text(stringResource(R.string.offline_voices_only), fontSize = 12.sp, color = Color(0xFF5a544a))
                 Spacer(Modifier.height(8.dp))
-                if (audio.voices.isEmpty()) Text("Nenhuma voz alternativa foi informada pelo sistema.", fontSize = 13.sp)
+                if (audio.voices.isEmpty()) Text(stringResource(R.string.no_alternative_voices), fontSize = 13.sp)
                 audio.voices.forEach { voice ->
                     TextButton({ audioAction(TtsPlaybackService.ACTION_SET_VOICE, voice); showVoicePicker = false }, modifier = Modifier.fillMaxWidth()) {
                         Text(if (voice == audio.voiceName) "✓ $voice" else voice, modifier = Modifier.fillMaxWidth())
@@ -228,7 +229,7 @@ fun ReaderScreen(
                 }
             }
         },
-        confirmButton = { TextButton({ showVoicePicker = false }) { Text("Fechar") } }
+        confirmButton = { TextButton({ showVoicePicker = false }) { Text(stringResource(R.string.close)) } }
     )
 }
 

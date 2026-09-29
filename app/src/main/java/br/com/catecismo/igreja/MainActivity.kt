@@ -1,7 +1,8 @@
 package br.com.catecismo.igreja
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,21 +11,24 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.os.LocaleListCompat
 import br.com.catecismo.igreja.data.LibraryRepository
 import br.com.catecismo.igreja.db.ChapterEntity
 import br.com.catecismo.igreja.db.WorkEntity
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(state: Bundle?) { installSplashScreen(); super.onCreate(state); setContent { CatecismoApp() } }
 }
 
@@ -41,9 +45,12 @@ fun CatecismoApp() {
     val scope = rememberCoroutineScope()
     val repo = remember { LibraryRepository(context) }
     val prefs = remember { Preferences(context) }
+    val selectedLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags().ifBlank { AppLanguage.SYSTEM }
+    val systemLanguage = context.resources.configuration.locales[0]?.toLanguageTag() ?: AppLanguage.PORTUGUESE
+    val contentLanguage = AppLanguage.contentTag(selectedLanguage, systemLanguage)
 
     var seed by remember { mutableStateOf<SeedState>(SeedState.Loading) }
-    var screen by remember { mutableStateOf("home") }
+    var screen by rememberSaveable { mutableStateOf("home") }
     var query by remember { mutableStateOf("") }
     var theme by remember { mutableStateOf("Claro") }
     var fontSize by remember { mutableFloatStateOf(20f) }
@@ -62,7 +69,7 @@ fun CatecismoApp() {
     var allProgress by remember { mutableStateOf<List<br.com.catecismo.igreja.db.ChapterProgressEntity>>(emptyList()) }
     var selectedCharacter by remember { mutableStateOf<CharacterCard?>(null) }
 
-    LaunchedEffect(seedTick) {
+    LaunchedEffect(seedTick, contentLanguage) {
         seed = if (works.isNotEmpty()) SeedState.Ready else SeedState.Loading
         try {
             favorites = prefs.favorites()
@@ -70,14 +77,14 @@ fun CatecismoApp() {
             characterFavorites = prefs.favoriteCharacters()
             theme = prefs.theme()
             fontSize = prefs.fontSize()
-            val ok = repo.seedIfNeeded { cur, total ->
+            val ok = repo.seedIfNeeded(contentLanguage) { cur, total ->
                 seed = SeedState.Progress(cur, total)
             }
             works = repo.worksOnce()
             allProgress = repo.allProgress()
-            seed = if (ok && works.isNotEmpty()) SeedState.Ready else SeedState.Error("Importação incompleta: verifique a instalação do app.")
+            seed = if (ok && works.isNotEmpty()) SeedState.Ready else SeedState.Error(context.getString(R.string.seed_error_installation))
         } catch (e: Exception) {
-            seed = SeedState.Error(e.message ?: "Falha desconhecida na importação.")
+            seed = SeedState.Error(e.message ?: context.getString(R.string.seed_unknown_error))
         }
     }
 
@@ -117,37 +124,38 @@ fun CatecismoApp() {
             when (val s = seed) {
                 is SeedState.Error -> Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Não foi possível preparar os guias.", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(stringResource(R.string.seed_error_title), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         Spacer(Modifier.height(8.dp))
                         Text(s.message, fontSize = 14.sp, color = Color(0xFF5a544a))
                         Spacer(Modifier.height(16.dp))
-                        Button({ seedTick++ }) { Text("Tentar novamente") }
+                        Button({ seedTick++ }) { Text(stringResource(R.string.try_again)) }
                     }
                 }
                 is SeedState.Progress -> Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Preparando os guias…", fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(stringResource(R.string.seed_loading), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         Spacer(Modifier.height(12.dp))
                         LinearProgressIndicator(progress = if (s.total > 0) s.current.toFloat() / s.total else 0f, modifier = Modifier.fillMaxWidth())
                         Spacer(Modifier.height(8.dp))
-                        Text("${s.current} de ${s.total} guias", fontSize = 13.sp, color = Color(0xFF5a544a))
+                        Text(stringResource(R.string.seed_progress, s.current, s.total), fontSize = 13.sp, color = Color(0xFF5a544a))
                     }
                 }
                 SeedState.Loading -> Box(Modifier.fillMaxSize().background(Color(0xFFF7F2E8)))
                 SeedState.Ready -> Scaffold(bottomBar = {
-                    if (screen in listOf("home", "library", "universe", "my-library")) {
+                    if (screen in listOf("home", "library", "universe", "pio-x", "my-library")) {
                         NavigationBar {
                             listOf(
-                                "home" to (Icons.Filled.Home to "Início"),
-                                "library" to (Icons.AutoMirrored.Filled.MenuBook to "Biblioteca"),
-                                "universe" to (Icons.Filled.AutoAwesome to "Universo"),
-                                "my-library" to (Icons.Filled.Bookmark to "Minha biblioteca")
+                                "home" to (Icons.Filled.Home to R.string.nav_home),
+                                "library" to (Icons.AutoMirrored.Filled.MenuBook to R.string.nav_library),
+                                "universe" to (Icons.Filled.AutoAwesome to R.string.nav_universe),
+                                "pio-x" to (Icons.AutoMirrored.Filled.MenuBook to R.string.nav_pio_x),
+                                "my-library" to (Icons.Filled.Bookmark to R.string.nav_my_library)
                             ).forEach { (route, item) ->
                                 NavigationBarItem(
                                     selected = screen == route,
                                     onClick = { screen = route },
-                                    icon = { Icon(item.first, item.second) },
-                                    label = { Text(item.second, fontSize = 11.sp) }
+                                    icon = { Icon(item.first, stringResource(item.second)) },
+                                    label = { Text(stringResource(item.second), fontSize = 11.sp) }
                                 )
                             }
                         }
@@ -159,7 +167,16 @@ fun CatecismoApp() {
                             "library" -> LibraryScreen(works, query, { query = it }, ::openWork)
                             "search" -> SearchScreen(repo, ::openWork)
                             "universe" -> UniverseScreen { selectedCharacter = it; screen = "character" }
-                            "my-library" -> MyLibraryScreen(works, allProgress, favorites, quotes, ::openWork, { screen = "universe" })
+                            "pio-x" -> PiusXScreen()
+                            "my-library" -> MyLibraryScreen(
+                                works, allProgress, favorites, quotes, ::openWork,
+                                onUniverse = { screen = "universe" },
+                                selectedLanguage = selectedLanguage,
+                                onLanguageChange = { tag ->
+                                    val locales = if (tag == AppLanguage.SYSTEM) LocaleListCompat.getEmptyLocaleList() else LocaleListCompat.forLanguageTags(tag)
+                                    AppCompatDelegate.setApplicationLocales(locales)
+                                }
+                            )
                             "character" -> selectedCharacter?.let { c -> CharacterDetailScreen(c, c.id in characterFavorites, { scope.launch { prefs.toggleCharacterFavorite(c.id); characterFavorites = prefs.favoriteCharacters() } }, { screen = "universe" }, { id -> works.firstOrNull { it.id == id }?.let(::openWork) }) }
                             "detail" -> selWork?.let { w ->
                                 DetailScreen(w, ::openChapter, repo,
@@ -171,7 +188,7 @@ fun CatecismoApp() {
                                 val w = selWork
                                 val ch = selChapter
                                 if (w == null || ch == null) {
-                                    Text("Selecione uma seção.")
+                                    Text(stringResource(R.string.select_section))
                                 } else {
                                     ReaderScreen(w, chapters, ch, paragraphs, chapterProgress, fontSize,
                                         setFontSize = { f -> fontSize = f; scope.launch { prefs.setFontSize(f) } },
