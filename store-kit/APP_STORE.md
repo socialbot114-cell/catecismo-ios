@@ -2,7 +2,7 @@
 
 App: **Catecismo**
 
-Use este arquivo para preencher o App Store Connect. Os prints gerados pelo workflow para avaliação ficam em `store-kit/review/ios-1.1/`; são da versão anterior e servem apenas como referência até a captura visual da 1.1.1.
+Use este arquivo para preparar a submissão iOS 1.2.1. As capturas aprovadas para esta versão devem vir do workflow `Catecismo iOS Screenshots (auditoria 1.2.1)`.
 
 ## Informações do App
 
@@ -14,32 +14,35 @@ Use este arquivo para preencher o App Store Connect. Os prints gerados pelo work
 - Categoria secundária: `Books`
 - Preço: `Gratuito`
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`
-- Versão em preparação: `1.1.1`
-- Build enviado: `1.1.1 (30)` com o novo ícone; workflow `36346278924` aceitou o upload (Delivery UUID `efba5690-616a-4c3f-a365-b2ac64a04d22`).
+- Versão em preparação: `1.2.1`
+- Último build enviado: `1.1.1 (30)`; o próximo build deve usar número superior a 30.
 - Build anterior: `1.1 (17)`; workflow `36257985758` aceitou o upload.
 - Copyright: `2026 <CONFERIR titular>`
 
 ## Texto promocional
 
-Guias de fé em português, inglês, espanhol e francês para ler offline, com narração e progresso.
+Texto do Catecismo em português e guias de fé em português, inglês, espanhol e francês para ler offline, com narração e progresso.
 
 ## Descrição
 
-Catecismo reúne oito guias autorais de fé e reflexão para leitura offline, com narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
+Catecismo reúne oito guias autorais de fé e reflexão e quatro partes do texto em português publicado pelo Vaticano, com leitura offline, narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
 
 É um aplicativo independente e não oficial. A seção de São Pio X apresenta links para edições externas; abrir essas fontes requer conexão com a internet.
 
 Recursos:
 
-- Oito guias sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
+- Texto em português do Catecismo em quatro partes, com numeração de parágrafos para consulta.
+- Oito guias autorais ampliados sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
 - Leitura por capítulos com progresso.
 - Narração local por voz.
 - Favoritos e citações salvos no aparelho.
-- Busca por guia ou tema.
+- Busca offline por título, tema e texto dos parágrafos.
 - Idioma selecionável nas preferências, além do idioma do dispositivo.
 - Layout próprio para iPad com barra lateral.
 
-Não é necessário criar uma conta. O aplicativo não exibe anúncios nem coleta dados pessoais. Os guias funcionam offline; somente os links para edições externas precisam de internet.
+Não é necessário criar uma conta. O aplicativo não exibe anúncios nem coleta dados pessoais. Os textos embarcados funcionam offline; os links das edições históricas de São Pio X precisam de internet.
+
+**Nota de submissão:** o texto do Catecismo é © Libreria Editrice Vaticana. A atribuição está no app; confirme e arquive a autorização para redistribuição integral antes de enviar a versão às lojas. A edição em português consultada não apresenta os §§2217 e 2439, e essa limitação é indicada no app.
 
 ## Palavras-chave
 
@@ -47,9 +50,10 @@ catecismo,fe,igreja,oracao,catolico,reflexao,leitura,espiritualidade
 
 ## Novidades desta versão
 
-- Idioma selecionável entre português, inglês, espanhol e francês, com guias localizados para leitura offline.
-- Narração e leitor adaptados ao idioma selecionado, conforme as vozes instaladas no aparelho.
-- Seção de São Pio X com fontes históricas apresentadas por idioma.
+- Texto em português do Catecismo organizado em quatro partes, disponível offline.
+- Guias autorais ampliados com referências aos parágrafos do Catecismo.
+- Busca no texto embarcado, além de narração e leitura offline.
+- Mantida a seleção de idioma, os guias localizados e a seção São Pio X.
 
 ## URLs
 
@@ -72,17 +76,17 @@ Conteúdo religioso/educacional, sem material sensível. Classificação esperad
 
 Olá,
 
-O Catecismo é um aplicativo de leitura e reflexão offline para iPhone e iPad. A seção São Pio X contém links externos que precisam de internet.
+O Catecismo é um aplicativo de leitura offline para iPhone e iPad, com guias autorais e quatro partes do texto do Catecismo em português. A seção São Pio X contém links externos que precisam de internet.
 
 Para testar:
 
 1. Abra o app. O idioma inicial acompanha o dispositivo; a troca manual fica em “Minha biblioteca”.
 2. Na aba Início, veja os guias disponíveis.
-3. Abra a aba Biblioteca e toque em "O dom da fé".
-4. Leia o capítulo, salve uma citação e use o botão "Ouvir" para narração.
-5. Abra a aba Temas para navegar por categoria.
-6. Abra "Minha biblioteca" para ver progresso e favoritos e altere o idioma do app.
-7. Abra "São Pio X" para consultar as edições disponíveis; os links externos precisam de internet.
+3. Na Início ou na Biblioteca, abra a Parte I do Catecismo e confirme a numeração dos parágrafos.
+4. Leia uma seção, salve uma citação e use o botão "Ouvir" para narração.
+5. Pesquise uma palavra existente no texto do Catecismo e abra um resultado.
+6. Abra um guia autoral, leia uma seção e use áudio, favorito e progresso.
+7. Abra Temas e Minha biblioteca; confirme a seleção de idioma e a seção São Pio X.
 
 Não é necessário criar uma conta, conceder permissões ou conectar-se à internet para ler os guias. Os links externos da seção São Pio X precisam de conexão. Não há compras, anúncios, rastreamento ou conteúdo que exija autenticação. O app é independente e não oficial.
 
@@ -90,14 +94,13 @@ Obrigado.
 
 ## Screenshots
 
-Prints para avaliação, capturados pelo GitHub Actions run `36253423956`:
+Prints de referência da versão 1.1.1 (build 30), capturados pelo GitHub Actions run `36346280411`. Não usar como screenshots da versão 1.2.1.
 
-- iPhone: 1242×2688 (workflow normaliza via `sips -z 2688 1242`).
-- iPad: 2064×2752 (workflow normaliza via `sips -z 2752 2064`).
+As novas capturas da 1.2.1 são geradas pelo GitHub Actions workflow `Catecismo iOS Screenshots (auditoria 1.2.1)` e ficam nos artefatos `catecismo-ios-screenshots-iphone` e `catecismo-ios-screenshots-ipad` após aprovação do run.
 
-Prints anteriores: `store-kit/screenshots/` (manter como referência até aprovar a nova rodada).
+Prints anteriores: `store-kit/screenshots/` (referência visual da versão publicada).
 
-Arquivos em cada pasta: `01-inicio.png`, `02-biblioteca.png`, `03-temas.png`, `04-minha-biblioteca.png` e `05-leitura.png`. Foram gerados para avaliação visual e ainda não substituem a seleção de prints da App Store Connect.
+Selecionar capturas da versão 1.2.1 somente depois de revisar as telas da home, biblioteca, leitor do Catecismo, leitor autoral, temas e São Pio X. As capturas de auditoria não substituem a seleção e o dimensionamento de screenshots no App Store Connect.
 
 Ordem recomendada:
 

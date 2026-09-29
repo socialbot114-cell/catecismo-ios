@@ -42,13 +42,14 @@ final class CatecismoScreenshotTests: XCTestCase {
         let search = app.textFields["Buscar palavra, tema ou parágrafo"]
         XCTAssertTrue(search.waitForExistence(timeout: 5))
         search.tap()
-        search.typeText("Catecismo")
-        let firstPart = app.staticTexts["Catecismo – Parte I: A Profissão da Fé"].firstMatch
+        search.typeText("Parte I\n")
+        XCTAssertTrue(app.keyboards.firstMatch.waitForNonExistence(timeout: 5))
+        let firstPart = app.staticTexts["Parte I — A Profissão da Fé"].firstMatch
         XCTAssertTrue(firstPart.waitForExistence(timeout: 5))
-        capture(named: "catecismo-integral-library-pt")
+        capture(named: "catecismo-vatican-library-pt")
         firstPart.tap()
         XCTAssertTrue(app.staticTexts["Prólogo: a vida do homem é conhecer e amar a Deus"].waitForExistence(timeout: 5))
-        capture(named: "catecismo-integral-reading-pt")
+        capture(named: "catecismo-vatican-reading-pt")
         app.navigationBars.buttons.firstMatch.tap()
         if !search.exists { selectSection("section-library", in: app) }
 

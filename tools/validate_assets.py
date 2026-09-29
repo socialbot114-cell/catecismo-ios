@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Valida guias autorais ('guia') e o texto integral ('catecismo'), gera o relatório."""
+"""Valida guias autorais e os assets do Catecismo, gera o relatório."""
 import json
 import re
 import sys
@@ -90,7 +90,7 @@ def main():
     if covered:
         missing = [n for n in range(1, 2866) if n not in covered and n not in KNOWN_MISSING_SECTIONS]
         if missing:
-            errors.append(f"§§ ausentes no texto integral: {missing[:12]}")
+            errors.append(f"§§ ausentes nos assets do Catecismo: {missing[:12]}")
         unexpected = sorted(covered - set(range(1, 2866)))
         if unexpected:
             errors.append(f"numeração § fora do intervalo 1–2865: {unexpected[:12]}")

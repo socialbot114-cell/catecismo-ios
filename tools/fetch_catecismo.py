@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Importação do texto integral do Catecismo da Igreja Católica (Vatican.va, edição pt).
+"""Importação do texto do Catecismo da Igreja Católica (Vatican.va, edição pt).
 
 Gera app/src/main/assets/texts/cic-*.json + index.json e cópia para iosApp/Resources/Texts.
 Texto © Libreria Editrice Vaticana — atribuição registrada em cada asset (sourceUrl).
@@ -61,8 +61,8 @@ PAGE_SPEC = [
 WORKS = [
     {
         "id": "catecismo-parte-1",
-        "title": "Catecismo – Parte I: A Profissão da Fé",
-        "description": "Prólogo e Primeira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1–1065).",
+        "title": "Parte I — A Profissão da Fé",
+        "description": "Prólogo e Profissão da Fé no Catecismo da Igreja Católica (§§1–1065).",
         "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Mantivemos a redação e a numeração publicadas na fonte em português. A página online não apresenta os §§2217 e 2439 da Parte III.",
         "characters": ["Credo", "Criação", "Jesus Cristo", "Espírito Santo", "Igreja", "Vida eterna"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-prima-parte_po.html",
@@ -90,8 +90,8 @@ WORKS = [
     },
     {
         "id": "catecismo-parte-2",
-        "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
-        "description": "Segunda Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1066–1690): liturgia e sacramentos.",
+        "title": "Parte II — A Celebração do Mistério Cristão",
+        "description": "Liturgia e sacramentos do Catecismo da Igreja Católica (§§1066–1690).",
         "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
         "characters": ["Liturgia", "Batismo", "Confirmação", "Eucaristia", "Penitência", "Unção dos enfermos", "Ordem", "Matrimônio"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-seconda-parte_po.html",
@@ -114,8 +114,8 @@ WORKS = [
     },
     {
         "id": "catecismo-parte-3",
-        "title": "Catecismo – Parte III: A Vida em Cristo",
-        "description": "Terceira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1691–2557): dignidade, mandamentos e graça.",
+        "title": "Parte III — A Vida em Cristo",
+        "description": "Dignidade humana, mandamentos e vida cristã (§§1691–2557).",
         "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. A página em português consultada não apresenta os §§2217 e 2439; não substituímos esses trechos por outra tradução.",
         "characters": ["Dignidade humana", "Bem-aventurança", "Liberdade", "Consciência moral", "Virtudes", "Lei e graça", "Dez Mandamentos"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-terza-parte_po.html",
@@ -151,8 +151,8 @@ WORKS = [
     },
     {
         "id": "catecismo-parte-4",
-        "title": "Catecismo – Parte IV: A Oração Cristã",
-        "description": "Quarta Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§2558–2865): oração e Pai-Nosso.",
+        "title": "Parte IV — A Oração Cristã",
+        "description": "Oração e Pai-Nosso no Catecismo da Igreja Católica (§§2558–2865).",
         "context": "Fonte: Vatican.va, © Libreria Editrice Vaticana. Redação preservada conforme publicada na fonte oficial em português.",
         "characters": ["Oração", "Pai-Nosso", "Mariologia orante", "Tradição da oração"],
         "sourceUrl": "https://www.vatican.va/archive/cathechism_po/index_new/index-quarta-parte_po.html",

@@ -65,33 +65,33 @@
   },
   {
     "id": "catecismo-parte-1",
-    "title": "Catecismo – Parte I: A Profissão da Fé",
+    "title": "Parte I — A Profissão da Fé",
     "category": "Catecismo",
-    "description": "Prólogo e Primeira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1–1065).",
+    "description": "Prólogo e Profissão da Fé no Catecismo da Igreja Católica (§§1–1065).",
     "chapters": 18,
     "status": "catecismo"
   },
   {
     "id": "catecismo-parte-2",
-    "title": "Catecismo – Parte II: A Celebração do Mistério Cristão",
+    "title": "Parte II — A Celebração do Mistério Cristão",
     "category": "Catecismo",
-    "description": "Segunda Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1066–1690): liturgia e sacramentos.",
+    "description": "Liturgia e sacramentos do Catecismo da Igreja Católica (§§1066–1690).",
     "chapters": 13,
     "status": "catecismo"
   },
   {
     "id": "catecismo-parte-3",
-    "title": "Catecismo – Parte III: A Vida em Cristo",
+    "title": "Parte III — A Vida em Cristo",
     "category": "Catecismo",
-    "description": "Terceira Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§1691–2557): dignidade, mandamentos e graça.",
+    "description": "Dignidade humana, mandamentos e vida cristã (§§1691–2557).",
     "chapters": 26,
     "status": "catecismo"
   },
   {
     "id": "catecismo-parte-4",
-    "title": "Catecismo – Parte IV: A Oração Cristã",
+    "title": "Parte IV — A Oração Cristã",
     "category": "Catecismo",
-    "description": "Quarta Parte do Catecismo da Igreja Católica, conforme o texto em português publicado no Vatican.va (§§2558–2865): oração e Pai-Nosso.",
+    "description": "Oração e Pai-Nosso no Catecismo da Igreja Católica (§§2558–2865).",
     "chapters": 9,
     "status": "catecismo"
   }

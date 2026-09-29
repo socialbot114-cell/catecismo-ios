@@ -10,10 +10,10 @@ Gerado automaticamente por `tools/validate_assets.py`.
 
 | Obra | ID | Seções | Palavras |
 |---|---|---:|---:|
-| Catecismo – Parte I: A Profissão da Fé | `catecismo-parte-1` | 18 | 73.278 |
-| Catecismo – Parte II: A Celebração do Mistério Cristão | `catecismo-parte-2` | 13 | 42.595 |
-| Catecismo – Parte III: A Vida em Cristo | `catecismo-parte-3` | 26 | 46.868 |
-| Catecismo – Parte IV: A Oração Cristã | `catecismo-parte-4` | 9 | 21.072 |
+| Parte I — A Profissão da Fé | `catecismo-parte-1` | 18 | 73.278 |
+| Parte II — A Celebração do Mistério Cristão | `catecismo-parte-2` | 13 | 42.595 |
+| Parte III — A Vida em Cristo | `catecismo-parte-3` | 26 | 46.868 |
+| Parte IV — A Oração Cristã | `catecismo-parte-4` | 9 | 21.072 |
 | O Credo em caminho | `credo-em-caminho` | 6 | 638 |
 | O dom da fé | `o-dom-da-fe` | 6 | 658 |
 | A Igreja viva | `a-igreja-viva` | 6 | 470 |

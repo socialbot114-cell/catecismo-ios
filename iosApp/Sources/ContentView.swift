@@ -191,7 +191,7 @@ private struct HomeView: View {
                         VStack(alignment: .leading, spacing: 14) {
                             SectionHeading(title: "Catecismo em quatro partes", subtitle: "Texto em português publicado pelo Vaticano · leitura offline")
                             guideGrid(catechismParts)
-                            Text("Fonte: Libreria Editrice Vaticana · Vatican.va. A versão online consultada não apresenta os §§2217 e 2439.")
+                            Text("Fonte: Vatican.va · © Libreria Editrice Vaticana. §§2217 e 2439 não constam na versão consultada.")
                                 .font(.footnote)
                                 .foregroundStyle(CatecismoTheme.muted)
                         }
@@ -324,6 +324,7 @@ private struct LibraryView: View {
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var query = ""
+    @FocusState private var searchFocused: Bool
 
     private var filtered: [Guide] {
         let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -360,6 +361,9 @@ private struct LibraryView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(CatecismoTheme.navy)
                         TextField("Buscar palavra, tema ou parágrafo", text: $query)
+                            .focused($searchFocused)
+                            .submitLabel(.search)
+                            .onSubmit { searchFocused = false }
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                         if !query.isEmpty {
@@ -576,7 +580,7 @@ private struct GuideDetailView: View {
                 .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
 
                 if guide.category == "Catecismo" {
-                    Text("Fonte: Vatican.va · © Libreria Editrice Vaticana. A edição em português consultada não apresenta os §§2217 e 2439.")
+                    Text("Fonte: Vatican.va · © Libreria Editrice Vaticana. §§2217 e 2439 não constam na versão consultada.")
                         .font(.footnote)
                         .foregroundStyle(CatecismoTheme.muted)
                         .accessibilityIdentifier("catechism-source-note")

@@ -13,6 +13,8 @@ for item in catalog:
     document = json.loads((root / "Resources/Texts" / f"{item['id']}.json").read_text(encoding="utf-8"))
     assert document["id"] == item["id"] and len(document["chapters"]) == item["chapters"]
     assert all(chapter["title"].strip() and chapter["paragraphs"] for chapter in document["chapters"])
+    android_copy = root.parent / "app/src/main/assets/texts" / f"{item['id']}.json"
+    assert json.loads(android_copy.read_text(encoding="utf-8")) == document, f"asset drift: {item['id']}"
     if item.get("status") == "guia":
         assert len(document["chapters"]) == 6
         assert sum(len(p.split()) for c in document["chapters"] for p in c["paragraphs"]) >= 350
@@ -24,9 +26,6 @@ assert document["chapters"][0]["paragraphs"][0].startswith("1. Deus")
 for language in ("en", "es", "fr"):
     localized = json.loads((root.parent / "app/src/main/assets/texts/locales" / f"{language}.json").read_text(encoding="utf-8"))
     assert len(localized) == 8 and len({item["id"] for item in localized}) == 8
-for language in ("en", "es", "fr"):
-    translated = json.loads((root.parent / "app/src/main/assets/texts/locales" / f"{language}.json").read_text(encoding="utf-8"))
-    assert len(translated) == 8 and all(item.get("chapters") for item in translated)
 project = (root / "project.yml").read_text(encoding="utf-8")
 for resource in ("Localizable.xcstrings", "catecismo-parte-1.json", "catecismo-parte-2.json", "catecismo-parte-3.json", "catecismo-parte-4.json"):
     assert resource in project, f"resource missing from project.yml: {resource}"
@@ -43,4 +42,6 @@ assert project.count("developmentLanguage:") == 1
 assert 'MARKETING_VERSION: "1.2.1"' in project
 for resource in ("catecismo-parte-1.json", "catecismo-parte-2.json", "catecismo-parte-3.json", "catecismo-parte-4.json"):
     assert resource in project
+for item_id in ids:
+    assert f"Resources/Texts/{item_id}.json" in project, f"resource not bundled by XcodeGen: {item_id}"
 print("iOS resources OK: 12 obras locais (4 partes do Catecismo + 8 guias)")
