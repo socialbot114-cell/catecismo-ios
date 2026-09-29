@@ -255,6 +255,8 @@ private struct HomeView: View {
                 Text("Catecismo")
                     .font(CatecismoTheme.display(horizontalSizeClass == .regular ? 38 : 32))
                     .foregroundStyle(.white)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.68)
 
                 Text("Conheça a fé, um guia por vez.")
                     .font(.subheadline)
