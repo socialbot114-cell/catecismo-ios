@@ -1,6 +1,7 @@
 name: Catecismo iOS CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, revamp/catecismo-ios-1.1, socialbot114-cell/pufferfish]
   pull_request:
@@ -43,4 +44,13 @@ jobs:
           xcodebuild test \
             -scheme Catecismo \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -resultBundlePath "$RUNNER_TEMP/catecismo-ci.xcresult" \
             CODE_SIGNING_ALLOWED=NO
+          xcrun xcresulttool export attachments \
+            --path "$RUNNER_TEMP/catecismo-ci.xcresult" \
+            --output-path "$RUNNER_TEMP/catecismo-ci-screenshots"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: catecismo-ios-ci-screenshots
+          path: ${{ runner.temp }}/catecismo-ci-screenshots
+          retention-days: 30
