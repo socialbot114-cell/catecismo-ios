@@ -2,6 +2,7 @@ require "json"
 require "spaceship"
 
 bundle_id = "br.com.CATECISMO.DAIGREJACAToLICA"
+app_version = "1.2.1"
 locale = "pt-BR"
 metadata = "store-kit/metadata/#{locale}"
 privacy_url = File.read("#{metadata}/privacy_url.txt").strip
@@ -12,10 +13,14 @@ Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.from(hash: api_key)
 app = Spaceship::ConnectAPI::App.find(bundle_id)
 abort "App Store Connect app not found: #{bundle_id}" unless app
 
-app_info = app.fetch_live_app_info
-abort "Live App Store information not found" unless app_info
+platform = Spaceship::ConnectAPI::Platform.map("ios")
+app.ensure_version!(app_version, platform: platform)
+app_info = app.fetch_edit_app_info
+abort "Editable App Store information not found for version #{app_version}" unless app_info
 info_localization = app_info.get_app_info_localizations.find { |item| item.locale == locale }
-abort "Live App Store localization not found: #{locale}" unless info_localization
+unless info_localization
+  info_localization = app_info.create_app_info_localization(attributes: { locale: locale })
+end
 
 if info_localization.privacy_policy_url != privacy_url
   info_localization.update(attributes: { privacy_policy_url: privacy_url })
@@ -24,15 +29,16 @@ else
   puts "Privacy policy URL already current for #{locale}"
 end
 
-platform = Spaceship::ConnectAPI::Platform.map("ios")
-version = app.get_live_app_store_version(platform: platform)
-abort "Live iOS App Store version not found" unless version
+version = app.get_edit_app_store_version(platform: platform)
+abort "Editable iOS App Store version #{app_version} not found" unless version && version.version_string == app_version
 version_localization = version.get_app_store_version_localizations.find { |item| item.locale == locale }
-abort "Live iOS App Store localization not found: #{locale}" unless version_localization
+unless version_localization
+  version_localization = version.create_app_store_version_localization(attributes: { locale: locale })
+end
 
 if version_localization.support_url != support_url
   version_localization.update(attributes: { support_url: support_url })
-  puts "Updated support URL for #{locale}"
+  puts "Updated support URL for version #{app_version} (#{locale})"
 else
-  puts "Support URL already current for #{locale}"
+  puts "Support URL already current for version #{app_version} (#{locale})"
 end
