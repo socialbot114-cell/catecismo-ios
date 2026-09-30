@@ -2,7 +2,7 @@
 
 ## Versão em preparação
 
-- iOS: 1.2.1 (build 31) uploaded and processed by App Store Connect; App Review submission is pending. The previous production version was 1.1.1 (build 30).
+- iOS: 1.2.1 (build 31) submitted to App Review; automatic release is configured after approval. The previous production version was 1.1.1 (build 30).
 - Bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`.
 - O escopo de publicação desta revisão é iOS. O versionamento Android permanece separado.
 

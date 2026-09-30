@@ -22,7 +22,7 @@
 
 - [x] Configure App Store Connect API credentials in GitHub Actions.
 - [x] Build and archive version 1.2.1 (build 31) with the iOS 26 SDK; App Store Connect processing succeeded.
-- [ ] Submit the build to App Review with automatic release after approval.
+- [x] Submit the build to App Review with automatic release after approval.
 
 ## Store listing
 
