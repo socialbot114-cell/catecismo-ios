@@ -1,83 +1,2228 @@
 {
-  "sourceLanguage" : "pt-BR",
-  "strings" : {
-    "Idioma do dispositivo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Device language" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Idioma del dispositivo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Langue de l’appareil" } } } },
-    "Idioma do app" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "App language" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Idioma de la aplicación" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Langue de l’application" } } } },
-    "Português (Brasil)" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Português (Brasil)" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Português (Brasil)" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Português (Brasil)" } } } },
-    "English" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "English" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "English" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "English" } } } },
-    "Español" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Español" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Español" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Español" } } } },
-    "Français" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Français" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Français" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Français" } } } },
-    "Início" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Inicio" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Accueil" } } } },
-    "Biblioteca" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Library" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Biblioteca" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Bibliothèque" } } } },
-    "Temas" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Topics" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Temas" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Thèmes" } } } },
-    "Minha biblioteca" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "My Library" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Mi biblioteca" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ma bibliothèque" } } } },
-    "Preparando sua biblioteca…" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Preparing your library…" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Preparando tu biblioteca…" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Préparation de votre bibliothèque…" } } } },
-    "Os guias estão sendo carregados para leitura offline." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Your guides are loading for offline reading." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Se están cargando las guías para leer sin conexión." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chargement de vos guides pour une lecture hors ligne." } } } },
-    "Não foi possível abrir a biblioteca" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not open the library" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "No se pudo abrir la biblioteca" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible d’ouvrir la bibliothèque" } } } },
-    "Tentar novamente" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Try again" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Intentar de nuevo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } } } },
-    "Catecismo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Catechism" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Catecismo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Catéchisme" } } } },
-    "Continue sua leitura" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Continúa leyendo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Poursuivre la lecture" } } } },
-    "Retome de onde você parou" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Pick up where you left off" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Retoma donde lo dejaste" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Reprenez là où vous en étiez" } } } },
-    "Comece a ler" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Start reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Empieza a leer" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Commencer la lecture" } } } },
-    "Guias breves para refletir no seu ritmo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Short guides for reflection at your own pace" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guías breves para reflexionar a tu ritmo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "De courts guides pour réfléchir à votre rythme" } } } },
-    "Nenhum guia disponível" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "No guides available" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "No hay guías disponibles" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun guide disponible" } } } },
-    "Sobre este aplicativo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "About this app" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Acerca de esta aplicación" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "À propos de cette application" } } } },
-    "Aplicativo independente e não oficial. Reúne guias autorais de introdução; não é o Catecismo completo nem substitui as fontes oficiais." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Independent and unofficial app with original introductory guides. It is not the complete Catechism and does not replace official sources." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Aplicación independiente y no oficial con guías introductorias originales. No es el Catecismo completo ni sustituye las fuentes oficiales." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Application indépendante et non officielle proposant des guides d’introduction originaux. Elle ne contient pas le Catéchisme complet et ne remplace pas les sources officielles." } } } },
-    "Sua biblioteca, sempre com você" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Your library, always with you" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Tu biblioteca siempre contigo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Votre bibliothèque, toujours avec vous" } } } },
-    "Todo o conteúdo funciona offline." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "All content works offline." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Todo el contenido funciona sin conexión." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tout le contenu fonctionne hors ligne." } } } },
-    "LEITURA E REFLEXÃO" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "READING AND REFLECTION" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "LECTURA Y REFLEXIÓN" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "LECTURE ET RÉFLEXION" } } } },
-    "Catecismo em quatro partes" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "The Catechism in four parts" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "El Catecismo en cuatro partes" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Le Catéchisme en quatre parties" } } } },
-    "Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Source: Diocese of Miracema PDF. §§2217 and 2439 are included in the offline text." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Fuente: PDF de la Diócesis de Miracema. Los §§2217 y 2439 están incluidos en el texto sin conexión." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Source : PDF du diocèse de Miracema. Les §§2217 et 2439 sont inclus dans le texte hors ligne." } } } },
-    "EDIÇÃO EM PORTUGUÊS · %lld SEÇÕES" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "PORTUGUESE EDITION · %lld SECTIONS" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "EDICIÓN EN PORTUGUÉS · %lld SECCIONES" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "ÉDITION PORTUGAISE · %lld SECTIONS" } } } },
-    "Edição em português · leitura offline" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Portuguese edition · offline reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Edición en portugués · lectura sin conexión" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Édition portugaise · lecture hors ligne" } } } },
-    "Aplicativo independente e não oficial. Inclui guias autorais e quatro partes do Catecismo transcritas da edição em português no PDF da Diocese de Miracema. O texto fica armazenado no aparelho para leitura offline." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Independent, unofficial app. Includes original guides and four parts of the Catechism transcribed from the Portuguese edition in the Diocese of Miracema PDF. The text is stored on the device for offline reading." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Aplicación independiente y no oficial. Incluye guías originales y cuatro partes del Catecismo transcritas de la edición en portugués del PDF de la Diócesis de Miracema. El texto se guarda en el dispositivo para leer sin conexión." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Application indépendante et non officielle. Elle comprend des guides originaux et quatre parties du Catéchisme transcrites de l’édition portugaise du PDF du diocèse de Miracema. Le texte est enregistré sur l’appareil pour une lecture hors ligne." } } } },
-    "Conheça a fé, um guia por vez." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Discover the faith, one guide at a time." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Conoce la fe, una guía a la vez." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Découvrez la foi, un guide à la fois." } } } },
-    "Começar leitura" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Start reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Comenzar la lectura" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Commencer la lecture" } } } },
-    "Encontre seu próximo guia" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Find your next guide" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Encuentra tu próxima guía" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Trouvez votre prochain guide" } } } },
-    "Busque por assunto ou escolha um guia para ler." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Search by topic or choose a guide to read." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Busca por tema o elige una guía para leer." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Recherchez un sujet ou choisissez un guide à lire." } } } },
-    "Buscar guia ou tema" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Search guides or topics" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Buscar guías o temas" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rechercher un guide ou un thème" } } } },
-    "Buscar palavra, tema ou parágrafo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Search words, topics, or paragraphs" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Buscar palabras, temas o párrafos" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rechercher un mot, un thème ou un paragraphe" } } } },
-    "Limpar busca" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear search" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Borrar búsqueda" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Effacer la recherche" } } } },
-    "Nenhum resultado" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "No results" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Sin resultados" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun résultat" } } } },
-    "Não há conteúdo para mostrar." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "There is no content to display." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "No hay contenido para mostrar." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun contenu à afficher." } } } },
-    "Tente buscar por outro título ou tema." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Try searching for another title or topic." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Prueba con otro título o tema." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Essayez un autre titre ou thème." } } } },
-    "Explore por tema" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Explore by topic" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Explorar por tema" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Explorer par thème" } } } },
-    "Escolha um caminho para aprofundar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose a path to explore more deeply" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Elige un camino para profundizar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisissez un parcours pour approfondir" } } } },
-    "Seu caminho de leitura, salvo neste aparelho" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Your reading journey, saved on this device" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Tu recorrido de lectura, guardado en este dispositivo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Votre parcours de lecture, enregistré sur cet appareil" } } } },
-    "Guias iniciados" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Guides started" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guías iniciadas" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Guides commencés" } } } },
-    "Tempo de leitura" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Reading time" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Tiempo de lectura" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Temps de lecture" } } } },
-    "Favoritos" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Favorites" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Favoritos" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Favoris" } } } },
-    "Guias que você marcou" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Guides you saved" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guías que guardaste" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Guides que vous avez enregistrés" } } } },
-    "Seus favoritos aparecerão aqui" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Your favorites will appear here" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Tus favoritos aparecerán aquí" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Vos favoris apparaîtront ici" } } } },
-    "Toque no coração de um guia para guardá-lo nesta biblioteca." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Tap a guide’s heart to save it to this library." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Toca el corazón de una guía para guardarla en esta biblioteca." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Touchez le cœur d’un guide pour l’enregistrer dans cette bibliothèque." } } } },
-    "Citações" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Quotes" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Citas" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Citations" } } } },
-    "Trechos guardados durante a leitura" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Passages saved while reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Fragmentos guardados durante la lectura" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Extraits enregistrés pendant la lecture" } } } },
-    "Ainda não há citações" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "No quotes yet" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Todavía no hay citas" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune citation pour l’instant" } } } },
-    "Salve um trecho no leitor para encontrá-lo aqui." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Save a passage while reading to find it here." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guarda un fragmento durante la lectura para encontrarlo aquí." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Enregistrez un extrait pendant la lecture pour le retrouver ici." } } } },
-    "Remover citação" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove quote" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Eliminar cita" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Supprimer la citation" } } } },
-    "Leitura" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Reading" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Lectura" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Lecture" } } } },
-    "Contexto do guia" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Guide context" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Contexto de la guía" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Contexte du guide" } } } },
-    "Guia sem capítulos" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Guide has no chapters" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "La guía no tiene capítulos" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Le guide ne contient aucun chapitre" } } } },
-    "Este guia ainda não tem conteúdo disponível para leitura." : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "This guide has no reading content yet." } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Esta guía todavía no tiene contenido disponible." } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ce guide ne contient pas encore de texte à lire." } } } },
-    "GUIA AUTORAL  ·  %lld CAPÍTULOS" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "ORIGINAL GUIDE  ·  %lld CHAPTERS" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "GUÍA ORIGINAL  ·  %lld CAPÍTULOS" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "GUIDE ORIGINAL  ·  %lld CHAPITRES" } } } },
-    "CAPÍTULO %lld DE %lld" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "CHAPTER %lld OF %lld" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "CAPÍTULO %lld DE %lld" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "CHAPITRE %lld SUR %lld" } } } },
-    "Escolher capítulo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose chapter" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Elegir capítulo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisir un chapitre" } } } },
-    "Capítulo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Chapter" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Capítulo" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chapitre" } } } },
-    "Pausar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Pause" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Pausar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Pause" } } } },
-    "Ouvir" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Listen" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Escuchar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Écouter" } } } },
-    "Salvo" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guardado" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Enregistré" } } } },
-    "Salvar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guardar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Enregistrer" } } } },
-    "Remover dos favoritos" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove from favorites" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Quitar de favoritos" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Retirer des favoris" } } } },
-    "Adicionar aos favoritos" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Add to favorites" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Añadir a favoritos" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Ajouter aux favoris" } } } },
-    "Capítulo vazio" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Empty chapter" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Capítulo vacío" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chapitre vide" } } } },
-    "Concluir e avançar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete and continue" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Completar y continuar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Terminer et continuer" } } } },
-    "Concluir guia" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete guide" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Completar la guía" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Terminer le guide" } } } },
-    "Salvar como citação" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Save as quote" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Guardar como cita" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Enregistrer comme citation" } } } },
-    "1 guia" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "1 guide" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "1 guía" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "1 guide" } } } },
-    "1 guia para explorar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "1 guide to explore" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "1 guía para explorar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "1 guide à explorer" } } } },
-    "%lld guias" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "%lld guides" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "%lld guías" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "%lld guides" } } } },
-    "%lld guias para explorar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "%lld guides to explore" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "%lld guías para explorar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "%lld guides à explorer" } } } },
-    "Retomar" : { "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume" } }, "es" : { "stringUnit" : { "state" : "translated", "value" : "Continuar" } }, "fr" : { "stringUnit" : { "state" : "translated", "value" : "Reprendre" } } } }
+  "sourceLanguage": "pt-BR",
+  "strings": {
+    "Idioma do dispositivo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Device language"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idioma del dispositivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue de l’appareil"
+          }
+        }
+      }
+    },
+    "Idioma do app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App language"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idioma de la aplicación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Langue de l’application"
+          }
+        }
+      }
+    },
+    "Português (Brasil)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Português (Brasil)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Português (Brasil)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Português (Brasil)"
+          }
+        }
+      }
+    },
+    "English": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        }
+      }
+    },
+    "Español": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Español"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Español"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Español"
+          }
+        }
+      }
+    },
+    "Français": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Français"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Français"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Français"
+          }
+        }
+      }
+    },
+    "Início": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inicio"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accueil"
+          }
+        }
+      }
+    },
+    "Biblioteca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Library"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biblioteca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bibliothèque"
+          }
+        }
+      }
+    },
+    "Temas": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Topics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thèmes"
+          }
+        }
+      }
+    },
+    "Minha biblioteca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Library"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mi biblioteca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ma bibliothèque"
+          }
+        }
+      }
+    },
+    "Preparando sua biblioteca…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing your library…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparando tu biblioteca…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préparation de votre bibliothèque…"
+          }
+        }
+      }
+    },
+    "Os guias estão sendo carregados para leitura offline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your guides are loading for offline reading."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se están cargando las guías para leer sin conexión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chargement de vos guides pour une lecture hors ligne."
+          }
+        }
+      }
+    },
+    "Não foi possível abrir a biblioteca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not open the library"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se pudo abrir la biblioteca"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d’ouvrir la bibliothèque"
+          }
+        }
+      }
+    },
+    "Tentar novamente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intentar de nuevo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réessayer"
+          }
+        }
+      }
+    },
+    "Catecismo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catechism"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catecismo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catéchisme"
+          }
+        }
+      }
+    },
+    "Continue sua leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continúa leyendo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poursuivre la lecture"
+          }
+        }
+      }
+    },
+    "Retome de onde você parou": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick up where you left off"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retoma donde lo dejaste"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprenez là où vous en étiez"
+          }
+        }
+      }
+    },
+    "Comece a ler": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empieza a leer"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer la lecture"
+          }
+        }
+      }
+    },
+    "Guias breves para refletir no seu ritmo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Short guides for reflection at your own pace"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guías breves para reflexionar a tu ritmo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De courts guides pour réfléchir à votre rythme"
+          }
+        }
+      }
+    },
+    "Nenhum guia disponível": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No guides available"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay guías disponibles"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun guide disponible"
+          }
+        }
+      }
+    },
+    "Sobre este aplicativo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About this app"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acerca de esta aplicación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos de cette application"
+          }
+        }
+      }
+    },
+    "Aplicativo independente e não oficial. Reúne guias autorais de introdução; não é o Catecismo completo nem substitui as fontes oficiais.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Independent and unofficial app with original introductory guides. It is not the complete Catechism and does not replace official sources."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicación independiente y no oficial con guías introductorias originales. No es el Catecismo completo ni sustituye las fuentes oficiales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application indépendante et non officielle proposant des guides d’introduction originaux. Elle ne contient pas le Catéchisme complet et ne remplace pas les sources officielles."
+          }
+        }
+      }
+    },
+    "Sua biblioteca, sempre com você": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your library, always with you"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu biblioteca siempre contigo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre bibliothèque, toujours avec vous"
+          }
+        }
+      }
+    },
+    "Todo o conteúdo funciona offline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All content works offline."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo el contenido funciona sin conexión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout le contenu fonctionne hors ligne."
+          }
+        }
+      }
+    },
+    "LEITURA E REFLEXÃO": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "READING AND REFLECTION"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LECTURA Y REFLEXIÓN"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LECTURE ET RÉFLEXION"
+          }
+        }
+      }
+    },
+    "Catecismo em quatro partes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Catechism in four parts"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El Catecismo en cuatro partes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le Catéchisme en quatre parties"
+          }
+        }
+      }
+    },
+    "Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source: Diocese of Miracema PDF. §§2217 and 2439 are included in the offline text."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuente: PDF de la Diócesis de Miracema. Los §§2217 y 2439 están incluidos en el texto sin conexión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source : PDF du diocèse de Miracema. Les §§2217 et 2439 sont inclus dans le texte hors ligne."
+          }
+        }
+      }
+    },
+    "EDIÇÃO EM PORTUGUÊS · %lld SEÇÕES": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PORTUGUESE EDITION · %lld SECTIONS"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EDICIÓN EN PORTUGUÉS · %lld SECCIONES"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ÉDITION PORTUGAISE · %lld SECTIONS"
+          }
+        }
+      }
+    },
+    "Edição em português · leitura offline": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Portuguese edition · offline reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edición en portugués · lectura sin conexión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Édition portugaise · lecture hors ligne"
+          }
+        }
+      }
+    },
+    "Aplicativo independente e não oficial. Inclui guias autorais e quatro partes do Catecismo transcritas da edição em português no PDF da Diocese de Miracema. O texto fica armazenado no aparelho para leitura offline.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Independent, unofficial app. Includes original guides and four parts of the Catechism transcribed from the Portuguese edition in the Diocese of Miracema PDF. The text is stored on the device for offline reading."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplicación independiente y no oficial. Incluye guías originales y cuatro partes del Catecismo transcritas de la edición en portugués del PDF de la Diócesis de Miracema. El texto se guarda en el dispositivo para leer sin conexión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Application indépendante et non officielle. Elle comprend des guides originaux et quatre parties du Catéchisme transcrites de l’édition portugaise du PDF du diocèse de Miracema. Le texte est enregistré sur l’appareil pour une lecture hors ligne."
+          }
+        }
+      }
+    },
+    "Conheça a fé, um guia por vez.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discover the faith, one guide at a time."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conoce la fe, una guía a la vez."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Découvrez la foi, un guide à la fois."
+          }
+        }
+      }
+    },
+    "Começar leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comenzar la lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer la lecture"
+          }
+        }
+      }
+    },
+    "Encontre seu próximo guia": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Find your next guide"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encuentra tu próxima guía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouvez votre prochain guide"
+          }
+        }
+      }
+    },
+    "Busque por assunto ou escolha um guia para ler.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search by topic or choose a guide to read."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Busca por tema o elige una guía para leer."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherchez un sujet ou choisissez un guide à lire."
+          }
+        }
+      }
+    },
+    "Buscar guia ou tema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search guides or topics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar guías o temas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher un guide ou un thème"
+          }
+        }
+      }
+    },
+    "Buscar palavra, tema ou parágrafo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search words, topics, or paragraphs"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar palabras, temas o párrafos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rechercher un mot, un thème ou un paragraphe"
+          }
+        }
+      }
+    },
+    "Limpar busca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear search"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar búsqueda"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer la recherche"
+          }
+        }
+      }
+    },
+    "Nenhum resultado": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No results"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin resultados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun résultat"
+          }
+        }
+      }
+    },
+    "Não há conteúdo para mostrar.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There is no content to display."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay contenido para mostrar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun contenu à afficher."
+          }
+        }
+      }
+    },
+    "Tente buscar por outro título ou tema.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try searching for another title or topic."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prueba con otro título o tema."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essayez un autre titre ou thème."
+          }
+        }
+      }
+    },
+    "Explore por tema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explore by topic"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explorar por tema"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explorer par thème"
+          }
+        }
+      }
+    },
+    "Escolha um caminho para aprofundar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a path to explore more deeply"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige un camino para profundizar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisissez un parcours pour approfondir"
+          }
+        }
+      }
+    },
+    "Seu caminho de leitura, salvo neste aparelho": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your reading journey, saved on this device"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu recorrido de lectura, guardado en este dispositivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre parcours de lecture, enregistré sur cet appareil"
+          }
+        }
+      }
+    },
+    "Guias iniciados": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides started"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guías iniciadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides commencés"
+          }
+        }
+      }
+    },
+    "Tempo de leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiempo de lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temps de lecture"
+          }
+        }
+      }
+    },
+    "Favoritos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorites"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoritos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoris"
+          }
+        }
+      }
+    },
+    "Guias que você marcou": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides you saved"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guías que guardaste"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guides que vous avez enregistrés"
+          }
+        }
+      }
+    },
+    "Seus favoritos aparecerão aqui": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your favorites will appear here"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tus favoritos aparecerán aquí"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vos favoris apparaîtront ici"
+          }
+        }
+      }
+    },
+    "Toque no coração de um guia para guardá-lo nesta biblioteca.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a guide’s heart to save it to this library."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca el corazón de una guía para guardarla en esta biblioteca."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touchez le cœur d’un guide pour l’enregistrer dans cette bibliothèque."
+          }
+        }
+      }
+    },
+    "Citações": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quotes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Citas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Citations"
+          }
+        }
+      }
+    },
+    "Trechos guardados durante a leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passages saved while reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fragmentos guardados durante la lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extraits enregistrés pendant la lecture"
+          }
+        }
+      }
+    },
+    "Ainda não há citações": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No quotes yet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todavía no hay citas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune citation pour l’instant"
+          }
+        }
+      }
+    },
+    "Salve um trecho no leitor para encontrá-lo aqui.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save a passage while reading to find it here."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guarda un fragmento durante la lectura para encontrarlo aquí."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrez un extrait pendant la lecture pour le retrouver ici."
+          }
+        }
+      }
+    },
+    "Remover citação": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove quote"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar cita"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer la citation"
+          }
+        }
+      }
+    },
+    "Leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture"
+          }
+        }
+      }
+    },
+    "Contexto do guia": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guide context"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contexto de la guía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contexte du guide"
+          }
+        }
+      }
+    },
+    "Guia sem capítulos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guide has no chapters"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La guía no tiene capítulos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le guide ne contient aucun chapitre"
+          }
+        }
+      }
+    },
+    "Este guia ainda não tem conteúdo disponível para leitura.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This guide has no reading content yet."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta guía todavía no tiene contenido disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce guide ne contient pas encore de texte à lire."
+          }
+        }
+      }
+    },
+    "GUIA AUTORAL  ·  %lld CAPÍTULOS": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ORIGINAL GUIDE  ·  %lld CHAPTERS"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GUÍA ORIGINAL  ·  %lld CAPÍTULOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GUIDE ORIGINAL  ·  %lld CHAPITRES"
+          }
+        }
+      }
+    },
+    "CAPÍTULO %lld DE %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CHAPTER %lld OF %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CAPÍTULO %lld DE %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CHAPITRE %lld SUR %lld"
+          }
+        }
+      }
+    },
+    "Escolher capítulo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose chapter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir capítulo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir un chapitre"
+          }
+        }
+      }
+    },
+    "Capítulo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chapter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capítulo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chapitre"
+          }
+        }
+      }
+    },
+    "Pausar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pausar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        }
+      }
+    },
+    "Ouvir": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escuchar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écouter"
+          }
+        }
+      }
+    },
+    "Salvo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistré"
+          }
+        }
+      }
+    },
+    "Salvar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        }
+      }
+    },
+    "Remover dos favoritos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from favorites"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar de favoritos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer des favoris"
+          }
+        }
+      }
+    },
+    "Adicionar aos favoritos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to favorites"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añadir a favoritos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter aux favoris"
+          }
+        }
+      }
+    },
+    "Capítulo vazio": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty chapter"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capítulo vacío"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chapitre vide"
+          }
+        }
+      }
+    },
+    "Concluir e avançar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete and continue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completar y continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer et continuer"
+          }
+        }
+      }
+    },
+    "Concluir guia": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete guide"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Completar la guía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminer le guide"
+          }
+        }
+      }
+    },
+    "Salvar como citação": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save as quote"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar como cita"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer comme citation"
+          }
+        }
+      }
+    },
+    "1 guia": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guide"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guía"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guide"
+          }
+        }
+      }
+    },
+    "1 guia para explorar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guide to explore"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guía para explorar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 guide à explorer"
+          }
+        }
+      }
+    },
+    "%lld guias": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guides"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guías"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guides"
+          }
+        }
+      }
+    },
+    "%lld guias para explorar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guides to explore"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guías para explorar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld guides à explorer"
+          }
+        }
+      }
+    },
+    "Retomar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre"
+          }
+        }
+      }
+    },
+    "Busque por palavra, tema ou número do parágrafo (ex.: §1691).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search by word, topic, or paragraph number (e.g. §1691)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Busca por palabra, tema o número de párrafo (p. ej., §1691)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherchez un mot, un thème ou un numéro de paragraphe (ex. : §1691)."
+          }
+        }
+      }
+    },
+    "Trechos encontrados": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matching passages"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pasajes encontrados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passages trouvés"
+          }
+        }
+      }
+    },
+    "Toque para abrir o parágrafo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to open the paragraph"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca para abrir el párrafo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touchez pour ouvrir le paragraphe"
+          }
+        }
+      }
+    },
+    "Mostrando os primeiros %lld trechos. Refine a busca para ver outros.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showing the first %lld passages. Refine your search to see others."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se muestran los primeros %lld pasajes. Afina la búsqueda para ver otros."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affichage des %lld premiers passages. Affinez la recherche pour en voir d’autres."
+          }
+        }
+      }
+    },
+    "Remover esta citação?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove this quote?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Eliminar esta cita?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer cette citation ?"
+          }
+        }
+      }
+    },
+    "Cancelar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        }
+      }
+    },
+    "Abrir o trecho no leitor": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the passage in the reader"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir el pasaje en el lector"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le passage dans le lecteur"
+          }
+        }
+      }
+    },
+    "Compartilhar citação": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share quote"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartir cita"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager la citation"
+          }
+        }
+      }
+    },
+    "Continuar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprendre"
+          }
+        }
+      }
+    },
+    "Parágrafo anterior": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous paragraph"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Párrafo anterior"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paragraphe précédent"
+          }
+        }
+      }
+    },
+    "Parar narração": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop narration"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener narración"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la lecture audio"
+          }
+        }
+      }
+    },
+    "Próximo parágrafo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next paragraph"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Párrafo siguiente"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paragraphe suivant"
+          }
+        }
+      }
+    },
+    "Parágrafo %lld de %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paragraph %lld of %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Párrafo %lld de %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paragraphe %lld sur %lld"
+          }
+        }
+      }
+    },
+    "Tamanho do texto": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text size"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamaño del texto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taille du texte"
+          }
+        }
+      }
+    },
+    "Velocidade da voz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice speed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidad de la voz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vitesse de la voix"
+          }
+        }
+      }
+    },
+    "Voz padrão": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default voice"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voz predeterminada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voix par défaut"
+          }
+        }
+      }
+    },
+    "Voz": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voice"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voz"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voix"
+          }
+        }
+      }
+    },
+    "Opções de leitura": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading options"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opciones de lectura"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Options de lecture"
+          }
+        }
+      }
+    },
+    "Citação salva": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quote saved"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cita guardada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Citation enregistrée"
+          }
+        }
+      }
+    },
+    "Progresso": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progreso"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progression"
+          }
+        }
+      }
+    },
+    "Pequeno": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pequeño"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Petit"
+          }
+        }
+      }
+    },
+    "Padrão": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Predeterminado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard"
+          }
+        }
+      }
+    },
+    "Grande": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grande"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grand"
+          }
+        }
+      }
+    },
+    "Muito grande": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extra large"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muy grande"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Très grand"
+          }
+        }
+      }
+    }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

@@ -49,11 +49,14 @@ struct ContentView: View {
                 VStack(spacing: 14) {
                     ProgressView().controlSize(.large)
                     Text("Preparando sua biblioteca…").font(.headline)
+                        .foregroundStyle(CatecismoTheme.ink)
                     Text("Os guias estão sendo carregados para leitura offline.")
                         .font(.subheadline).foregroundStyle(CatecismoTheme.muted)
                 }
                 .multilineTextAlignment(.center)
                 .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(CatecismoTheme.canvas.ignoresSafeArea())
             case .failed(let message):
                 ContentUnavailableView {
                     Label("Não foi possível abrir a biblioteca", systemImage: "exclamationmark.triangle")
@@ -65,6 +68,7 @@ struct ContentView: View {
                     }
                     .buttonStyle(.borderedProminent)
                 }
+                .background(CatecismoTheme.canvas.ignoresSafeArea())
             case .loaded:
                 if horizontalSizeClass == .regular {
                     splitView
@@ -75,6 +79,8 @@ struct ContentView: View {
         }
         .environment(\.locale, selectedLocale)
         .tint(CatecismoTheme.accent)
+        // The palette is designed for a light paper look; keep system controls consistent with it.
+        .preferredColorScheme(.light)
         .task {
             if library.loadState == .loading {
                 library.load(languageCode: AppLanguage.contentTag(for: selectedLocale))
@@ -102,17 +108,18 @@ struct ContentView: View {
                         Image(systemName: section.icon)
                             .font(.system(size: 20, weight: .semibold))
                         Text(section.title)
-                            .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
+                            .font(.caption2.weight(isSelected ? .semibold : .regular))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.8)
+                            .minimumScaleFactor(0.7)
                     }
                     .foregroundStyle(isSelected ? CatecismoTheme.navy : CatecismoTheme.muted)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 54)
+                    .frame(minHeight: 54)
                     .background(isSelected ? CatecismoTheme.canvas : Color.clear, in: Capsule())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(Text(section.title))
+                .accessibilityAddTraits(isSelected ? .isSelected : [])
                 .accessibilityIdentifier(section.accessibilityID)
             }
         }
@@ -127,15 +134,16 @@ struct ContentView: View {
 
     private var splitView: some View {
         NavigationSplitView {
-            List(selection: Binding<AppSection?>(
-                get: { selectedSection },
-                set: { if let section = $0 { selectedSection = section } }
-            )) {
+            List {
                 ForEach(AppSection.allCases) { section in
+                    let isSelected = selectedSection == section
                     Button { selectedSection = section } label: {
                         Label(section.title, systemImage: section.icon)
-                            .tag(section)
+                            .fontWeight(isSelected ? .semibold : .regular)
+                            .foregroundStyle(isSelected ? CatecismoTheme.navy : CatecismoTheme.ink)
                     }
+                    .listRowBackground(isSelected ? CatecismoTheme.paper : Color.clear)
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
                     .accessibilityIdentifier(section.accessibilityID)
                 }
             }
@@ -164,9 +172,6 @@ private struct HomeView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var featuredGuide: Guide? { library.guides.first }
-    private var inProgressGuide: Guide? {
-        library.guides.first { (library.progress[$0.id] ?? 0) > 0 }
-    }
 
     var body: some View {
         NavigationStack {
@@ -174,15 +179,16 @@ private struct HomeView: View {
                 VStack(alignment: .leading, spacing: 28) {
                     hero
 
-                    if let guide = inProgressGuide {
+                    if let guide = library.continueReadingGuide {
                         SectionHeading(title: "Continue sua leitura", subtitle: "Retome de onde você parou")
                         NavigationLink { GuideDetailView(guide: guide) } label: {
                             GuideCard(guide: guide, detail: true, actionTitle: "Retomar")
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("home-continue-reading")
                     }
 
-                    let catechismParts = library.guides.filter { $0.category == "Catecismo" }
+                    let catechismParts = library.guides.filter(\.isCatechism)
                     if !catechismParts.isEmpty {
                         VStack(alignment: .leading, spacing: 14) {
                             SectionHeading(title: "Catecismo em quatro partes", subtitle: "Edição em português · leitura offline")
@@ -196,7 +202,7 @@ private struct HomeView: View {
 
                     VStack(alignment: .leading, spacing: 14) {
                         SectionHeading(title: "Comece a ler", subtitle: "Guias breves para refletir no seu ritmo")
-                        let authoredGuides = library.guides.filter { $0.category != "Catecismo" }
+                        let authoredGuides = library.guides.filter { !$0.isCatechism }
                         if authoredGuides.isEmpty {
                             ContentUnavailableView("Nenhum guia disponível", systemImage: "books.vertical")
                         } else {
@@ -222,6 +228,7 @@ private struct HomeView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text("Sua biblioteca, sempre com você")
                                 .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(CatecismoTheme.ink)
                             Text("Todo o conteúdo funciona offline.")
                                 .font(.footnote).foregroundStyle(CatecismoTheme.muted)
                         }
@@ -323,20 +330,13 @@ private struct LibraryView: View {
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var query = ""
+    @State private var results = LibrarySearchResults()
+    @State private var searchedQuery = ""
     @FocusState private var searchFocused: Bool
 
-    private var filtered: [Guide] {
-        let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !term.isEmpty else { return library.guides }
-        return library.guides.filter { guide in
-            let metadata = "\(guide.title) \(guide.category) \(guide.description) \(guide.context)"
-            if metadata.localizedCaseInsensitiveContains(term) { return true }
-            return guide.chapters.contains { chapter in
-                chapter.title.localizedCaseInsensitiveContains(term)
-                    || chapter.paragraphs.contains { $0.localizedCaseInsensitiveContains(term) }
-            }
-        }
-    }
+    private var trimmedQuery: String { query.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var matchedGuides: [Guide] { results.guideIDs.compactMap(library.guide(withID:)) }
+    private var isSearchPending: Bool { !trimmedQuery.isEmpty && searchedQuery != trimmedQuery }
 
     var body: some View {
         NavigationStack {
@@ -347,7 +347,7 @@ private struct LibraryView: View {
                             Text("Encontre seu próximo guia")
                                 .font(CatecismoTheme.display(30))
                                 .foregroundStyle(CatecismoTheme.ink)
-                            Text("Busque por assunto ou escolha um guia para ler.")
+                            Text("Busque por palavra, tema ou número do parágrafo (ex.: §1691).")
                                 .font(.subheadline).foregroundStyle(CatecismoTheme.muted)
                         }
                         Spacer(minLength: 0)
@@ -356,41 +356,44 @@ private struct LibraryView: View {
                             .accessibilityHidden(true)
                     }
 
-                    HStack(spacing: 12) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(CatecismoTheme.navy)
-                        TextField("Buscar palavra, tema ou parágrafo", text: $query)
-                            .focused($searchFocused)
-                            .submitLabel(.search)
-                            .onSubmit { searchFocused = false }
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .accessibilityIdentifier("library-search-field")
-                        if !query.isEmpty {
-                            Button { query = "" } label: {
-                                Image(systemName: "xmark.circle.fill")
+                    searchField
+
+                    if trimmedQuery.isEmpty {
+                        if library.guides.isEmpty {
+                            emptyState(title: "Nenhum guia disponível", message: "Não há conteúdo para mostrar.", symbol: "books.vertical")
+                        } else {
+                            guideGrid(library.guides)
+                        }
+                    } else if isSearchPending && results.isEmpty {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, minHeight: 120)
+                    } else if results.isEmpty {
+                        emptyState(title: "Nenhum resultado", message: "Tente buscar por outro título ou tema.", symbol: "magnifyingglass")
+                    } else {
+                        if !matchedGuides.isEmpty {
+                            guideGrid(matchedGuides)
+                        }
+                        if !results.hits.isEmpty {
+                            SectionHeading(title: "Trechos encontrados", subtitle: "Toque para abrir o parágrafo")
+                            LazyVStack(spacing: 10) {
+                                ForEach(results.hits) { hit in
+                                    if let guide = library.guide(withID: hit.guideID) {
+                                        NavigationLink {
+                                            GuideDetailView(guide: guide, target: ReadingPosition(chapter: hit.chapterIndex, paragraph: hit.paragraphIndex))
+                                        } label: {
+                                            SearchHitRow(guide: guide, hit: hit)
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityIdentifier("search-hit")
+                                    }
+                                }
+                            }
+                            if results.truncated {
+                                Text("Mostrando os primeiros \(LibrarySearchIndex.maxHits) trechos. Refine a busca para ver outros.")
+                                    .font(.footnote)
                                     .foregroundStyle(CatecismoTheme.muted)
                             }
-                            .accessibilityLabel("Limpar busca")
-                            .accessibilityIdentifier("library-clear-search")
                         }
-                    }
-                    .font(.body)
-                    .padding(.horizontal, 16)
-                    .frame(height: 52)
-                    .background(CatecismoTheme.paper, in: Capsule())
-                    .overlay(Capsule().stroke(CatecismoTheme.navy.opacity(0.08), lineWidth: 1))
-
-                    if filtered.isEmpty {
-                        ContentUnavailableView {
-                            Label(query.isEmpty ? "Nenhum guia disponível" : "Nenhum resultado", systemImage: query.isEmpty ? "books.vertical" : "magnifyingglass")
-                        } description: {
-                            Text(query.isEmpty ? "Não há conteúdo para mostrar." : "Tente buscar por outro título ou tema.")
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 260)
-                        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-                    } else {
-                        guideGrid(filtered)
                     }
                 }
                 .frame(maxWidth: 960, alignment: .leading)
@@ -399,12 +402,69 @@ private struct LibraryView: View {
                 .padding(.bottom, 30)
                 .frame(maxWidth: .infinity)
             }
+            .scrollDismissesKeyboard(.interactively)
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
             .accessibilityIdentifier("screen-library")
             .navigationTitle(String(localized: "Biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
+            .task(id: "\(library.contentVersion)|\(trimmedQuery)") {
+                await runSearch(trimmedQuery)
+            }
         }
+    }
+
+    private var searchField: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(CatecismoTheme.navy)
+            TextField("Buscar palavra, tema ou parágrafo", text: $query)
+                .focused($searchFocused)
+                .submitLabel(.search)
+                .onSubmit { searchFocused = false }
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .accessibilityIdentifier("library-search-field")
+            if !query.isEmpty {
+                Button { query = "" } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(CatecismoTheme.muted)
+                }
+                .accessibilityLabel("Limpar busca")
+                .accessibilityIdentifier("library-clear-search")
+            }
+        }
+        .font(.body)
+        .padding(.horizontal, 16)
+        .frame(minHeight: 52)
+        .background(CatecismoTheme.paper, in: Capsule())
+        .overlay(Capsule().stroke(CatecismoTheme.navy.opacity(0.08), lineWidth: 1))
+    }
+
+    /// Debounced and run off the main thread: the Catechism alone has almost 3,000 paragraphs.
+    private func runSearch(_ term: String) async {
+        guard !term.isEmpty else {
+            results = LibrarySearchResults()
+            searchedQuery = ""
+            return
+        }
+        try? await Task.sleep(nanoseconds: 220_000_000)
+        guard !Task.isCancelled else { return }
+        let index = library.searchIndex
+        let found = await Task.detached(priority: .userInitiated) { index.search(term) }.value
+        guard !Task.isCancelled else { return }
+        results = found
+        searchedQuery = term
+    }
+
+    private func emptyState(title: LocalizedStringKey, message: LocalizedStringKey, symbol: String) -> some View {
+        ContentUnavailableView {
+            Label(title, systemImage: symbol)
+        } description: {
+            Text(message)
+        }
+        .frame(maxWidth: .infinity, minHeight: 260)
+        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 
     @ViewBuilder private func guideGrid(_ guides: [Guide]) -> some View {
@@ -426,6 +486,33 @@ private struct LibraryView: View {
     }
 }
 
+private struct SearchHitRow: View {
+    let guide: Guide
+    let hit: SearchHit
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(guide.title.uppercased())
+                .font(.caption2.weight(.bold))
+                .tracking(0.6)
+                .foregroundStyle(CatecismoTheme.gold)
+                .lineLimit(1)
+            Text(hit.chapterTitle)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(CatecismoTheme.navy)
+                .lineLimit(2)
+            Text(hit.snippet)
+                .font(.system(.callout, design: .serif))
+                .foregroundStyle(CatecismoTheme.ink)
+                .lineLimit(4)
+                .multilineTextAlignment(.leading)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(14)
+        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+}
+
 private struct TopicsView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.locale) private var locale
@@ -444,7 +531,7 @@ private struct TopicsView: View {
                             NavigationLink {
                                 TopicGuidesView(category: category, guides: guides)
                             } label: {
-                                TopicCategoryCard(category: category, guideCount: guides.count)
+                                TopicCategoryCard(category: category, guides: guides)
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("topic-category-\(category)")
@@ -471,6 +558,7 @@ private struct MyLibraryView: View {
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Binding var language: String
+    @State private var quotePendingRemoval: Quote?
     private var favoriteGuides: [Guide] { library.guides.filter { library.isFavorite($0.id) } }
 
     var body: some View {
@@ -520,22 +608,8 @@ private struct MyLibraryView: View {
                         if library.quotes.isEmpty {
                             EmptyStateCard(symbol: "quote.opening", title: "Ainda não há citações", message: "Salve um trecho no leitor para encontrá-lo aqui.")
                         } else {
-                            ForEach(library.quotes) { quote in
-                                HStack(alignment: .top, spacing: 12) {
-                                    Image(systemName: "quote.opening")
-                                        .foregroundStyle(CatecismoTheme.gold)
-                                    Text("“\(quote.text)”")
-                                        .font(.system(.body, design: .serif))
-                                        .foregroundStyle(CatecismoTheme.ink)
-                                    Spacer(minLength: 0)
-                                    Button(role: .destructive) { library.removeQuote(quote) } label: {
-                                        Image(systemName: "trash")
-                                            .font(.subheadline.weight(.semibold))
-                                    }
-                                    .accessibilityLabel("Remover citação")
-                                }
-                                .padding(18)
-                                .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                            ForEach(library.quotes.reversed()) { quote in
+                                quoteRow(quote)
                             }
                         }
                     }
@@ -551,6 +625,95 @@ private struct MyLibraryView: View {
             .accessibilityIdentifier("screen-saved")
             .navigationTitle(String(localized: "Minha biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
+            .confirmationDialog(
+                "Remover esta citação?",
+                isPresented: Binding(get: { quotePendingRemoval != nil }, set: { if !$0 { quotePendingRemoval = nil } }),
+                titleVisibility: .visible,
+                presenting: quotePendingRemoval
+            ) { quote in
+                Button("Remover citação", role: .destructive) { library.removeQuote(quote) }
+                Button("Cancelar", role: .cancel) {}
+            }
+        }
+    }
+
+    private func source(of quote: Quote) -> String? {
+        guard let guide = library.guide(withID: quote.guideID) else { return nil }
+        var parts = [guide.title]
+        if guide.isCatechism, let number = LibrarySearchIndex.catechismNumber(of: quote.text) {
+            parts.append("§\(number)")
+        } else if let chapter = quote.chapterIndex, guide.chapters.indices.contains(chapter) {
+            parts.append(guide.chapters[chapter].title)
+        }
+        return parts.joined(separator: " · ")
+    }
+
+    private func position(of quote: Quote, in guide: Guide) -> ReadingPosition? {
+        if let chapter = quote.chapterIndex, let paragraph = quote.paragraphIndex,
+           guide.chapters.indices.contains(chapter), guide.chapters[chapter].paragraphs.indices.contains(paragraph),
+           guide.chapters[chapter].paragraphs[paragraph] == quote.text {
+            return ReadingPosition(chapter: chapter, paragraph: paragraph)
+        }
+        // Quotes saved before 1.2.2 have no location; find the passage by its text.
+        for (chapterIndex, chapter) in guide.chapters.enumerated() {
+            if let paragraph = chapter.paragraphs.firstIndex(of: quote.text) {
+                return ReadingPosition(chapter: chapterIndex, paragraph: paragraph)
+            }
+        }
+        return nil
+    }
+
+    @ViewBuilder private func quoteRow(_ quote: Quote) -> some View {
+        let sourceLabel = source(of: quote)
+        let shareText = sourceLabel.map { "“\(quote.text)”\n— \($0)" } ?? "“\(quote.text)”"
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "quote.opening")
+                .foregroundStyle(CatecismoTheme.gold)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(verbatim: "“\(quote.text)”")
+                    .font(.system(.body, design: .serif))
+                    .foregroundStyle(CatecismoTheme.ink)
+                if let guide = library.guide(withID: quote.guideID), let sourceLabel {
+                    NavigationLink {
+                        GuideDetailView(guide: guide, target: position(of: quote, in: guide))
+                    } label: {
+                        Label(sourceLabel, systemImage: "arrow.up.right")
+                            .labelStyle(TrailingIconLabelStyle())
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(CatecismoTheme.navy)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint(Text("Abrir o trecho no leitor"))
+                    .accessibilityIdentifier("quote-open-source")
+                }
+            }
+            Spacer(minLength: 0)
+            VStack(spacing: 6) {
+                ShareLink(item: shareText) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(width: 36, height: 36)
+                }
+                .accessibilityLabel(Text("Compartilhar citação"))
+                Button(role: .destructive) { quotePendingRemoval = quote } label: {
+                    Image(systemName: "trash")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(width: 36, height: 36)
+                }
+                .accessibilityLabel("Remover citação")
+            }
+        }
+        .padding(18)
+        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+    }
+}
+
+private struct TrailingIconLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            configuration.title
+            configuration.icon.imageScale(.small)
         }
     }
 }
@@ -559,9 +722,31 @@ private struct GuideDetailView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.scenePhase) private var scenePhase
+    @AppStorage(ReaderTextSize.preferenceKey) private var textSizeSelection = ReaderTextSize.standard.rawValue
     @StateObject private var speech = SpeechReader()
     @State private var selectedChapter = 0
+    @State private var visibleParagraphs: Set<Int> = []
+    @State private var didRestore = false
+    @State private var scrollRequest: ScrollRequest?
+    @State private var highlightedParagraph: Int?
+    @State private var sessionStart: Date?
+    @State private var quoteSavedCount = 0
     let guide: Guide
+    var target: ReadingPosition? = nil
+
+    private struct ScrollRequest: Equatable {
+        let id = UUID()
+        /// nil scrolls to the top of the chapter.
+        let paragraph: Int?
+        var animated = false
+    }
+
+    private static let chapterTopID = "chapter-top"
+    private var textSize: ReaderTextSize { ReaderTextSize(rawValue: textSizeSelection) ?? .standard }
+    private var speechKey: String { "\(guide.storageKey)#\(selectedChapter)" }
+    private var isSpeechForThisChapter: Bool { speech.sourceKey == speechKey && speech.isActive }
+    private var topVisibleParagraph: Int { visibleParagraphs.min() ?? 0 }
 
     private var chapter: Chapter? {
         guard guide.chapters.indices.contains(selectedChapter) else { return nil }
@@ -569,62 +754,131 @@ private struct GuideDetailView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                guideHeader
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    guideHeader
 
-                DisclosureGroup {
-                    Text(guide.context)
-                        .font(.body)
-                        .foregroundStyle(CatecismoTheme.muted)
-                        .lineSpacing(4)
-                        .padding(.top, 8)
-                } label: {
-                    Label("Contexto do guia", systemImage: "info.circle")
-                        .font(.headline)
-                        .foregroundStyle(CatecismoTheme.navy)
-                }
-                .padding(18)
-                .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-
-                if guide.category == "Catecismo" {
-                    Text("Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline.")
-                        .font(.footnote)
-                        .foregroundStyle(CatecismoTheme.muted)
-                        .accessibilityIdentifier("catechism-source-note")
-                }
-
-                if let chapter {
-                    reader(chapter)
-                } else {
-                    ContentUnavailableView {
-                        Label("Guia sem capítulos", systemImage: "doc.text.magnifyingglass")
-                    } description: {
-                        Text("Este guia ainda não tem conteúdo disponível para leitura.")
+                    DisclosureGroup {
+                        Text(guide.context)
+                            .font(.body)
+                            .foregroundStyle(CatecismoTheme.muted)
+                            .lineSpacing(4)
+                            .padding(.top, 8)
+                    } label: {
+                        Label("Contexto do guia", systemImage: "info.circle")
+                            .font(.headline)
+                            .foregroundStyle(CatecismoTheme.navy)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 240)
-                    .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    .padding(18)
+                    .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+
+                    if guide.isCatechism {
+                        Text("Fonte: PDF da Diocese de Miracema. §§2217 e 2439 incluídos no texto offline.")
+                            .font(.footnote)
+                            .foregroundStyle(CatecismoTheme.muted)
+                            .accessibilityIdentifier("catechism-source-note")
+                    }
+
+                    if let chapter {
+                        reader(chapter)
+                    } else {
+                        ContentUnavailableView {
+                            Label("Guia sem capítulos", systemImage: "doc.text.magnifyingglass")
+                        } description: {
+                            Text("Este guia ainda não tem conteúdo disponível para leitura.")
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 240)
+                        .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+                    }
+                }
+                .frame(maxWidth: 820, alignment: .leading)
+                .padding(.horizontal, horizontalSizeClass == .regular ? 28 : 18)
+                .padding(.top, 16)
+                .padding(.bottom, 32)
+                .frame(maxWidth: .infinity)
+            }
+            .background(CatecismoTheme.canvas.ignoresSafeArea())
+            .safeAreaPadding(.bottom, 16)
+            .accessibilityIdentifier("screen-reader")
+            .navigationTitle(String(localized: "Leitura", locale: locale))
+            .navigationBarTitleDisplayMode(.inline)
+            .sensoryFeedback(.success, trigger: quoteSavedCount)
+            .onAppear {
+                // The Catechism is Portuguese in every UI language, so the voice follows the text, not the interface.
+                speech.setLanguage(guide.contentLanguage)
+                sessionStart = Date()
+                restorePositionIfNeeded()
+            }
+            .onDisappear {
+                speech.stop()
+                saveReadingState()
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active {
+                    if sessionStart == nil { sessionStart = Date() }
+                } else {
+                    saveReadingState()
                 }
             }
-            .frame(maxWidth: 820, alignment: .leading)
-            .padding(.horizontal, horizontalSizeClass == .regular ? 28 : 18)
-            .padding(.top, 16)
-            .padding(.bottom, 32)
-            .frame(maxWidth: .infinity)
+            .onChange(of: selectedChapter) { oldValue, _ in
+                if speech.sourceKey == "\(guide.storageKey)#\(oldValue)" { speech.stop() }
+                visibleParagraphs = []
+                if scrollRequest == nil {
+                    highlightedParagraph = nil
+                    scrollRequest = ScrollRequest(paragraph: nil)
+                    library.savePosition(ReadingPosition(chapter: selectedChapter, paragraph: 0), for: guide)
+                }
+            }
+            .onChange(of: scrollRequest) { _, request in
+                guard let request else { return }
+                let destination = request.paragraph.map { paragraphScrollID($0) } ?? Self.chapterTopID
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    if request.animated {
+                        withAnimation(.easeInOut(duration: 0.3)) { proxy.scrollTo(destination, anchor: .top) }
+                    } else {
+                        proxy.scrollTo(destination, anchor: .top)
+                    }
+                    if scrollRequest == request { scrollRequest = nil }
+                }
+            }
+            .onChange(of: speech.currentParagraphIndex) { _, index in
+                guard isSpeechForThisChapter, index >= 0, !visibleParagraphs.contains(index) || index == visibleParagraphs.max() else { return }
+                scrollRequest = ScrollRequest(paragraph: index, animated: true)
+            }
         }
-        .background(CatecismoTheme.canvas.ignoresSafeArea())
-        .safeAreaPadding(.bottom, 16)
-        .accessibilityIdentifier("screen-reader")
-        .navigationTitle(String(localized: "Leitura", locale: locale))
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear { speech.setLanguage(locale.identifier) }
-        .onChange(of: locale.identifier) { _, identifier in speech.setLanguage(identifier) }
+    }
+
+    private func paragraphScrollID(_ index: Int) -> String { "paragraph-\(index)" }
+
+    private func restorePositionIfNeeded() {
+        guard !didRestore else { return }
+        didRestore = true
+        let requested = target.flatMap { guide.chapters.indices.contains($0.chapter) ? $0 : nil }
+        guard let position = requested ?? library.position(for: guide) else { return }
+        highlightedParagraph = requested?.paragraph
+        let request = position.paragraph > 0 || requested != nil ? ScrollRequest(paragraph: position.paragraph) : nil
+        scrollRequest = request
+        if position.chapter != selectedChapter {
+            if request == nil { scrollRequest = ScrollRequest(paragraph: nil) }
+            selectedChapter = position.chapter
+        }
+    }
+
+    private func saveReadingState() {
+        if let sessionStart {
+            library.addReadingTime(Date().timeIntervalSince(sessionStart))
+            self.sessionStart = nil
+        }
+        guard chapter != nil else { return }
+        library.savePosition(ReadingPosition(chapter: selectedChapter, paragraph: topVisibleParagraph), for: guide)
     }
 
     private var guideHeader: some View {
         HStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 10) {
-                Text(guide.category.uppercased())
+                Text(LocalizedStringKey(guide.category))
+                    .textCase(.uppercase)
                     .font(.caption.weight(.bold))
                     .tracking(1)
                     .foregroundStyle(CatecismoTheme.gold)
@@ -636,7 +890,7 @@ private struct GuideDetailView: View {
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.84))
                     .fixedSize(horizontal: false, vertical: true)
-                Text(guide.category == "Catecismo"
+                Text(guide.isCatechism
                      ? "EDIÇÃO EM PORTUGUÊS · \(guide.chapterCount) SEÇÕES"
                      : "GUIA AUTORAL  ·  \(guide.chapterCount) CAPÍTULOS")
                     .font(.caption2.weight(.semibold))
@@ -672,6 +926,7 @@ private struct GuideDetailView: View {
                         .accessibilityIdentifier("selected-chapter-title")
                 }
                 Spacer(minLength: 8)
+                readerOptionsMenu
                 Menu {
                     Picker("Capítulo", selection: $selectedChapter) {
                         ForEach(guide.chapters.indices, id: \.self) { index in
@@ -688,23 +943,9 @@ private struct GuideDetailView: View {
                 .accessibilityIdentifier("chapter-picker-button")
                 .accessibilityLabel("Escolher capítulo")
             }
+            .id(Self.chapterTopID)
 
-            HStack(spacing: 10) {
-                Button {
-                    speech.isSpeaking ? speech.pause() : speech.isPaused ? speech.resume() : speech.speak(chapter.paragraphs)
-                } label: {
-                    Label(speech.isSpeaking ? "Pausar" : "Ouvir", systemImage: speech.isSpeaking ? "pause.fill" : "play.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-
-                Button { library.toggleFavorite(guide.id) } label: {
-                    Label(library.isFavorite(guide.id) ? "Salvo" : "Salvar", systemImage: library.isFavorite(guide.id) ? "heart.fill" : "heart")
-                }
-                .buttonStyle(.bordered)
-                .accessibilityIdentifier("guide-favorite-button")
-                .accessibilityLabel(library.isFavorite(guide.id) ? "Remover dos favoritos" : "Adicionar aos favoritos")
-            }
+            playerControls(for: chapter)
 
             Rectangle().fill(CatecismoTheme.canvas).frame(height: 1)
 
@@ -712,26 +953,8 @@ private struct GuideDetailView: View {
                 ContentUnavailableView("Capítulo vazio", systemImage: "doc")
             } else {
                 LazyVStack(alignment: .leading, spacing: 20) {
-                    ForEach(Array(chapter.paragraphs.enumerated()), id: \.offset) { paragraphOffset, paragraph in
-                        HStack(alignment: .top, spacing: 12) {
-                            Text(paragraph)
-                                .font(.system(.body, design: .serif))
-                                .foregroundStyle(CatecismoTheme.ink)
-                                .lineSpacing(7)
-                                .textSelection(.enabled)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .accessibilityIdentifier(paragraphAccessibilityIdentifier(paragraph, offset: paragraphOffset))
-                            Button { library.addQuote(guideID: guide.id, text: paragraph) } label: {
-                                Image(systemName: "quote.opening")
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(CatecismoTheme.gold)
-                                    .padding(8)
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel("Salvar como citação")
-                            .accessibilityHint(String(paragraph.prefix(80)))
-                            .accessibilityIdentifier("save-quote-button")
-                        }
+                    ForEach(chapter.paragraphs.indices, id: \.self) { paragraphOffset in
+                        paragraphRow(chapter.paragraphs[paragraphOffset], offset: paragraphOffset)
                     }
                 }
             }
@@ -752,10 +975,154 @@ private struct GuideDetailView: View {
         .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 
+    @ViewBuilder private func paragraphRow(_ paragraph: String, offset: Int) -> some View {
+        let isQuoted = library.hasQuote(guideID: guide.id, text: paragraph)
+        let isHighlighted = (isSpeechForThisChapter && speech.currentParagraphIndex == offset) || highlightedParagraph == offset
+        HStack(alignment: .top, spacing: 12) {
+            Text(paragraph)
+                .font(textSize.font)
+                .foregroundStyle(CatecismoTheme.ink)
+                .lineSpacing(7)
+                .textSelection(.enabled)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityIdentifier(paragraphAccessibilityIdentifier(paragraph, offset: offset))
+            Button {
+                if library.addQuote(guideID: guide.id, text: paragraph, chapterIndex: selectedChapter, paragraphIndex: offset) {
+                    quoteSavedCount += 1
+                }
+            } label: {
+                Image(systemName: isQuoted ? "checkmark.circle.fill" : "quote.opening")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(CatecismoTheme.gold)
+                    .padding(8)
+                    .contentTransition(.symbolEffect(.replace))
+            }
+            .buttonStyle(.plain)
+            .disabled(isQuoted)
+            .accessibilityLabel(isQuoted ? "Citação salva" : "Salvar como citação")
+            .accessibilityHint(String(paragraph.prefix(80)))
+            .accessibilityIdentifier("save-quote-button")
+        }
+        .padding(.vertical, isHighlighted ? 8 : 0)
+        .padding(.horizontal, isHighlighted ? 8 : 0)
+        .background(isHighlighted ? CatecismoTheme.highlight : Color.clear, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .id(paragraphScrollID(offset))
+        .onAppear { visibleParagraphs.insert(offset) }
+        .onDisappear { visibleParagraphs.remove(offset) }
+    }
+
+    @ViewBuilder private func playerControls(for chapter: Chapter) -> some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 10) {
+                Button {
+                    if isSpeechForThisChapter {
+                        speech.togglePlayPause()
+                    } else {
+                        speech.speak(
+                            chapter.paragraphs,
+                            startAt: topVisibleParagraph,
+                            sourceKey: speechKey,
+                            title: chapter.title,
+                            subtitle: guide.title
+                        )
+                    }
+                } label: {
+                    let isPlaying = isSpeechForThisChapter && speech.isSpeaking
+                    let isPaused = isSpeechForThisChapter && speech.isPaused
+                    Label(isPlaying ? "Pausar" : isPaused ? "Continuar" : "Ouvir", systemImage: isPlaying ? "pause.fill" : "play.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("speech-play-button")
+
+                Button { library.toggleFavorite(guide.id) } label: {
+                    Label(library.isFavorite(guide.id) ? "Salvo" : "Salvar", systemImage: library.isFavorite(guide.id) ? "heart.fill" : "heart")
+                }
+                .buttonStyle(.bordered)
+                .accessibilityIdentifier("guide-favorite-button")
+                .accessibilityLabel(library.isFavorite(guide.id) ? "Remover dos favoritos" : "Adicionar aos favoritos")
+            }
+
+            if isSpeechForThisChapter {
+                HStack(spacing: 18) {
+                    Button { speech.previous() } label: { Image(systemName: "backward.fill") }
+                        .accessibilityLabel("Parágrafo anterior")
+                        .disabled(speech.currentParagraphIndex <= 0)
+                    Button { speech.stop() } label: { Image(systemName: "stop.fill") }
+                        .accessibilityLabel("Parar narração")
+                        .accessibilityIdentifier("speech-stop-button")
+                    Button { speech.next() } label: { Image(systemName: "forward.fill") }
+                        .accessibilityLabel("Próximo parágrafo")
+                        .disabled(speech.currentParagraphIndex + 1 >= speech.totalParagraphs)
+                    Spacer(minLength: 0)
+                    Text("Parágrafo \(max(speech.currentParagraphIndex, 0) + 1) de \(speech.totalParagraphs)")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(CatecismoTheme.muted)
+                        .monospacedDigit()
+                }
+                .font(.headline)
+                .foregroundStyle(CatecismoTheme.navy)
+                .buttonStyle(.borderless)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(CatecismoTheme.canvas, in: Capsule())
+            }
+        }
+    }
+
+    private var readerOptionsMenu: some View {
+        Menu {
+            Picker(selection: $textSizeSelection) {
+                ForEach(ReaderTextSize.allCases) { size in
+                    Text(size.title).tag(size.rawValue)
+                }
+            } label: {
+                Label("Tamanho do texto", systemImage: "textformat.size")
+            }
+            .pickerStyle(.menu)
+
+            Picker(selection: Binding(get: { speech.rate }, set: { speech.setRate($0) })) {
+                ForEach(SpeechRate.allCases) { rate in
+                    Text(verbatim: rate.label).tag(rate)
+                }
+            } label: {
+                Label("Velocidade da voz", systemImage: "speedometer")
+            }
+            .pickerStyle(.menu)
+
+            Menu {
+                Button { speech.useDefaultVoice() } label: {
+                    if speech.selectedVoiceIdentifier == nil {
+                        Label("Voz padrão", systemImage: "checkmark")
+                    } else {
+                        Text("Voz padrão")
+                    }
+                }
+                ForEach(speech.voices, id: \.identifier) { voice in
+                    Button { speech.chooseVoice(voice) } label: {
+                        if speech.selectedVoiceIdentifier == voice.identifier {
+                            Label(voice.name, systemImage: "checkmark")
+                        } else {
+                            Text(verbatim: voice.name)
+                        }
+                    }
+                }
+            } label: {
+                Label("Voz", systemImage: "person.wave.2")
+            }
+        } label: {
+            Image(systemName: "textformat.size")
+                .font(.headline)
+                .frame(width: 42, height: 42)
+                .background(CatecismoTheme.canvas, in: Circle())
+                .foregroundStyle(CatecismoTheme.navy)
+        }
+        .accessibilityIdentifier("reader-options-button")
+        .accessibilityLabel("Opções de leitura")
+    }
+
     private func paragraphAccessibilityIdentifier(_ paragraph: String, offset: Int) -> String {
-        guard guide.category == "Catecismo",
-              let number = paragraph.split(separator: ".", maxSplits: 1).first,
-              Int(number) != nil else {
+        guard guide.isCatechism, let number = LibrarySearchIndex.catechismNumber(of: paragraph) else {
             return "reader-paragraph-\(selectedChapter)-\(offset)"
         }
         return "catechism-paragraph-\(number)"
@@ -786,7 +1153,7 @@ private struct GuideCard: View {
     var detail = false
     var actionTitle: LocalizedStringKey? = nil
 
-    private var progress: Double { library.progress[guide.id] ?? 0 }
+    private var progress: Double { library.completion(for: guide) }
 
     var body: some View {
         HStack(spacing: 14) {
@@ -805,7 +1172,8 @@ private struct GuideCard: View {
             .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(guide.category.uppercased())
+                Text(LocalizedStringKey(guide.category))
+                    .textCase(.uppercase)
                     .font(.caption2.weight(.bold))
                     .tracking(0.8)
                     .foregroundStyle(CatecismoTheme.gold)
@@ -813,14 +1181,21 @@ private struct GuideCard: View {
                     .font(.headline)
                     .foregroundStyle(CatecismoTheme.ink)
                     .multilineTextAlignment(.leading)
-                Text(detail ? guide.description : guide.category)
-                    .font(.subheadline)
-                    .foregroundStyle(CatecismoTheme.muted)
-                    .lineLimit(detail ? 2 : 1)
+                Group {
+                    if detail {
+                        Text(guide.description)
+                    } else {
+                        Text(LocalizedStringKey(guide.category))
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(CatecismoTheme.muted)
+                .lineLimit(detail ? 2 : 1)
 
                 if progress > 0 {
                     ProgressView(value: progress)
                         .tint(CatecismoTheme.navy)
+                        .accessibilityLabel(Text("Progresso"))
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -846,16 +1221,11 @@ private struct GuideCard: View {
 
 private struct TopicCategoryCard: View {
     let category: String
-    let guideCount: Int
+    let guides: [Guide]
 
+    /// Chosen from the guides themselves, so the artwork does not depend on the translated category name.
     private var artwork: String {
-        switch category {
-        case "Oração": return "component-rosary"
-        case "Sacramentos": return "component-dove"
-        case "Igreja": return "component-church"
-        case "Credo": return "component-cross"
-        default: return "component-book"
-        }
+        guides.lazy.compactMap { GuideArtwork.imageName(for: $0.id) }.first ?? "component-book"
     }
 
     var body: some View {
@@ -866,7 +1236,7 @@ private struct TopicCategoryCard: View {
                 .padding(.vertical, 6)
                 .accessibilityHidden(true)
             HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text(category)
+                Text(LocalizedStringKey(category))
                     .font(.headline)
                     .foregroundStyle(CatecismoTheme.ink)
                     .lineLimit(1)
@@ -876,7 +1246,7 @@ private struct TopicCategoryCard: View {
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(CatecismoTheme.navy.opacity(0.58))
             }
-            let guideCountLabel: LocalizedStringKey = guideCount == 1 ? "1 guia" : "\(guideCount) guias"
+            let guideCountLabel: LocalizedStringKey = guides.count == 1 ? "1 guia" : "\(guides.count) guias"
             Text(guideCountLabel)
                 .font(.caption)
                 .foregroundStyle(CatecismoTheme.muted)
@@ -913,7 +1283,7 @@ private struct TopicGuidesView: View {
             .frame(maxWidth: .infinity)
         }
         .background(CatecismoTheme.canvas.ignoresSafeArea())
-        .navigationTitle(category)
+        .navigationTitle(Text(LocalizedStringKey(category)))
         .navigationBarTitleDisplayMode(.inline)
         .accessibilityIdentifier("screen-topic-detail")
     }
@@ -932,6 +1302,8 @@ private struct StatCard: View {
             Text(value)
                 .font(CatecismoTheme.display(26))
                 .foregroundStyle(CatecismoTheme.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
             Text(label)
                 .font(.caption)
                 .foregroundStyle(CatecismoTheme.muted)
@@ -969,14 +1341,9 @@ private struct EmptyStateCard: View {
 private struct ComponentArtwork: View {
     let name: String
 
-    private var image: UIImage? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Images") else { return nil }
-        return UIImage(contentsOfFile: url.path)
-    }
-
     var body: some View {
         Group {
-            if let image {
+            if let image = ComponentArtworkCache.image(named: name) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
@@ -988,6 +1355,19 @@ private struct ComponentArtwork: View {
                     .padding(20)
             }
         }
+    }
+}
+
+/// Decoding the PNGs on every body evaluation was wasteful; keep each image once.
+private enum ComponentArtworkCache {
+    private static let cache = NSCache<NSString, UIImage>()
+
+    static func image(named name: String) -> UIImage? {
+        if let cached = cache.object(forKey: name as NSString) { return cached }
+        guard let url = Bundle.main.url(forResource: name, withExtension: "png", subdirectory: "Images"),
+              let image = UIImage(contentsOfFile: url.path) else { return nil }
+        cache.setObject(image, forKey: name as NSString)
+        return image
     }
 }
 

@@ -24,8 +24,8 @@ jobs:
           root = Path('iosApp')
           info = plistlib.loads((root / 'Info.plist').read_bytes())
           assert info['CFBundleDisplayName'] == 'Catecismo'
-          assert info['CFBundleShortVersionString'] == '1.2.1'
-          assert info['CFBundleVersion'] == '31'
+          assert info['CFBundleShortVersionString'] == '1.2.2'
+          assert info['CFBundleVersion'] == '32'
           assert 'CATECISMO.DAIGREJACAToLICA' in (root / 'project.yml').read_text()
           plistlib.loads((root / 'Resources/PrivacyInfo.xcprivacy').read_bytes())
           PY

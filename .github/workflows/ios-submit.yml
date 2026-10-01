@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_app_review_submission:
-        description: Submit processed build 31 to App Review and release automatically after approval
+        description: Submit processed build 32 to App Review and release automatically after approval
         type: boolean
         required: true
         default: false
@@ -12,7 +12,7 @@ on:
         description: Processed App Store Connect build number
         type: string
         required: true
-        default: '31'
+        default: '32'
 
 permissions:
   contents: read
@@ -61,7 +61,7 @@ jobs:
             deliver
             --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
             --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
-            --app_version '1.2.1'
+            --app_version '1.2.2'
             --build_number "$BUILD_NUMBER"
             --metadata_path 'store-kit/metadata'
             --skip_binary_upload

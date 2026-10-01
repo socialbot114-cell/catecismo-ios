@@ -1,5 +1,7 @@
 # GitHub Actions
 
+Para o fluxo completo de validação, screenshots, publicação do site e envio à App Store, consulte [IOS_PRODUCTION_RELEASE_RUNBOOK.md](IOS_PRODUCTION_RELEASE_RUNBOOK.md).
+
 The normal Android workflow runs content validation, shared JVM tests, Android unit tests, lint, and a debug build on every push and pull request.
 
 The release workflow is manual. Configure these encrypted repository secrets before using it:

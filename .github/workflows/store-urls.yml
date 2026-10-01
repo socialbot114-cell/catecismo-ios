@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_store_url_update:
-        description: Prepare version 1.2.1 metadata and set its privacy and support URLs
+        description: Prepare version 1.2.2 metadata and set its privacy and support URLs
         type: boolean
         required: true
         default: false

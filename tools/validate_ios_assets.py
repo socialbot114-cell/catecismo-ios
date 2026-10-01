@@ -48,7 +48,7 @@ for language in ("en", "es", "fr"):
 assert "br.com.CATECISMO.DAIGREJACAToLICA" in (root / "project.yml").read_text()
 project = (root / "project.yml").read_text(encoding="utf-8")
 assert project.count("developmentLanguage:") == 1
-assert 'MARKETING_VERSION: "1.2.1"' in project
+assert 'MARKETING_VERSION: "1.2.2"' in project
 for resource in ("catecismo-parte-1.json", "catecismo-parte-2.json", "catecismo-parte-3.json", "catecismo-parte-4.json"):
     assert resource in project
 for item_id in ids:

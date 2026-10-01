@@ -2,7 +2,7 @@ require "json"
 require "spaceship"
 
 bundle_id = "br.com.CATECISMO.DAIGREJACAToLICA"
-app_version = "1.2.1"
+app_version = "1.2.2"
 locale = "pt-BR"
 metadata = "store-kit/metadata/#{locale}"
 privacy_url = File.read("#{metadata}/privacy_url.txt").strip

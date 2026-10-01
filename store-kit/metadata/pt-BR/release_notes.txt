@@ -1,1 +1,8 @@
-Catecismo integral (§§1–2865) organizado em quatro partes para leitura offline, com busca local, narração por voz e oito guias autorais de formação cristã.
+Novidades da versão 1.2.2:
+• Retome a leitura exatamente de onde parou, no capítulo e no parágrafo.
+• Busca mais rápida, que ignora acentos, mostra os trechos encontrados e abre o parágrafo direto (ex.: §1691).
+• Narração aprimorada: voz em português para o Catecismo, controles na tela bloqueada, pausa em ligações, velocidade e escolha de voz, além de destaque do parágrafo lido.
+• Ajuste do tamanho do texto no leitor e suporte ao tamanho de fonte do sistema.
+• Citações sem duplicatas, com a origem do trecho, atalho para o leitor e compartilhamento.
+• Tempo de leitura medido de verdade e progresso separado por idioma.
+• Correções de aparência no modo escuro e melhorias de desempenho.

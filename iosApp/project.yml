@@ -9,8 +9,8 @@ settings:
   base:
     PRODUCT_BUNDLE_IDENTIFIER: br.com.CATECISMO.DAIGREJACAToLICA
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "1.2.1"
-    CURRENT_PROJECT_VERSION: "31"
+    MARKETING_VERSION: "1.2.2"
+    CURRENT_PROJECT_VERSION: "32"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     GENERATE_INFOPLIST_FILE: NO
     INFOPLIST_FILE: Info.plist
@@ -65,8 +65,13 @@ targets:
     info:
       path: Info.plist
       properties:
-        CFBundleShortVersionString: "1.2.1"
-        CFBundleVersion: "31"
+        CFBundleShortVersionString: "1.2.2"
+        CFBundleVersion: "32"
+        CFBundleDisplayName: Catecismo
+        CFBundleIconName: AppIcon
+        CFBundleLocalizations: [pt-BR, en, es, fr]
+        UIBackgroundModes: [audio]
+        UIUserInterfaceStyle: Light
         UILaunchScreen:
           UIColorName: LaunchBackground
         LSRequiresIPhoneOS: true
@@ -80,10 +85,9 @@ targets:
           - UIInterfaceOrientationLandscapeRight
     settings:
       base:
-        MARKETING_VERSION: "1.2.1"
-        CURRENT_PROJECT_VERSION: "31"
+        MARKETING_VERSION: "1.2.2"
+        CURRENT_PROJECT_VERSION: "32"
         INFOPLIST_KEY_CFBundleDisplayName: Catecismo
-        INFOPLIST_KEY_UIBackgroundModes: [audio]
         INFOPLIST_KEY_CFBundleIconName: AppIcon
         PRIVACY_MANIFEST_FILE: Resources/PrivacyInfo.xcprivacy
         SUPPORTS_MACCATALYST: false

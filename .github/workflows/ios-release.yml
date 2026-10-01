@@ -33,16 +33,16 @@ jobs:
           from pathlib import Path
           root = Path('iosApp')
           info = plistlib.load((root / 'Info.plist').open('rb'))
-          assert info['CFBundleShortVersionString'] == '1.2.1'
-          assert info['CFBundleVersion'] == '31'
+          assert info['CFBundleShortVersionString'] == '1.2.2'
+          assert info['CFBundleVersion'] == '32'
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
           assert len(texts) == 12
           project = (root / 'project.yml').read_text()
-          assert 'MARKETING_VERSION: "1.2.1"' in project
-          assert 'CURRENT_PROJECT_VERSION: "31"' in project
-          assert 'CFBundleShortVersionString: "1.2.1"' in project
-          assert 'CFBundleVersion: "31"' in project
+          assert 'MARKETING_VERSION: "1.2.2"' in project
+          assert 'CURRENT_PROJECT_VERSION: "32"' in project
+          assert 'CFBundleShortVersionString: "1.2.2"' in project
+          assert 'CFBundleVersion: "32"' in project
           forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:
@@ -131,8 +131,8 @@ jobs:
             CODE_SIGN_IDENTITY='Apple Distribution' \
             PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
             DEVELOPMENT_TEAM="$TEAM_ID" \
-            MARKETING_VERSION=1.2.1 \
-            CURRENT_PROJECT_VERSION=31
+            MARKETING_VERSION=1.2.2 \
+            CURRENT_PROJECT_VERSION=32
 
       - name: Validate archive version
         run: |
@@ -140,8 +140,8 @@ jobs:
           short_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Info.plist")
           build_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Info.plist")
           printf 'Archive version=%s build=%s\n' "$short_version" "$build_version"
-          test "$short_version" = '1.2.1'
-          test "$build_version" = '31'
+          test "$short_version" = '1.2.2'
+          test "$build_version" = '32'
 
       - name: Export IPA
         run: |
@@ -169,8 +169,10 @@ jobs:
           build_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "${app[0]}/Info.plist")
           printf 'Exported bundle=%s version=%s build=%s\n' "$bundle_id" "$short_version" "$build_version"
           test "$bundle_id" = 'br.com.CATECISMO.DAIGREJACAToLICA'
-          test "$short_version" = '1.2.1'
-          test "$build_version" = '31'
+          test "$short_version" = '1.2.2'
+          test "$build_version" = '32'
+          test "$(/usr/libexec/PlistBuddy -c 'Print :UIBackgroundModes:0' "${app[0]}/Info.plist")" = 'audio'
+          test "$(/usr/libexec/PlistBuddy -c 'Print :UIUserInterfaceStyle' "${app[0]}/Info.plist")" = 'Light'
           test -f "${app[0]}/PrivacyInfo.xcprivacy"
           test "$(find "${app[0]}" -name '*.json' | wc -l | tr -d ' ')" -ge 12
           codesign --verify --deep --strict --verbose=4 "${app[0]}" || {
@@ -220,7 +222,7 @@ jobs:
             --ipa "${ipa[0]}"
             --api_key_path "$RUNNER_TEMP/app-store-connect-api-key.json"
             --app_identifier 'br.com.CATECISMO.DAIGREJACAToLICA'
-            --app_version '1.2.1'
+            --app_version '1.2.2'
             --metadata_path 'store-kit/metadata'
             --skip_screenshots
             --precheck_include_in_app_purchases false
