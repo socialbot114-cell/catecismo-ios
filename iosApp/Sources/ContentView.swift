@@ -347,6 +347,7 @@ private struct LibraryView: View {
                             Text("Encontre seu próximo guia")
                                 .font(CatecismoTheme.display(30))
                                 .foregroundStyle(CatecismoTheme.ink)
+                                .fixedSize(horizontal: false, vertical: true)
                             Text("Busque por palavra, tema ou número do parágrafo (ex.: §1691).")
                                 .font(.subheadline).foregroundStyle(CatecismoTheme.muted)
                         }
@@ -923,6 +924,7 @@ private struct GuideDetailView: View {
                     Text(chapter.title)
                         .font(CatecismoTheme.display(25))
                         .foregroundStyle(CatecismoTheme.ink)
+                        .fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("selected-chapter-title")
                 }
                 Spacer(minLength: 8)
@@ -1138,6 +1140,7 @@ private struct SectionHeading: View {
             Text(title)
                 .font(CatecismoTheme.display(24))
                 .foregroundStyle(CatecismoTheme.ink)
+                .fixedSize(horizontal: false, vertical: true)
             if let subtitle {
                 Text(subtitle)
                     .font(.subheadline)

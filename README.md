@@ -1,6 +1,6 @@
 # Catecismo da Igreja Católica
 
-Aplicativo Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). O ciclo atual prepara somente o release iOS 1.2.1; o Android mantém seu versionamento separado. `applicationId` / bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`.
+Aplicativo Android (Kotlin + Jetpack Compose) e iOS (SwiftUI). O ciclo atual prepara somente o release iOS 1.2.2; o Android mantém seu versionamento separado. `applicationId` / bundle ID: `br.com.CATECISMO.DAIGREJACAToLICA`.
 
 ## Conteúdo
 
