@@ -215,6 +215,10 @@ Depois da submissão, acompanhe o estado da versão no App Store Connect. A etap
 
 ## Runs desta execução
 
+- 1.2.2 (32): CI `36935738294` e `36939562037` — sucesso; release com XCTest, upload e submissão à App Review com lançamento automático: `36942565155` — sucesso.
+
+### 1.2.1
+
 - Auditoria final de screenshots iPhone/iPad: `36609714050` — sucesso.
 - Deploy público do site: `36635197062` — sucesso.
 - URLs do App Store Connect: `36639190537` — sucesso.
