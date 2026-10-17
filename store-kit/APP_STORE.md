@@ -25,13 +25,13 @@ Guias de fé em português, inglês, espanhol e francês para ler offline, com n
 
 ## Descrição
 
-Catecismo reúne oito guias autorais de fé e reflexão para leitura offline, com narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
+Catecismo reúne nove guias autorais de fé e reflexão para leitura offline, com narração, favoritos, progresso e interface em português, inglês, espanhol e francês.
 
 É um aplicativo independente e não oficial. A seção de São Pio X apresenta links para edições externas; abrir essas fontes requer conexão com a internet.
 
 Recursos:
 
-- Oito guias sobre fé, Credo, sacramentos, vida cristã, oração, Igreja e Maria.
+- Nove guias sobre fé, Credo, sacramentos, vida cristã, oração, Igreja, Maria e esperança cristã.
 - Leitura por capítulos com progresso.
 - Narração local por voz.
 - Favoritos e citações salvos no aparelho.
@@ -47,6 +47,8 @@ catecismo,fe,igreja,oracao,catolico,reflexao,leitura,espiritualidade
 
 ## Novidades desta versão
 
+- Novo guia sobre esperança cristã, com perguntas para reflexão em quatro idiomas.
+- Ajuste do tamanho da letra, retomada do capítulo lido e busca dentro do texto dos guias.
 - Idioma selecionável entre português, inglês, espanhol e francês, com guias localizados para leitura offline.
 - Narração e leitor adaptados ao idioma selecionado, conforme as vozes instaladas no aparelho.
 - Seção de São Pio X com fontes históricas apresentadas por idioma.

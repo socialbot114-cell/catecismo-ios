@@ -24,7 +24,7 @@ jobs:
           plistlib.load((root / 'Info.plist').open('rb'))
           plistlib.load((root / 'Resources/PrivacyInfo.xcprivacy').open('rb'))
           texts = list((root / 'Resources/Texts').glob('*.json'))
-          assert len(texts) == 8
+          assert len(texts) == 9
           forbidden = ('machado', 'dom casmurro', 'br.com.machadodeassis')
           for path in root.rglob('*'):
               if path.is_file() and path.suffix in {'.swift', '.json', '.plist', '.yml', '.md'}:

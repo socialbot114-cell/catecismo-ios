@@ -6,17 +6,24 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[1] / "iosApp"
 catalog = json.loads((root / "Resources/catalog.json").read_text(encoding="utf-8"))
-assert len(catalog) == 8 and len({item["id"] for item in catalog}) == 8
-assert {item["id"] for item in catalog} == {path.stem for path in (root / "Resources/Texts").glob("*.json")}
+catalog_ids = {item["id"] for item in catalog}
+text_ids = {path.stem for path in (root / "Resources/Texts").glob("*.json")}
+assert len(catalog) == len(catalog_ids)
+assert catalog_ids == text_ids
 for item in catalog:
     document = json.loads((root / "Resources/Texts" / f"{item['id']}.json").read_text(encoding="utf-8"))
     assert document["id"] == item["id"] and len(document["chapters"]) == item["chapters"]
     assert all(chapter["title"].strip() and chapter["paragraphs"] for chapter in document["chapters"])
 locale_assets = root.parent / "app/src/main/assets/texts/locales"
-catalog_ids = {item["id"] for item in catalog}
+shared_locale_ids = None
 for language in ("en", "es", "fr"):
     translated = json.loads((locale_assets / f"{language}.json").read_text(encoding="utf-8"))
-    assert {guide["id"] for guide in translated} == catalog_ids
+    translated_ids = {guide["id"] for guide in translated}
+    assert translated_ids <= catalog_ids
+    if shared_locale_ids is None:
+        shared_locale_ids = translated_ids
+    else:
+        assert translated_ids == shared_locale_ids
     for guide in translated:
         original = json.loads((root / "Resources/Texts" / f"{guide['id']}.json").read_text(encoding="utf-8"))
         assert len(guide["chapters"]) == len(original["chapters"])
@@ -25,6 +32,19 @@ for language in ("en", "es", "fr"):
             and all(paragraph.strip() for paragraph in chapter["paragraphs"])
             for index, chapter in enumerate(guide["chapters"])
         )
+additional_ids = catalog_ids - (shared_locale_ids or set())
+for guide_id in additional_ids:
+    original = json.loads((root / "Resources/Texts" / f"{guide_id}.json").read_text(encoding="utf-8"))
+    for language in ("en", "es", "fr"):
+        translated_path = root / "Resources/Translations" / f"{guide_id}-{language}.json"
+        translated = json.loads(translated_path.read_text(encoding="utf-8"))
+        assert translated["id"] == guide_id
+        assert len(translated["chapters"]) == len(original["chapters"])
+        for index, chapter in enumerate(translated["chapters"]):
+            source_chapter = original["chapters"][index]
+            assert len(chapter["paragraphs"]) == len(source_chapter["paragraphs"])
+            assert all(paragraph.strip() for paragraph in chapter["paragraphs"])
+            assert len(chapter.get("reflectionQuestions", [])) == len(source_chapter.get("reflectionQuestions", []))
 strings_catalog = json.loads((root / "Resources/Localizable.xcstrings").read_text(encoding="utf-8"))
 assert strings_catalog["sourceLanguage"] == "pt-BR"
 assert all(
@@ -35,7 +55,7 @@ for path in [root / "Info.plist", root / "ExportOptions.plist", root / "Resource
     assert path.is_file(), path
 info = plistlib.loads((root / "Info.plist").read_bytes())
 assert info["CFBundleShortVersionString"] == "1.1.1"
-assert info["CFBundleVersion"] == "29"
+assert info["CFBundleVersion"] == "31"
 assert info["CFBundleDevelopmentRegion"] == "pt-BR"
 assert set(info["CFBundleLocalizations"]) == {"pt-BR", "en", "es", "fr"}
 spec = (root / "project.yml").read_text()
@@ -45,9 +65,11 @@ assert "Resources/Localizable.xcstrings" in spec
 assert "Resources/pt-BR.lproj" not in spec
 for language in ("en", "es", "fr"):
     assert f"../app/src/main/assets/texts/locales/{language}.json" in spec
+    for guide_id in additional_ids:
+        assert f"Resources/Translations/{guide_id}-{language}.json" in spec
 assert 'MARKETING_VERSION: "1.1.1"' in spec
 assert spec.count('MARKETING_VERSION: "1.1.1"') == 2
-assert spec.count('CURRENT_PROJECT_VERSION: "29"') == 2
+assert spec.count('CURRENT_PROJECT_VERSION: "31"') == 2
 
 icons = root / "Resources/Assets.xcassets/AppIcon.appiconset"
 icon_catalog = json.loads((icons / "Contents.json").read_text(encoding="utf-8"))
@@ -76,4 +98,4 @@ assert set(image_files) == expected_images, set(image_files)
 assert all(path.stat().st_size < 250_000 for path in image_files.values())
 assert sum(path.stat().st_size for path in image_files.values()) < 1_000_000
 
-print(f"iOS resources OK: eight guides, version {info['CFBundleShortVersionString']} ({info['CFBundleVersion']}), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")
+print(f"iOS resources OK: {len(catalog)} guides, version {info['CFBundleShortVersionString']} ({info['CFBundleVersion']}), AppIcon catalog, {sum(path.stat().st_size for path in image_files.values()):,} optimized illustration bytes")

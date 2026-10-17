@@ -10,14 +10,14 @@
 - Última versão enviada: `1.1.1 (30)` com o novo ícone (workflow run `36346278924`, Delivery UUID `efba5690-616a-4c3f-a365-b2ac64a04d22`)
 - Versão anterior: `1.1 (17)` (workflow run `36257985758`, Delivery UUID `5dbccf9e-02d0-44be-bd9b-4c70c8a7fc75`)
 - Versão iOS em preparação: `1.1.1`
-- Build planejado: `31` (o workflow define o build number pelo número da execução)
+- Último build enviado ao TestFlight: `1.1.1 (30)`; próximo número de execução: `31`.
 - Repositório: `socialbot114-cell/catecismo-ios`
 
 ## Aplicativo
 
 - App iOS nativo em SwiftUI, com mínimo iOS 17.
 - App Android nativo em Kotlin/Compose.
-- Oito guias autorais, dezesseis capítulos e leitura offline.
+- iOS: nove guias autorais em dezoito capítulos e leitura offline; Android: oito guias em dezesseis capítulos.
 - Recursos iOS: busca, temas, favoritos, citações, progresso e narração local.
 - Os apps e seus materiais de release são mantidos separados do projeto Biblioteca Machado de Assis.
 
@@ -39,4 +39,4 @@
 
 ## Próxima release
 
-iOS `1.1.1 (30)` com o novo ícone foi enviado ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml` (run `36346278924`). Aguardar o processamento no App Store Connect e conferir que o app ID e o SKU correspondem ao registro correto.
+iOS `1.1.1 (30)` com o novo ícone foi enviado ao TestFlight pelo workflow manual `.github/workflows/ios-release.yml` (run `36346278924`). Confirmar o processamento no App Store Connect antes da próxima submissão.

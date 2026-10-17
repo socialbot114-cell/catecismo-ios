@@ -18,7 +18,7 @@ final class CatecismoTests: XCTestCase {
 
     func testAllPackagedGuidesDecode() throws {
         let guides = try BundleGuideRepository().loadGuides()
-        XCTAssertEqual(guides.count, 8)
+        XCTAssertEqual(guides.count, 9)
         XCTAssertTrue(guides.allSatisfy { !$0.id.isEmpty && !$0.chapters.isEmpty })
     }
 
@@ -84,7 +84,7 @@ final class CatecismoTests: XCTestCase {
         Guide(
             id: "teste", title: "Guia", author: "Equipe", year: 2026,
             category: "Tema", description: "Resumo", context: "Contexto",
-            chapters: (0..<chapterCount).map { Chapter(title: "Capítulo \($0 + 1)", paragraphs: ["Texto"]) },
+            chapters: (0..<chapterCount).map { Chapter(title: "Capítulo \($0 + 1)", paragraphs: ["Texto"], reflectionQuestions: nil) },
             sourceURL: "https://example.invalid"
         )
     }

@@ -49,6 +49,7 @@ struct SaintPiusXView: View {
             .navigationTitle(String(localized: "São Pio X", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(locale.identifier)
     }
 
     @ViewBuilder private var editionCards: some View {

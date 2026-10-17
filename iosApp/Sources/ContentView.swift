@@ -149,11 +149,12 @@ struct ContentView: View {
             destination(for: selectedSection)
         }
         .navigationSplitViewStyle(.balanced)
+        .id(selectedLocale.identifier)
     }
 
     @ViewBuilder private func destination(for section: AppSection) -> some View {
         switch section {
-        case .home: HomeView()
+        case .home: HomeView(onOpenLibrary: { selectedSection = .library })
         case .library: LibraryView()
         case .topics: TopicsView()
         case .pioX: SaintPiusXView()
@@ -166,10 +167,18 @@ private struct HomeView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    let onOpenLibrary: () -> Void
 
-    private var featuredGuide: Guide? { library.guides.first }
+    private var featuredGuide: Guide? {
+        library.guides.first(where: { $0.id == "esperanca-que-sustenta" }) ?? library.guides.first
+    }
     private var inProgressGuide: Guide? {
-        library.guides.first { (library.progress[$0.id] ?? 0) > 0 }
+        if let lastOpenedGuideID = library.lastOpenedGuideID,
+           let lastOpened = library.guides.first(where: { $0.id == lastOpenedGuideID }),
+           (library.progress[lastOpened.id] ?? 0) < 1 {
+            return lastOpened
+        }
+        return library.guides.first { (library.progress[$0.id] ?? 0) > 0 && (library.progress[$0.id] ?? 0) < 1 }
     }
 
     var body: some View {
@@ -187,7 +196,13 @@ private struct HomeView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 14) {
-                        SectionHeading(title: "Comece a ler", subtitle: "Guias breves para refletir no seu ritmo")
+                        HStack(alignment: .bottom) {
+                            SectionHeading(title: "Comece a ler", subtitle: "Guias breves para refletir no seu ritmo")
+                            Spacer(minLength: 8)
+                            Button("Ver todos", action: onOpenLibrary)
+                                .font(.footnote.weight(.semibold))
+                                .foregroundStyle(CatecismoTheme.navy)
+                        }
                         if library.guides.isEmpty {
                             ContentUnavailableView("Nenhum guia disponível", systemImage: "books.vertical")
                         } else {
@@ -232,6 +247,7 @@ private struct HomeView: View {
             .navigationTitle(String(localized: "Início", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(locale.identifier)
     }
 
     private var hero: some View {
@@ -313,8 +329,11 @@ private struct LibraryView: View {
     @State private var query = ""
 
     private var filtered: [Guide] {
-        query.isEmpty ? library.guides : library.guides.filter {
-            "\($0.title) \($0.category) \($0.description)".localizedCaseInsensitiveContains(query)
+        query.isEmpty ? library.guides : library.guides.filter { guide in
+            let chapterContent = guide.chapters
+                .flatMap { [$0.title] + $0.paragraphs + ($0.reflectionQuestions ?? []) }
+                .joined(separator: " ")
+            return "\(guide.title) \(guide.category) \(guide.description) \(chapterContent)".localizedCaseInsensitiveContains(query)
         }
     }
 
@@ -379,6 +398,7 @@ private struct LibraryView: View {
             .navigationTitle(String(localized: "Biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(locale.identifier)
     }
 
     @ViewBuilder private func guideGrid(_ guides: [Guide]) -> some View {
@@ -435,6 +455,7 @@ private struct TopicsView: View {
             .navigationTitle(String(localized: "Temas", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(locale.identifier)
     }
 }
 
@@ -453,7 +474,7 @@ private struct MyLibraryView: View {
 
                     HStack(spacing: 12) {
                         StatCard(value: "\(library.startedGuideCount)", label: "Guias iniciados", symbol: "book.pages.fill")
-                        StatCard(value: "\(library.readingMinutes) min", label: "Tempo de leitura", symbol: "clock.fill")
+                        StatCard(value: "\(library.completedChapterCount)", label: "Capítulos concluídos", symbol: "checkmark.circle.fill")
                     }
 
                     HStack {
@@ -520,6 +541,7 @@ private struct MyLibraryView: View {
             .navigationTitle(String(localized: "Minha biblioteca", locale: locale))
             .navigationBarTitleDisplayMode(.inline)
         }
+        .id(locale.identifier)
     }
 }
 
@@ -527,6 +549,8 @@ private struct GuideDetailView: View {
     @EnvironmentObject private var library: LibraryViewModel
     @Environment(\.locale) private var locale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @AppStorage("catecismo.reader.fontSize") private var readerFontSize = 18.0
+    @ScaledMetric(relativeTo: .body) private var dynamicTypeFontSize = 18.0
     @StateObject private var speech = SpeechReader()
     @State private var selectedChapter = 0
     let guide: Guide
@@ -555,6 +579,15 @@ private struct GuideDetailView: View {
                 .padding(18)
                 .background(CatecismoTheme.paper, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
 
+                if let sourceURL = URL(string: guide.sourceURL) {
+                    Link(destination: sourceURL) {
+                        Label("Consultar o Catecismo oficial", systemImage: "arrow.up.right.square")
+                            .font(.footnote.weight(.semibold))
+                    }
+                    .foregroundStyle(CatecismoTheme.navy)
+                    .padding(.horizontal, 4)
+                }
+
                 if let chapter {
                     reader(chapter)
                 } else {
@@ -577,7 +610,15 @@ private struct GuideDetailView: View {
         .safeAreaPadding(.bottom, 16)
         .navigationTitle(String(localized: "Leitura", locale: locale))
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { speech.setLanguage(locale.identifier) }
+        .onAppear {
+            speech.setLanguage(locale.identifier)
+            selectedChapter = min(library.readingLocation(for: guide.id), max(guide.chapterCount - 1, 0))
+            library.recordReadingLocation(for: guide.id, chapterIndex: selectedChapter)
+        }
+        .onChange(of: selectedChapter) { _, chapterIndex in
+            speech.stop()
+            library.recordReadingLocation(for: guide.id, chapterIndex: chapterIndex)
+        }
         .onChange(of: locale.identifier) { _, identifier in speech.setLanguage(identifier) }
     }
 
@@ -646,8 +687,54 @@ private struct GuideDetailView: View {
             }
 
             HStack(spacing: 10) {
+                ProgressView(value: Double(selectedChapter + 1), total: Double(max(guide.chapterCount, 1)))
+                    .tint(CatecismoTheme.gold)
+                Text("\(selectedChapter + 1)/\(guide.chapterCount)")
+                    .font(.caption.monospacedDigit().weight(.semibold))
+                    .foregroundStyle(CatecismoTheme.muted)
+            }
+
+            HStack(spacing: 10) {
+                Menu {
+                    Button {
+                        readerFontSize = max(16, readerFontSize - 2)
+                    } label: {
+                        Label("Diminuir texto", systemImage: "textformat.size.smaller")
+                    }
+                    Button {
+                        readerFontSize = min(30, readerFontSize + 2)
+                    } label: {
+                        Label("Aumentar texto", systemImage: "textformat.size.larger")
+                    }
+                } label: {
+                    Label("Tamanho do texto", systemImage: "textformat.size")
+                        .frame(maxWidth: .infinity)
+                }
+                .accessibilityIdentifier("reader-text-size-menu")
+
+                if selectedChapter > 0 {
+                    Button {
+                        selectedChapter -= 1
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                    .accessibilityLabel("Capítulo anterior")
+                }
+
+                if selectedChapter + 1 < guide.chapterCount {
+                    Button {
+                        selectedChapter += 1
+                    } label: {
+                        Image(systemName: "chevron.right")
+                    }
+                    .accessibilityLabel("Próximo capítulo")
+                }
+            }
+            .buttonStyle(.bordered)
+
+            HStack(spacing: 10) {
                 Button {
-                    speech.isSpeaking ? speech.pause() : speech.isPaused ? speech.resume() : speech.speak(chapter.paragraphs)
+                    speech.isSpeaking ? speech.pause() : speech.isPaused ? speech.resume() : speech.speak(chapter.paragraphs + (chapter.reflectionQuestions ?? []))
                 } label: {
                     Label(speech.isSpeaking ? "Pausar" : "Ouvir", systemImage: speech.isSpeaking ? "pause.fill" : "play.fill")
                         .frame(maxWidth: .infinity)
@@ -670,7 +757,7 @@ private struct GuideDetailView: View {
                     ForEach(Array(chapter.paragraphs.enumerated()), id: \.offset) { _, paragraph in
                         HStack(alignment: .top, spacing: 12) {
                             Text(paragraph)
-                                .font(.system(.body, design: .serif))
+                                .font(.system(size: CGFloat(readerFontSize * dynamicTypeFontSize / 18), design: .serif))
                                 .foregroundStyle(CatecismoTheme.ink)
                                 .lineSpacing(7)
                                 .textSelection(.enabled)
@@ -687,6 +774,29 @@ private struct GuideDetailView: View {
                         }
                     }
                 }
+            }
+
+            if let reflectionQuestions = chapter.reflectionQuestions, !reflectionQuestions.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Para refletir", systemImage: "bubble.left.and.bubble.right")
+                        .font(.headline)
+                        .foregroundStyle(CatecismoTheme.navy)
+
+                    ForEach(Array(reflectionQuestions.enumerated()), id: \.offset) { index, question in
+                        HStack(alignment: .top, spacing: 10) {
+                            Text("\(index + 1)")
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(CatecismoTheme.gold)
+                            Text(question)
+                                .font(.subheadline)
+                                .foregroundStyle(CatecismoTheme.ink)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .padding(18)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(CatecismoTheme.canvas, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             }
 
             Button {
@@ -797,6 +907,7 @@ private struct TopicCategoryCard: View {
         case "Sacramentos": return "component-dove"
         case "Igreja": return "component-church"
         case "Credo": return "component-cross"
+        case "Virtudes", "Virtues", "Vertus": return "component-dove"
         default: return "component-book"
         }
     }
@@ -941,6 +1052,7 @@ private enum GuideArtwork {
         case "sinais-da-graca": return "component-dove"
         case "escola-da-oracao": return "component-rosary"
         case "a-igreja-viva": return "component-church"
+        case "esperanca-que-sustenta": return "component-dove"
         default: return nil
         }
     }

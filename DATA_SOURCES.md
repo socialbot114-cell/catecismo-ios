@@ -2,7 +2,9 @@
 
 ## Conteúdo do aplicativo
 
-O aplicativo oferece oito guias autorais de introdução e reflexão, organizados em dezesseis capítulos e disponíveis em português do Brasil, inglês, espanhol e francês. As traduções mantêm os mesmos IDs, capítulos e ordem dos parágrafos; devem passar por revisão editorial e não reproduzem integralmente o Catecismo da Igreja Católica.
+O Android oferece oito guias autorais de introdução e reflexão, organizados em dezesseis capítulos. O iOS inclui esses oito guias e um nono guia sobre esperança cristã, totalizando dezoito capítulos. O conteúdo está disponível em português do Brasil, inglês, espanhol e francês. As traduções mantêm IDs e estrutura e devem passar por revisão editorial; os textos são autorais e não reproduzem integralmente o Catecismo da Igreja Católica.
+
+O guia iOS “A esperança que sustenta” foi elaborado como introdução aos parágrafos 1817–1821 do Catecismo da Igreja Católica e inclui perguntas para reflexão. Referências oficiais: [português](https://www.vatican.va/archive/cathechism_po/index_new/p3s1cap1_1699-1876_po.html), [inglês](https://www.vatican.va/content/catechism/en/part_three/section_one/chapter_one/article_7/ii_the_theological_virtues.index.html), [espanhol](https://www.vatican.va/archive/catechism_sp/p3s1c1a7_sp.html) e [francês](https://www.vatican.va/archive/FRA0013/_INDEX.HTM).
 
 As referências temáticas apontam para edições oficiais do Catecismo da Igreja Católica:
 

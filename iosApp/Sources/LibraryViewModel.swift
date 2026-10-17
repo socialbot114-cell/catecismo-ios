@@ -10,7 +10,11 @@ struct Guide: Codable, Identifiable, Hashable {
     enum CodingKeys: String, CodingKey { case id, title, author, year, category, description, context, chapters, sourceURL = "sourceUrl" }
 }
 
-struct Chapter: Codable, Hashable { let title: String; let paragraphs: [String] }
+struct Chapter: Codable, Hashable {
+    let title: String
+    let paragraphs: [String]
+    let reflectionQuestions: [String]?
+}
 struct Quote: Codable, Hashable, Identifiable { let id: String; let guideID: String; let text: String; let date: Date }
 
 enum LibraryLoadState: Equatable {
@@ -24,6 +28,8 @@ final class LibraryViewModel: ObservableObject {
     @Published private(set) var progress: [String: Double] = [:]
     @Published private(set) var favorites: Set<String> = []
     @Published private(set) var quotes: [Quote] = []
+    @Published private(set) var readingLocations: [String: Int] = [:]
+    @Published private(set) var lastOpenedGuideID: String?
     @Published private(set) var loadState = LibraryLoadState.loading
     private let defaults: UserDefaults
     private let repository: BundleGuideRepository
@@ -32,8 +38,12 @@ final class LibraryViewModel: ObservableObject {
         self.defaults = defaults
         self.repository = repository
     }
-    var readingMinutes: Int { Int(progress.values.reduce(0, +) * 12) }
     var startedGuideCount: Int { progress.values.filter { $0 > 0 }.count }
+    var completedChapterCount: Int {
+        guides.reduce(0) { total, guide in
+            total + Int((progress[guide.id] ?? 0) * Double(guide.chapterCount))
+        }
+    }
     func isFavorite(_ id: String) -> Bool { favorites.contains(id) }
     func toggleFavorite(_ id: String) { favorites.formSymmetricDifference([id]); save() }
     func setProgress(_ value: Double, for id: String) {
@@ -44,6 +54,12 @@ final class LibraryViewModel: ObservableObject {
     func completeChapter(at index: Int, in guide: Guide) {
         guard let value = Self.progress(completingChapterAt: index, chapterCount: guide.chapterCount) else { return }
         setProgress(max(progress[guide.id] ?? 0, value), for: guide.id)
+    }
+    func readingLocation(for guideID: String) -> Int { readingLocations[guideID] ?? 0 }
+    func recordReadingLocation(for guideID: String, chapterIndex: Int) {
+        readingLocations[guideID] = max(chapterIndex, 0)
+        lastOpenedGuideID = guideID
+        save()
     }
     static func progress(completingChapterAt index: Int, chapterCount: Int) -> Double? {
         guard chapterCount > 0, (0..<chapterCount).contains(index) else { return nil }
@@ -59,6 +75,8 @@ final class LibraryViewModel: ObservableObject {
             progress = ((defaults.dictionary(forKey: "catecismo.progress") as? [String: Double]) ?? [:])
                 .compactMapValues { value in value > 0 ? min(value, 1) : nil }
             favorites = Set(defaults.stringArray(forKey: "catecismo.favorites") ?? [])
+            readingLocations = (defaults.dictionary(forKey: "catecismo.readingLocations") as? [String: Int]) ?? [:]
+            lastOpenedGuideID = defaults.string(forKey: "catecismo.lastOpenedGuideID")
             if let data = defaults.data(forKey: "catecismo.quotes") {
                 quotes = (try? JSONDecoder().decode([Quote].self, from: data)) ?? []
             }
@@ -71,19 +89,33 @@ final class LibraryViewModel: ObservableObject {
     private func save() {
         defaults.set(progress, forKey: "catecismo.progress")
         defaults.set(Array(favorites), forKey: "catecismo.favorites")
+        defaults.set(readingLocations, forKey: "catecismo.readingLocations")
+        defaults.set(lastOpenedGuideID, forKey: "catecismo.lastOpenedGuideID")
         if let data = try? JSONEncoder().encode(quotes) { defaults.set(data, forKey: "catecismo.quotes") }
     }
 }
 
 final class BundleGuideRepository {
-    private let guideIDs = ["o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria"]
+    private let guideIDs = ["o-dom-da-fe", "credo-em-caminho", "sinais-da-graca", "liberdade-e-amor", "escola-da-oracao", "a-igreja-viva", "maria-e-o-sim", "conversao-diaria", "esperanca-que-sustenta"]
     func loadGuides(languageCode: String = "pt-BR") throws -> [Guide] {
+        let translations: [String: Guide]
         if languageCode != "pt-BR",
            let data = try? BundleResource.data(named: languageCode, fileExtension: "json", subdirectory: "Texts"),
            let translated = try? JSONDecoder().decode([Guide].self, from: data) {
-            return translated
+            translations = Dictionary(uniqueKeysWithValues: translated.map { ($0.id, $0) })
+        } else {
+            translations = [:]
         }
-        return try guideIDs.map { try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: $0, fileExtension: "json", subdirectory: "Texts")) }
+
+        return try guideIDs.map { id in
+            if let translation = translations[id] { return translation }
+            if id == "esperanca-que-sustenta", languageCode != "pt-BR",
+               let data = try? BundleResource.data(named: "\(id)-\(languageCode)", fileExtension: "json", subdirectory: "Translations"),
+               let translation = try? JSONDecoder().decode(Guide.self, from: data) {
+                return translation
+            }
+            return try JSONDecoder().decode(Guide.self, from: BundleResource.data(named: id, fileExtension: "json", subdirectory: "Texts"))
+        }
     }
 }
 
@@ -93,7 +125,7 @@ enum BundleResource {
         let rootURLs = bundles.compactMap { bundle in
             bundle.url(forResource: name, withExtension: fileExtension)
         }
-        let directories = [subdirectory, "Resources", "Resources/Texts"].compactMap { $0 }
+        let directories = [subdirectory, "Resources", "Resources/Texts", "Resources/Translations"].compactMap { $0 }
         let urls = rootURLs + bundles.flatMap { bundle in
             directories.compactMap { directory in
                 bundle.url(forResource: name, withExtension: fileExtension, subdirectory: directory)
