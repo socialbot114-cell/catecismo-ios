@@ -538,7 +538,7 @@ private struct MyLibraryView: View {
             }
             .background(CatecismoTheme.canvas.ignoresSafeArea())
             .safeAreaPadding(.bottom, 16)
-            .navigationTitle(String(localized: "Minha biblioteca", locale: locale))
+            .navigationTitle("Minha biblioteca")
             .navigationBarTitleDisplayMode(.inline)
         }
         .id(locale.identifier)
